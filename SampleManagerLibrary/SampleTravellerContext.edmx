@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SampleTravellersModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SampleTravellersModelStoreContainer">
+    <EntitySet Name="Keywords" EntityType="SampleTravellersModel.Store.Keywords" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Milestones" EntityType="SampleTravellersModel.Store.Milestones" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Questions" EntityType="SampleTravellersModel.Store.Questions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Responses" EntityType="SampleTravellersModel.Store.Responses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="SampleTravellersModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sorts" EntityType="SampleTravellersModel.Store.Sorts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MilestoneQuestion" EntityType="SampleTravellersModel.Store.MilestoneQuestion" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionQuestion" EntityType="SampleTravellersModel.Store.QuestionQuestion" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Owner" Association="SampleTravellersModel.Store.FK_Owner">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Milestones" EntitySet="Milestones" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResponseMilestone" Association="SampleTravellersModel.Store.FK_ResponseMilestone">
+      <End Role="Milestones" EntitySet="Milestones" />
+      <End Role="Responses" EntitySet="Responses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResponseQuestion" Association="SampleTravellersModel.Store.FK_ResponseQuestion">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Responses" EntitySet="Responses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResponseUser" Association="SampleTravellersModel.Store.FK_ResponseUser">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Responses" EntitySet="Responses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MilestoneQuestion_Milestones" Association="SampleTravellersModel.Store.FK_MilestoneQuestion_Milestones">
+      <End Role="Milestones" EntitySet="Milestones" />
+      <End Role="MilestoneQuestion" EntitySet="MilestoneQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MilestoneQuestion_Questions" Association="SampleTravellersModel.Store.FK_MilestoneQuestion_Questions">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="MilestoneQuestion" EntitySet="MilestoneQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="MilestoneSort" Association="SampleTravellersModel.Store.MilestoneSort">
+      <End Role="Milestone" EntitySet="Milestones" />
+      <End Role="Sort" EntitySet="Sorts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion_Question" Association="SampleTravellersModel.Store.FK_QuestionQuestion_Question">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="QuestionQuestion" EntitySet="QuestionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion_Question1" Association="SampleTravellersModel.Store.FK_QuestionQuestion_Question1">
+      <End Role="Question1" EntitySet="Questions" />
+      <End Role="QuestionQuestion" EntitySet="QuestionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="SortQuestion" Association="SampleTravellersModel.Store.SortQuestion">
+      <End Role="Sort" EntitySet="Sorts" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Keywords">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Milestones">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Product" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="Owner_Id" Type="int" Nullable="false" />
+    <Property Name="Completed" Type="bit" Nullable="false" />
+    <Property Name="Successful" Type="bit" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Team" Type="int" Nullable="false" />
+    <Property Name="Required" Type="bit" Nullable="false" />
+    <Property Name="Request" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="HelpText" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HelpImage" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Template" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Responses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="String" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Integer" Type="int" Nullable="false" />
+    <Property Name="Double" Type="float" Nullable="false" />
+    <Property Name="File" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Boolean" Type="bit" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="Question_Id" Type="int" Nullable="false" />
+    <Property Name="Milestone_Id" Type="int" Nullable="false" />
+    <Property Name="User_Id" Type="int" Nullable="true" />
+    <Property Name="Completed" Type="bit" Nullable="false" />
+    <Property Name="Successful" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="First" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Last" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Team" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sorts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="MilestoneId" Type="int" Nullable="false" />
+    <Property Name="Question_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MilestoneQuestion">
+    <Key>
+      <PropertyRef Name="Milestones_Id" />
+      <PropertyRef Name="Questions_Id" />
+    </Key>
+    <Property Name="Milestones_Id" Type="int" Nullable="false" />
+    <Property Name="Questions_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionQuestion">
+    <Key>
+      <PropertyRef Name="QuestionQuestion_Question1_Id" />
+      <PropertyRef Name="Corequisites_Id" />
+    </Key>
+    <Property Name="QuestionQuestion_Question1_Id" Type="int" Nullable="false" />
+    <Property Name="Corequisites_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Owner">
+    <End Role="Users" Type="SampleTravellersModel.Store.Users" Multiplicity="1" />
+    <End Role="Milestones" Type="SampleTravellersModel.Store.Milestones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Milestones">
+        <PropertyRef Name="Owner_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResponseMilestone">
+    <End Role="Milestones" Type="SampleTravellersModel.Store.Milestones" Multiplicity="1" />
+    <End Role="Responses" Type="SampleTravellersModel.Store.Responses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Milestones">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Responses">
+        <PropertyRef Name="Milestone_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResponseQuestion">
+    <End Role="Questions" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <End Role="Responses" Type="SampleTravellersModel.Store.Responses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Responses">
+        <PropertyRef Name="Question_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResponseUser">
+    <End Role="Users" Type="SampleTravellersModel.Store.Users" Multiplicity="0..1" />
+    <End Role="Responses" Type="SampleTravellersModel.Store.Responses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Responses">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MilestoneSort">
+    <End Role="Milestone" Type="SampleTravellersModel.Store.Milestones" Multiplicity="1" />
+    <End Role="Sort" Type="SampleTravellersModel.Store.Sorts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Milestone">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sort">
+        <PropertyRef Name="MilestoneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SortQuestion">
+    <End Role="Sort" Type="SampleTravellersModel.Store.Sorts" Multiplicity="*" />
+    <End Role="Question" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sort">
+        <PropertyRef Name="Question_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MilestoneQuestion_Milestones">
+    <End Role="Milestones" Type="SampleTravellersModel.Store.Milestones" Multiplicity="1" />
+    <End Role="MilestoneQuestion" Type="SampleTravellersModel.Store.MilestoneQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Milestones">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MilestoneQuestion">
+        <PropertyRef Name="Milestones_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MilestoneQuestion_Questions">
+    <End Role="MilestoneQuestion" Type="SampleTravellersModel.Store.MilestoneQuestion" Multiplicity="*" />
+    <End Role="Questions" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MilestoneQuestion">
+        <PropertyRef Name="Questions_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion_Question">
+    <End Role="Question" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <End Role="QuestionQuestion" Type="SampleTravellersModel.Store.QuestionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion">
+        <PropertyRef Name="QuestionQuestion_Question1_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion_Question1">
+    <End Role="QuestionQuestion" Type="SampleTravellersModel.Store.QuestionQuestion" Multiplicity="*" />
+    <End Role="Question1" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question1">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion">
+        <PropertyRef Name="Corequisites_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SampleTravellersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Keyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Milestone">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Owner_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Owner" FromRole="Milestones" ToRole="Users" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_ResponseMilestone" FromRole="Milestones" ToRole="Responses" />
+          <NavigationProperty Name="Questions" Relationship="Self.MilestoneQuestion" FromRole="Milestones" ToRole="Questions" />
+          <NavigationProperty Name="QuestionOrder" Relationship="SampleTravellersModel.MilestoneSort" FromRole="Milestone" ToRole="Sort" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="Successful" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Team" Type="Int32" Nullable="false" />
+          <Property Name="Required" Type="Boolean" Nullable="false" />
+          <Property Name="Request" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_ResponseQuestion" FromRole="Questions" ToRole="Responses" />
+          <NavigationProperty Name="Milestones" Relationship="Self.MilestoneQuestion" FromRole="Questions" ToRole="Milestones" />
+          <NavigationProperty Name="Corequisites" Relationship="SampleTravellersModel.QuestionQuestion" FromRole="Question" ToRole="Question1" />
+          <Property Name="HelpText" Type="String" Nullable="false" />
+          <Property Name="HelpImage" Type="String" Nullable="true" />
+          <NavigationProperty Name="Sorts" Relationship="SampleTravellersModel.SortQuestion" FromRole="Question" ToRole="Sort" />
+          <Property Name="Template" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Response">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="String" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Integer" Type="Int32" Nullable="false" />
+          <Property Name="Double" Type="Double" Nullable="false" />
+          <Property Name="File" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Boolean" Type="Boolean" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Question_Id" Type="Int32" Nullable="false" />
+          <Property Name="Milestone_Id" Type="Int32" Nullable="false" />
+          <Property Name="User_Id" Type="Int32" />
+          <NavigationProperty Name="Milestone" Relationship="Self.FK_ResponseMilestone" FromRole="Responses" ToRole="Milestones" />
+          <NavigationProperty Name="Question" Relationship="Self.FK_ResponseQuestion" FromRole="Responses" ToRole="Questions" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ResponseUser" FromRole="Responses" ToRole="Users" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="Successful" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Last" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Team" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Milestones" Relationship="Self.FK_Owner" FromRole="Users" ToRole="Milestones" />
+          <NavigationProperty Name="Responses" Relationship="Self.FK_ResponseUser" FromRole="Users" ToRole="Responses" />
+        </EntityType>
+        <Association Name="FK_Owner">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Milestones" Type="Self.Milestone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Milestones">
+              <PropertyRef Name="Owner_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseMilestone">
+          <End Role="Milestones" Type="Self.Milestone" Multiplicity="1" />
+          <End Role="Responses" Type="SampleTravellersModel.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milestones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="Milestone_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseQuestion">
+          <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+          <End Role="Responses" Type="SampleTravellersModel.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="Question_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponseUser">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Responses" Type="SampleTravellersModel.Response" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Responses">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MilestoneQuestion">
+          <End Role="Milestones" Type="Self.Milestone" Multiplicity="*" />
+          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="SampleTravellersEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Keywords" EntityType="SampleTravellersModel.Keyword" />
+          <EntitySet Name="Milestones" EntityType="Self.Milestone" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="Responses" EntityType="SampleTravellersModel.Response" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Owner" Association="Self.FK_Owner">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Milestones" EntitySet="Milestones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseMilestone" Association="Self.FK_ResponseMilestone">
+            <End Role="Milestones" EntitySet="Milestones" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseQuestion" Association="Self.FK_ResponseQuestion">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponseUser" Association="Self.FK_ResponseUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Responses" EntitySet="Responses" />
+          </AssociationSet>
+          <AssociationSet Name="MilestoneQuestion" Association="Self.MilestoneQuestion">
+            <End Role="Milestones" EntitySet="Milestones" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <EntitySet Name="Sorts" EntityType="SampleTravellersModel.Sort" />
+          <AssociationSet Name="MilestoneSort" Association="SampleTravellersModel.MilestoneSort">
+            <End Role="Milestone" EntitySet="Milestones" />
+            <End Role="Sort" EntitySet="Sorts" />
+          </AssociationSet>
+          <AssociationSet Name="QuestionQuestion" Association="SampleTravellersModel.QuestionQuestion">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Question1" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="SortQuestion" Association="SampleTravellersModel.SortQuestion">
+            <End Role="Sort" EntitySet="Sorts" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Sort">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Milestone" Relationship="SampleTravellersModel.MilestoneSort" FromRole="Sort" ToRole="Milestone" />
+          <Property Name="MilestoneId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="SampleTravellersModel.SortQuestion" FromRole="Sort" ToRole="Question" />
+        </EntityType>
+        <Association Name="MilestoneSort">
+          <End Type="SampleTravellersModel.Milestone" Role="Milestone" Multiplicity="1" />
+          <End Type="SampleTravellersModel.Sort" Role="Sort" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milestone">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sort">
+              <PropertyRef Name="MilestoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="QuestionQuestion">
+          <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="*" />
+          <End Type="SampleTravellersModel.Question" Role="Question1" Multiplicity="*" />
+        </Association>
+        <Association Name="SortQuestion">
+          <End Type="SampleTravellersModel.Sort" Role="Sort" Multiplicity="*" />
+          <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SampleTravellersModelStoreContainer" CdmEntityContainer="SampleTravellersEntities">
+    <EntitySetMapping Name="Keywords">
+      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Keyword)">
+        <MappingFragment StoreEntitySet="Keywords">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Milestones">
+      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Milestone)">
+        <MappingFragment StoreEntitySet="Milestones">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Product" ColumnName="Product" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="Owner_Id" ColumnName="Owner_Id" />
+          <ScalarProperty Name="Completed" ColumnName="Completed" />
+          <ScalarProperty Name="Successful" ColumnName="Successful" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Question)">
+        <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Team" ColumnName="Team" />
+          <ScalarProperty Name="Required" ColumnName="Required" />
+          <ScalarProperty Name="Request" ColumnName="Request" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="HelpText" ColumnName="HelpText" />
+          <ScalarProperty Name="HelpImage" ColumnName="HelpImage" />
+          <ScalarProperty Name="Template" ColumnName="Template" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Responses">
+      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Response)">
+        <MappingFragment StoreEntitySet="Responses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="String" ColumnName="String" />
+          <ScalarProperty Name="Integer" ColumnName="Integer" />
+          <ScalarProperty Name="Double" ColumnName="Double" />
+          <ScalarProperty Name="File" ColumnName="File" />
+          <ScalarProperty Name="Boolean" ColumnName="Boolean" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="Question_Id" ColumnName="Question_Id" />
+          <ScalarProperty Name="Milestone_Id" ColumnName="Milestone_Id" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Completed" ColumnName="Completed" />
+          <ScalarProperty Name="Successful" ColumnName="Successful" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="First" ColumnName="First" />
+          <ScalarProperty Name="Last" ColumnName="Last" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Team" ColumnName="Team" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sorts">
+      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Sort)">
+        <MappingFragment StoreEntitySet="Sorts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="MilestoneId" ColumnName="MilestoneId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MilestoneQuestion" TypeName="SampleTravellersModel.MilestoneQuestion" StoreEntitySet="MilestoneQuestion">
+      <EndProperty Name="Milestones">
+        <ScalarProperty Name="Id" ColumnName="Milestones_Id" />
+      </EndProperty>
+      <EndProperty Name="Questions">
+        <ScalarProperty Name="Id" ColumnName="Questions_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionQuestion" TypeName="SampleTravellersModel.QuestionQuestion" StoreEntitySet="QuestionQuestion">
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="QuestionQuestion_Question1_Id" />
+      </EndProperty>
+      <EndProperty Name="Question1">
+        <ScalarProperty Name="Id" ColumnName="Corequisites_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SortQuestion" TypeName="SampleTravellersModel.SortQuestion" StoreEntitySet="Sorts">
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="Question_Id" />
+      </EndProperty>
+      <EndProperty Name="Sort">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="222935657ea74c2ca72e8e97c6346d52" Name="Diagram1">
+        <EntityTypeShape EntityType="SampleTravellersModel.Keyword" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SampleTravellersModel.Milestone" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SampleTravellersModel.Question" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SampleTravellersModel.Response" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SampleTravellersModel.User" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="SampleTravellersModel.FK_Owner" ManuallyRouted="false" />
+        <AssociationConnector Association="SampleTravellersModel.FK_ResponseMilestone" ManuallyRouted="false" />
+        <AssociationConnector Association="SampleTravellersModel.FK_ResponseQuestion" ManuallyRouted="false" />
+        <AssociationConnector Association="SampleTravellersModel.FK_ResponseUser" ManuallyRouted="false" />
+        <AssociationConnector Association="SampleTravellersModel.MilestoneQuestion" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SampleTravellersModel.Sort" Width="1.5" PointX="10" PointY="3.375" />
+        <AssociationConnector Association="SampleTravellersModel.MilestoneSort" />
+        <AssociationConnector Association="SampleTravellersModel.QuestionQuestion" />
+        <AssociationConnector Association="SampleTravellersModel.SortQuestion" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

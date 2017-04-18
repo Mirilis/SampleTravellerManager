@@ -1,0 +1,10 @@
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\SampleManagerLibrary.dll.config
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\SampleManagerLibrary.dll
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\SampleManagerLibrary.pdb
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\EntityFramework.dll
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\EntityFramework.xml
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\obj\Debug\SampleManagerLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\obj\Debug\SampleManagerLibrary.dll
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\obj\Debug\SampleManagerLibrary.pdb
