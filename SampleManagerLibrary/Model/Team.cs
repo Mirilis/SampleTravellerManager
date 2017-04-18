@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+
 namespace SampleManagerLibrary
 {
     [Flags]
@@ -16,5 +19,23 @@ namespace SampleManagerLibrary
         CleanDepartment = 512,
         QualityDepartment = 1024,
         ShippingDepartment = 2048
+    }
+
+    public static class ProductFlow
+    {
+        private static readonly ReadOnlyCollection<string> order = new ReadOnlyCollection<string>(new[]
+            {
+                "MetallurgicalEngineering",
+                "ProductionControl",
+                "CoreDepartment",
+                "MoldDepartment",
+                "MeltDepartment",
+                "CleanDepartment",
+                "FinishingDepartment",
+                "QualityDepartment",
+                "ShippingDepartment"
+            });
+
+        public static ReadOnlyCollection<string> Order { get => order; }
     }
 }

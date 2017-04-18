@@ -46,7 +46,7 @@
                 </DockPanel>
                 <DockPanel>
                     <Button Height="50" DockPanel.Dock="Right" Width="50">Check</Button>
-                    <TextBox Height="50" DockPanel.Dock="Right" FontSize="32"></TextBox>
+                    <TextBox Height="50" DockPanel.Dock="Right" FontSize="32" Text="{Binding Owner.Email}"></TextBox>
                 </DockPanel>
             </StackPanel>
         </Grid>

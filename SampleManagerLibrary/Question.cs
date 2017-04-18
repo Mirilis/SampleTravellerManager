@@ -21,6 +21,8 @@ namespace SampleManagerLibrary
             this.Milestones = new HashSet<Milestone>();
             this.Corequisites = new HashSet<Question>();
             this.Sorts = new HashSet<Sort>();
+            this.Prerequisites = new HashSet<Question>();
+            this.Postrequisites = new HashSet<Question>();
         }
     
         public int Id { get; set; }
@@ -41,5 +43,9 @@ namespace SampleManagerLibrary
         public virtual ICollection<Question> Corequisites { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sort> Sorts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Question> Prerequisites { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Question> Postrequisites { get; set; }
     }
 }

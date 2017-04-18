@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SampleTravellersModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="SampleTravellersModelStoreContainer">
-    <EntitySet Name="Keywords" EntityType="SampleTravellersModel.Store.Keywords" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Milestones" EntityType="SampleTravellersModel.Store.Milestones" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Questions" EntityType="SampleTravellersModel.Store.Questions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Responses" EntityType="SampleTravellersModel.Store.Responses" store:Type="Tables" Schema="dbo" />
@@ -9,6 +8,8 @@
     <EntitySet Name="Sorts" EntityType="SampleTravellersModel.Store.Sorts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MilestoneQuestion" EntityType="SampleTravellersModel.Store.MilestoneQuestion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="QuestionQuestion" EntityType="SampleTravellersModel.Store.QuestionQuestion" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionQuestion1" EntityType="SampleTravellersModel.Store.QuestionQuestion1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionQuestion2" EntityType="SampleTravellersModel.Store.QuestionQuestion2" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Owner" Association="SampleTravellersModel.Store.FK_Owner">
       <End Role="Users" EntitySet="Users" />
       <End Role="Milestones" EntitySet="Milestones" />
@@ -49,14 +50,23 @@
       <End Role="Sort" EntitySet="Sorts" />
       <End Role="Question" EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion1_Question" Association="SampleTravellersModel.Store.FK_QuestionQuestion1_Question">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="QuestionQuestion1" EntitySet="QuestionQuestion1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion1_Question1" Association="SampleTravellersModel.Store.FK_QuestionQuestion1_Question1">
+      <End Role="Question1" EntitySet="Questions" />
+      <End Role="QuestionQuestion1" EntitySet="QuestionQuestion1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion2_Question" Association="SampleTravellersModel.Store.FK_QuestionQuestion2_Question">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="QuestionQuestion2" EntitySet="QuestionQuestion2" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion2_Question1" Association="SampleTravellersModel.Store.FK_QuestionQuestion2_Question1">
+      <End Role="Question1" EntitySet="Questions" />
+      <End Role="QuestionQuestion2" EntitySet="QuestionQuestion2" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="Keywords">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
   <EntityType Name="Milestones">
     <Key>
       <PropertyRef Name="Id" />
@@ -134,6 +144,22 @@
     </Key>
     <Property Name="QuestionQuestion_Question1_Id" Type="int" Nullable="false" />
     <Property Name="Corequisites_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionQuestion1">
+    <Key>
+      <PropertyRef Name="QuestionQuestion1_Question1_Id" />
+      <PropertyRef Name="Prerequisites_Id" />
+    </Key>
+    <Property Name="QuestionQuestion1_Question1_Id" Type="int" Nullable="false" />
+    <Property Name="Prerequisites_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionQuestion2">
+    <Key>
+      <PropertyRef Name="QuestionQuestion2_Question1_Id" />
+      <PropertyRef Name="Postrequisites_Id" />
+    </Key>
+    <Property Name="QuestionQuestion2_Question1_Id" Type="int" Nullable="false" />
+    <Property Name="Postrequisites_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_Owner">
     <End Role="Users" Type="SampleTravellersModel.Store.Users" Multiplicity="1" />
@@ -252,6 +278,54 @@
       </Principal>
       <Dependent Role="QuestionQuestion">
         <PropertyRef Name="Corequisites_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion1_Question">
+    <End Role="Question" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <End Role="QuestionQuestion1" Type="SampleTravellersModel.Store.QuestionQuestion1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion1">
+        <PropertyRef Name="QuestionQuestion1_Question1_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion1_Question1">
+    <End Role="QuestionQuestion1" Type="SampleTravellersModel.Store.QuestionQuestion1" Multiplicity="*" />
+    <End Role="Question1" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question1">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion1">
+        <PropertyRef Name="Prerequisites_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion2_Question">
+    <End Role="Question" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <End Role="QuestionQuestion2" Type="SampleTravellersModel.Store.QuestionQuestion2" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion2">
+        <PropertyRef Name="QuestionQuestion2_Question1_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion2_Question1">
+    <End Role="QuestionQuestion2" Type="SampleTravellersModel.Store.QuestionQuestion2" Multiplicity="*" />
+    <End Role="Question1" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question1">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion2">
+        <PropertyRef Name="Postrequisites_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

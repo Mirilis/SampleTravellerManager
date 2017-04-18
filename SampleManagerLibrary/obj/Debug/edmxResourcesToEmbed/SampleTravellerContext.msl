@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="SampleTravellersModelStoreContainer" CdmEntityContainer="SampleTravellersEntities">
-    <EntitySetMapping Name="Keywords">
-      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Keyword)">
-        <MappingFragment StoreEntitySet="Keywords">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Milestones">
       <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Milestone)">
         <MappingFragment StoreEntitySet="Milestones">
@@ -97,6 +89,22 @@
       </EndProperty>
       <EndProperty Name="Sort">
         <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionQuestion1" TypeName="SampleTravellersModel.QuestionQuestion1" StoreEntitySet="QuestionQuestion1">
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="QuestionQuestion1_Question1_Id" />
+      </EndProperty>
+      <EndProperty Name="Question1">
+        <ScalarProperty Name="Id" ColumnName="Prerequisites_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionQuestion2" TypeName="SampleTravellersModel.QuestionQuestion2" StoreEntitySet="QuestionQuestion2">
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="QuestionQuestion2_Question1_Id" />
+      </EndProperty>
+      <EndProperty Name="Question1">
+        <ScalarProperty Name="Id" ColumnName="Postrequisites_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

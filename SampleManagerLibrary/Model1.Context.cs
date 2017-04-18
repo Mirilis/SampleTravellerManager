@@ -25,7 +25,6 @@ namespace SampleManagerLibrary
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Keyword> Keywords { get; set; }
         public virtual DbSet<Milestone> Milestones { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Response> Responses { get; set; }

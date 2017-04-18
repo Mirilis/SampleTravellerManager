@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace SampleTravellerManager.ViewModel
 {
-    public class MilestonesViewModel : ViewModelBase 
+    public class MilestonesViewModel : ViewModelBase
     {
         private ObservableCollection<Question> _AllQuestions = null;
 
@@ -23,9 +23,7 @@ namespace SampleTravellerManager.ViewModel
         private bool _Completed = false;
 
         private bool _Successful = false;
-
-        private User _Owner = null;
-
+        
         private ObservableCollection<Question> _Questions = null;
 
         private ObservableCollection<Response> _Responses = null;
@@ -40,6 +38,14 @@ namespace SampleTravellerManager.ViewModel
 
         private RelayCommand _DeleteMilestone;
 
+        private bool _MilestoneIsLoaded = false;
+
+        private Milestone _CurrentlyLoadedMilestone;
+
+        private List<Question> _MilestoneCollection = new List<Question>();
+
+        private List<Question> _AllQuestionsCollection = new List<Question>();
+
         /// <summary>
         /// The <see cref="AllQuestions" /> property's name.
         /// </summary>
@@ -49,7 +55,7 @@ namespace SampleTravellerManager.ViewModel
         /// The <see cref="QuestionOrder" /> property's name.
         /// </summary>
         public const string QuestionOrderPropertyName = "QuestionOrder";
-        
+
         /// <summary>
         /// The <see cref="Responses" /> property's name.
         /// </summary>
@@ -59,22 +65,22 @@ namespace SampleTravellerManager.ViewModel
         /// The <see cref="Questions" /> property's name.
         /// </summary>      
         public const string QuestionsPropertyName = "Questions";
-        
+
         /// <summary>
         /// The <see cref="Owner" /> property's name.
         /// </summary>  
         public const string OwnerPropertyName = "Owner";
-        
+
         /// <summary>
         /// The <see cref="Successful" /> property's name.
         /// </summary>
         public const string SuccessfulPropertyName = "Successful";
-       
+
         /// <summary>
         /// The <see cref="Completed" /> property's name.
         /// </summary>
         public const string CompletedPropertyName = "Completed";
-        
+
         /// <summary>
         /// The <see cref="Product" /> property's name.
         /// </summary>
@@ -84,6 +90,11 @@ namespace SampleTravellerManager.ViewModel
         /// The <see cref="StartDate" /> property's name.
         /// </summary>
         public const string StartDatePropertyName = "StartDate";
+
+        /// <summary>
+        /// The <see cref="MilestoneIsLoaded" /> property's name.
+        /// </summary>
+        public const string MilestoneIsLoadedPropertyName = "MilestoneIsLoaded";
 
         /// <summary>
         /// Sets and gets the Product property.
@@ -107,7 +118,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Product);
             }
         }
-        
+
         /// <summary>
         /// Sets and gets the StartDate property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -130,7 +141,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => StartDate);
             }
         }
-        
+
         /// <summary>
         /// Sets and gets the Completed property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -153,7 +164,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Completed);
             }
         }
-        
+
         /// <summary>
         /// Sets and gets the Successful property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -176,7 +187,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Successful);
             }
         }
-        
+
         /// <summary>
         /// Sets and gets the Owner property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -185,21 +196,22 @@ namespace SampleTravellerManager.ViewModel
         {
             get
             {
-                return _Owner;
+                return _CurrentlyLoadedMilestone.User;
             }
 
             set
             {
-                if (_Owner == value)
+                if (_CurrentlyLoadedMilestone.User == value)
                 {
+                    RaisePropertyChanged(() => Owner);
                     return;
                 }
 
-                _Owner = value;
+                _CurrentlyLoadedMilestone.User = value;
                 RaisePropertyChanged(() => Owner);
             }
         }
-        
+
         /// <summary>
         /// Sets and gets the Questions property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -226,7 +238,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Questions);
             }
         }
-        
+
         /// <summary>
         /// Sets and gets the Responses property.
         /// Changes to that property's value raise the PropertyChanged event. 
@@ -305,7 +317,7 @@ namespace SampleTravellerManager.ViewModel
             {
                 return _NewMilestone
                     ?? (_NewMilestone = new RelayCommand(
-                    () => 
+                    () =>
                     {
                         LoadNewMilestone();
                     }));
@@ -323,7 +335,7 @@ namespace SampleTravellerManager.ViewModel
                     ?? (_SaveMilestone = new RelayCommand(
                     () =>
                     {
-
+                        SaveCurrentMilestone();
                     }));
             }
         }
@@ -361,13 +373,6 @@ namespace SampleTravellerManager.ViewModel
         }
 
         /// <summary>
-        /// The <see cref="MilestoneIsLoaded" /> property's name.
-        /// </summary>
-        public const string MilestoneIsLoadedPropertyName = "MilestoneIsLoaded";
-
-        private bool _MilestoneIsLoaded = false;
-
-        /// <summary>
         /// Sets and gets the MilestoneIsLoaded property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
@@ -393,11 +398,64 @@ namespace SampleTravellerManager.ViewModel
         public void LoadNewMilestone()
         {
             this._CurrentlyLoadedMilestone = new Milestone();
-            
+            this.Owner = User.GetCurrentUser();
         }
 
-        private Milestone _CurrentlyLoadedMilestone;
+        public void SaveCurrentMilestone()
+        {
+            foreach (var item in _Questions)
+            {
+                this._CurrentlyLoadedMilestone.Questions.Add(item);
 
+            }
+        }
+
+        private void SortCurrentQuestions(List<Question> q)
+        {
+            Questions.CollectionChanged -= Questions_CollectionChanged;
+            
+            var tmp2 =  SortByRequisites(q);
+
+            Questions = new ObservableCollection<Question>(tmp2);
+            Questions.CollectionChanged += Questions_CollectionChanged;
+        }
+
+        private List<Question> SortByRequisites(List<Question> input)
+        {
+            var output = new List<Question>();
+            var tmp = new List<Question>();
+            using (var sql = new SampleTravellersEntities())
+            {
+                foreach (var question in input)
+                {
+                    var q1 = sql.Questions.Where(x => x.Id == question.Id).First();
+                    tmp.Add(q1);
+                }
+                tmp = tmp.OrderBy(x => x.TeamSort).ToList();
+                output = new List<Question>(tmp);
+                foreach (var tmpQ in tmp)
+                {
+                    foreach (var TmpQPre in tmpQ.Prerequisites)
+                    {
+                        if (output.IndexOf(tmpQ) > output.IndexOf(TmpQPre))
+                        {
+                            output.Remove(tmpQ);
+                            output.Insert(output.IndexOf(TmpQPre), tmpQ);
+                        }
+                    }
+                    foreach (var TmpQPre in tmpQ.Postrequisites)
+                    {
+                        if (output.IndexOf(tmpQ) < output.IndexOf(TmpQPre))
+                        {
+                            output.Remove(tmpQ);
+                            output.Insert(output.IndexOf(TmpQPre)+1, tmpQ);
+                        }
+                    }
+                }
+            }
+            return output;
+        }
+        
         public MilestonesViewModel()
         {
             var s = new SampleManagerLibrary.Model.SeedData();
@@ -406,15 +464,10 @@ namespace SampleTravellerManager.ViewModel
             {
                 var t = sql.Questions.Include("Corequisites").ToList();
                 AllQuestions = new ObservableCollection<Question>(t);
-             
+                _AllQuestionsCollection = t;
             }
 
             Questions.CollectionChanged += Questions_CollectionChanged;
-        }
-
-        private void MilestonesViewModel_ChangeCollection(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void Questions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -423,45 +476,35 @@ namespace SampleTravellerManager.ViewModel
             foreach (var q in e.NewItems)
             {
                 var s = q as Question;
-                var t = Milestone.GetAllCorequisites(s);
-                foreach (var u in t)
-                {
-                    if (!p.Any(x=>x.Id == u.Value.Id))
-                    {
-                        p.Add(u.Value);
-                    }
-                }
-                if (!s.Template)
+                var t = Milestone.GetAllRequisites(s);
+                if (!s.Template && !_MilestoneCollection.Any(x => x.Id == s.Id))
                 {
 
                     _MilestoneCollection.Add(s);
                 }
+                foreach (var u in t)
+                {
+                    if (!p.Any(x => x.Id == u.Id))
+                    {
+                        p.Add(u);
+                    }
+                }
             }
             foreach (var item in p)
             {
-                if (!_Questions.Any(x=>x.Id == item.Id))
+                if (!_Questions.Any(x => x.Id == item.Id))
                 {
                     _MilestoneCollection.Add(item);
                 }
             }
-            
-            Questions = new ObservableCollection<Question>(_MilestoneCollection);
-
-            foreach (var item in AllQuestions)
-            {
-                if (!_MilestoneCollection.Any(x=>x.Id == item.Id))
-                {
-                    _AllQuestionsCollection.Add(item);
-                }
-            }
+            SortCurrentQuestions(_MilestoneCollection);
             AllQuestions = new ObservableCollection<Question>(_AllQuestionsCollection);
-            
+
         }
 
-        private List<Question> _MilestoneCollection = new List<Question>();
-        private List<Question> _AllQuestionsCollection = new List<Question>();
 
-  
+
+
 
 
     }

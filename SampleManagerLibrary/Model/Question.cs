@@ -14,5 +14,6 @@ namespace SampleManagerLibrary
         public string ResponseType
         { get => ((ResponseType)this.Type).ToString().SplitCamelCase(); }
 
+        public int TeamSort { get => ProductFlow.Order.IndexOf(((Team)this.Team).ToString()); }
     }
 }

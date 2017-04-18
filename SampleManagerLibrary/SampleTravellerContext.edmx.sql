@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2017 20:52:02
+-- Date Created: 04/18/2017 18:48:43
 -- Generated from EDMX file: C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleManagerLibrary\SampleTravellerContext.edmx
 -- --------------------------------------------------
 
@@ -47,14 +47,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SortQuestion]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Sorts] DROP CONSTRAINT [FK_SortQuestion];
 GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionQuestion1_Question]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestionQuestion1] DROP CONSTRAINT [FK_QuestionQuestion1_Question];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionQuestion1_Question1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestionQuestion1] DROP CONSTRAINT [FK_QuestionQuestion1_Question1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionQuestion2_Question]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestionQuestion2] DROP CONSTRAINT [FK_QuestionQuestion2_Question];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionQuestion2_Question1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestionQuestion2] DROP CONSTRAINT [FK_QuestionQuestion2_Question1];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Keywords]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Keywords];
-GO
 IF OBJECT_ID(N'[dbo].[Milestones]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Milestones];
 GO
@@ -76,17 +85,16 @@ GO
 IF OBJECT_ID(N'[dbo].[QuestionQuestion]', 'U') IS NOT NULL
     DROP TABLE [dbo].[QuestionQuestion];
 GO
+IF OBJECT_ID(N'[dbo].[QuestionQuestion1]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[QuestionQuestion1];
+GO
+IF OBJECT_ID(N'[dbo].[QuestionQuestion2]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[QuestionQuestion2];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
-
--- Creating table 'Keywords'
-CREATE TABLE [dbo].[Keywords] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Text] nvarchar(max)  NOT NULL
-);
-GO
 
 -- Creating table 'Milestones'
 CREATE TABLE [dbo].[Milestones] (
@@ -164,15 +172,23 @@ CREATE TABLE [dbo].[QuestionQuestion] (
 );
 GO
 
+-- Creating table 'QuestionQuestion1'
+CREATE TABLE [dbo].[QuestionQuestion1] (
+    [QuestionQuestion1_Question1_Id] int  NOT NULL,
+    [Prerequisites_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'QuestionQuestion2'
+CREATE TABLE [dbo].[QuestionQuestion2] (
+    [QuestionQuestion2_Question1_Id] int  NOT NULL,
+    [Postrequisites_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
-
--- Creating primary key on [Id] in table 'Keywords'
-ALTER TABLE [dbo].[Keywords]
-ADD CONSTRAINT [PK_Keywords]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
 
 -- Creating primary key on [Id] in table 'Milestones'
 ALTER TABLE [dbo].[Milestones]
@@ -214,6 +230,18 @@ GO
 ALTER TABLE [dbo].[QuestionQuestion]
 ADD CONSTRAINT [PK_QuestionQuestion]
     PRIMARY KEY CLUSTERED ([QuestionQuestion_Question1_Id], [Corequisites_Id] ASC);
+GO
+
+-- Creating primary key on [QuestionQuestion1_Question1_Id], [Prerequisites_Id] in table 'QuestionQuestion1'
+ALTER TABLE [dbo].[QuestionQuestion1]
+ADD CONSTRAINT [PK_QuestionQuestion1]
+    PRIMARY KEY CLUSTERED ([QuestionQuestion1_Question1_Id], [Prerequisites_Id] ASC);
+GO
+
+-- Creating primary key on [QuestionQuestion2_Question1_Id], [Postrequisites_Id] in table 'QuestionQuestion2'
+ALTER TABLE [dbo].[QuestionQuestion2]
+ADD CONSTRAINT [PK_QuestionQuestion2]
+    PRIMARY KEY CLUSTERED ([QuestionQuestion2_Question1_Id], [Postrequisites_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -356,6 +384,54 @@ GO
 CREATE INDEX [IX_FK_SortQuestion]
 ON [dbo].[Sorts]
     ([Question_Id]);
+GO
+
+-- Creating foreign key on [QuestionQuestion1_Question1_Id] in table 'QuestionQuestion1'
+ALTER TABLE [dbo].[QuestionQuestion1]
+ADD CONSTRAINT [FK_QuestionQuestion1_Question]
+    FOREIGN KEY ([QuestionQuestion1_Question1_Id])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Prerequisites_Id] in table 'QuestionQuestion1'
+ALTER TABLE [dbo].[QuestionQuestion1]
+ADD CONSTRAINT [FK_QuestionQuestion1_Question1]
+    FOREIGN KEY ([Prerequisites_Id])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_QuestionQuestion1_Question1'
+CREATE INDEX [IX_FK_QuestionQuestion1_Question1]
+ON [dbo].[QuestionQuestion1]
+    ([Prerequisites_Id]);
+GO
+
+-- Creating foreign key on [QuestionQuestion2_Question1_Id] in table 'QuestionQuestion2'
+ALTER TABLE [dbo].[QuestionQuestion2]
+ADD CONSTRAINT [FK_QuestionQuestion2_Question]
+    FOREIGN KEY ([QuestionQuestion2_Question1_Id])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Postrequisites_Id] in table 'QuestionQuestion2'
+ALTER TABLE [dbo].[QuestionQuestion2]
+ADD CONSTRAINT [FK_QuestionQuestion2_Question1]
+    FOREIGN KEY ([Postrequisites_Id])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_QuestionQuestion2_Question1'
+CREATE INDEX [IX_FK_QuestionQuestion2_Question1]
+ON [dbo].[QuestionQuestion2]
+    ([Postrequisites_Id]);
 GO
 
 -- --------------------------------------------------

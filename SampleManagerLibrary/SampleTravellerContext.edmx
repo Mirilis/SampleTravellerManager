@@ -6,7 +6,6 @@
     <edmx:StorageModels>
     <Schema Namespace="SampleTravellersModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="SampleTravellersModelStoreContainer">
-    <EntitySet Name="Keywords" EntityType="SampleTravellersModel.Store.Keywords" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Milestones" EntityType="SampleTravellersModel.Store.Milestones" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Questions" EntityType="SampleTravellersModel.Store.Questions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Responses" EntityType="SampleTravellersModel.Store.Responses" store:Type="Tables" Schema="dbo" />
@@ -14,6 +13,8 @@
     <EntitySet Name="Sorts" EntityType="SampleTravellersModel.Store.Sorts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MilestoneQuestion" EntityType="SampleTravellersModel.Store.MilestoneQuestion" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="QuestionQuestion" EntityType="SampleTravellersModel.Store.QuestionQuestion" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionQuestion1" EntityType="SampleTravellersModel.Store.QuestionQuestion1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="QuestionQuestion2" EntityType="SampleTravellersModel.Store.QuestionQuestion2" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Owner" Association="SampleTravellersModel.Store.FK_Owner">
       <End Role="Users" EntitySet="Users" />
       <End Role="Milestones" EntitySet="Milestones" />
@@ -54,14 +55,23 @@
       <End Role="Sort" EntitySet="Sorts" />
       <End Role="Question" EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion1_Question" Association="SampleTravellersModel.Store.FK_QuestionQuestion1_Question">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="QuestionQuestion1" EntitySet="QuestionQuestion1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion1_Question1" Association="SampleTravellersModel.Store.FK_QuestionQuestion1_Question1">
+      <End Role="Question1" EntitySet="Questions" />
+      <End Role="QuestionQuestion1" EntitySet="QuestionQuestion1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion2_Question" Association="SampleTravellersModel.Store.FK_QuestionQuestion2_Question">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="QuestionQuestion2" EntitySet="QuestionQuestion2" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionQuestion2_Question1" Association="SampleTravellersModel.Store.FK_QuestionQuestion2_Question1">
+      <End Role="Question1" EntitySet="Questions" />
+      <End Role="QuestionQuestion2" EntitySet="QuestionQuestion2" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="Keywords">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
   <EntityType Name="Milestones">
     <Key>
       <PropertyRef Name="Id" />
@@ -139,6 +149,22 @@
     </Key>
     <Property Name="QuestionQuestion_Question1_Id" Type="int" Nullable="false" />
     <Property Name="Corequisites_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionQuestion1">
+    <Key>
+      <PropertyRef Name="QuestionQuestion1_Question1_Id" />
+      <PropertyRef Name="Prerequisites_Id" />
+    </Key>
+    <Property Name="QuestionQuestion1_Question1_Id" Type="int" Nullable="false" />
+    <Property Name="Prerequisites_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionQuestion2">
+    <Key>
+      <PropertyRef Name="QuestionQuestion2_Question1_Id" />
+      <PropertyRef Name="Postrequisites_Id" />
+    </Key>
+    <Property Name="QuestionQuestion2_Question1_Id" Type="int" Nullable="false" />
+    <Property Name="Postrequisites_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_Owner">
     <End Role="Users" Type="SampleTravellersModel.Store.Users" Multiplicity="1" />
@@ -260,17 +286,58 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_QuestionQuestion1_Question">
+    <End Role="Question" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <End Role="QuestionQuestion1" Type="SampleTravellersModel.Store.QuestionQuestion1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion1">
+        <PropertyRef Name="QuestionQuestion1_Question1_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion1_Question1">
+    <End Role="QuestionQuestion1" Type="SampleTravellersModel.Store.QuestionQuestion1" Multiplicity="*" />
+    <End Role="Question1" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question1">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion1">
+        <PropertyRef Name="Prerequisites_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion2_Question">
+    <End Role="Question" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <End Role="QuestionQuestion2" Type="SampleTravellersModel.Store.QuestionQuestion2" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion2">
+        <PropertyRef Name="QuestionQuestion2_Question1_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionQuestion2_Question1">
+    <End Role="QuestionQuestion2" Type="SampleTravellersModel.Store.QuestionQuestion2" Multiplicity="*" />
+    <End Role="Question1" Type="SampleTravellersModel.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question1">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuestionQuestion2">
+        <PropertyRef Name="Postrequisites_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SampleTravellersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Keyword">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityType Name="Milestone">
           <Key>
             <PropertyRef Name="Id" />
@@ -304,6 +371,8 @@
           <Property Name="HelpImage" Type="String" Nullable="true" />
           <NavigationProperty Name="Sorts" Relationship="SampleTravellersModel.SortQuestion" FromRole="Question" ToRole="Sort" />
           <Property Name="Template" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Prerequisites" Relationship="SampleTravellersModel.QuestionQuestion1" FromRole="Question" ToRole="Question1" />
+          <NavigationProperty Name="Postrequisites" Relationship="SampleTravellersModel.QuestionQuestion2" FromRole="Question" ToRole="Question1" />
         </EntityType>
         <EntityType Name="Response">
           <Key>
@@ -390,7 +459,6 @@
           <End Role="Questions" Type="Self.Question" Multiplicity="*" />
         </Association>
         <EntityContainer Name="SampleTravellersEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Keywords" EntityType="SampleTravellersModel.Keyword" />
           <EntitySet Name="Milestones" EntityType="Self.Milestone" />
           <EntitySet Name="Questions" EntityType="Self.Question" />
           <EntitySet Name="Responses" EntityType="SampleTravellersModel.Response" />
@@ -428,6 +496,14 @@
             <End Role="Sort" EntitySet="Sorts" />
             <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
+          <AssociationSet Name="QuestionQuestion1" Association="SampleTravellersModel.QuestionQuestion1">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Question1" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="QuestionQuestion2" Association="SampleTravellersModel.QuestionQuestion2">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Question1" EntitySet="Questions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Sort">
           <Key>
@@ -459,20 +535,20 @@
           <End Type="SampleTravellersModel.Sort" Role="Sort" Multiplicity="*" />
           <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="1" />
         </Association>
+        <Association Name="QuestionQuestion1">
+          <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="*" />
+          <End Type="SampleTravellersModel.Question" Role="Question1" Multiplicity="*" />
+        </Association>
+        <Association Name="QuestionQuestion2">
+          <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="*" />
+          <End Type="SampleTravellersModel.Question" Role="Question1" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="SampleTravellersModelStoreContainer" CdmEntityContainer="SampleTravellersEntities">
-    <EntitySetMapping Name="Keywords">
-      <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Keyword)">
-        <MappingFragment StoreEntitySet="Keywords">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Milestones">
       <EntityTypeMapping TypeName="IsTypeOf(SampleTravellersModel.Milestone)">
         <MappingFragment StoreEntitySet="Milestones">
@@ -563,6 +639,22 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionQuestion1" TypeName="SampleTravellersModel.QuestionQuestion1" StoreEntitySet="QuestionQuestion1">
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="QuestionQuestion1_Question1_Id" />
+      </EndProperty>
+      <EndProperty Name="Question1">
+        <ScalarProperty Name="Id" ColumnName="Prerequisites_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="QuestionQuestion2" TypeName="SampleTravellersModel.QuestionQuestion2" StoreEntitySet="QuestionQuestion2">
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="QuestionQuestion2_Question1_Id" />
+      </EndProperty>
+      <EndProperty Name="Question1">
+        <ScalarProperty Name="Id" ColumnName="Postrequisites_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -585,7 +677,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram DiagramId="222935657ea74c2ca72e8e97c6346d52" Name="Diagram1">
-        <EntityTypeShape EntityType="SampleTravellersModel.Keyword" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SampleTravellersModel.Milestone" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SampleTravellersModel.Question" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SampleTravellersModel.Response" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
@@ -599,6 +690,8 @@
         <AssociationConnector Association="SampleTravellersModel.MilestoneSort" />
         <AssociationConnector Association="SampleTravellersModel.QuestionQuestion" />
         <AssociationConnector Association="SampleTravellersModel.SortQuestion" />
+        <AssociationConnector Association="SampleTravellersModel.QuestionQuestion1" />
+        <AssociationConnector Association="SampleTravellersModel.QuestionQuestion2" />
       </Diagram>
     </Diagrams>
   </Designer>

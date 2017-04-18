@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SampleTravellersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="Keyword">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-  </EntityType>
   <EntityType Name="Milestone">
     <Key>
       <PropertyRef Name="Id" />
@@ -40,6 +33,8 @@
     <Property Name="HelpImage" Type="String" Nullable="true" />
     <NavigationProperty Name="Sorts" Relationship="SampleTravellersModel.SortQuestion" FromRole="Question" ToRole="Sort" />
     <Property Name="Template" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Prerequisites" Relationship="SampleTravellersModel.QuestionQuestion1" FromRole="Question" ToRole="Question1" />
+    <NavigationProperty Name="Postrequisites" Relationship="SampleTravellersModel.QuestionQuestion2" FromRole="Question" ToRole="Question1" />
   </EntityType>
   <EntityType Name="Response">
     <Key>
@@ -126,7 +121,6 @@
     <End Role="Questions" Type="Self.Question" Multiplicity="*" />
   </Association>
   <EntityContainer Name="SampleTravellersEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Keywords" EntityType="SampleTravellersModel.Keyword" />
     <EntitySet Name="Milestones" EntityType="Self.Milestone" />
     <EntitySet Name="Questions" EntityType="Self.Question" />
     <EntitySet Name="Responses" EntityType="SampleTravellersModel.Response" />
@@ -164,6 +158,14 @@
       <End Role="Sort" EntitySet="Sorts" />
       <End Role="Question" EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet Name="QuestionQuestion1" Association="SampleTravellersModel.QuestionQuestion1">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Question1" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="QuestionQuestion2" Association="SampleTravellersModel.QuestionQuestion2">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Question1" EntitySet="Questions" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Sort">
     <Key>
@@ -194,5 +196,13 @@
   <Association Name="SortQuestion">
     <End Type="SampleTravellersModel.Sort" Role="Sort" Multiplicity="*" />
     <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="1" />
+  </Association>
+  <Association Name="QuestionQuestion1">
+    <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="*" />
+    <End Type="SampleTravellersModel.Question" Role="Question1" Multiplicity="*" />
+  </Association>
+  <Association Name="QuestionQuestion2">
+    <End Type="SampleTravellersModel.Question" Role="Question" Multiplicity="*" />
+    <End Type="SampleTravellersModel.Question" Role="Question1" Multiplicity="*" />
   </Association>
 </Schema>

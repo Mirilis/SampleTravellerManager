@@ -8,40 +8,31 @@ namespace SampleManagerLibrary
 {
     public partial class Milestone
     {
-        public static  Dictionary<Sort,Question> GetAllCorequisites(Question q)        {
-            var questionsToBeAdded = new Dictionary<Sort,Question>();
-            ProcessQuestion(q, questionsToBeAdded);
-            return questionsToBeAdded;
-        }
-
-        private static void ProcessQuestion(Question q, Dictionary<Sort,Question> result)
+        public static List<Question> GetAllRequisites(Question q)
         {
+            var result = new List<Question>();
             using (var sql = new SampleTravellersEntities())
             {
-            foreach (var question in q.Corequisites)
-            {
-                ProcessQuestion(question, result);
+                var liveQ = sql.Questions.Where(x => x.Id == q.Id).First();
+                ProcessQuestion(liveQ.Prerequisites, result, sql);
+                ProcessQuestion(liveQ.Corequisites, result, sql);
+                ProcessQuestion(liveQ.Postrequisites, result, sql);
             }
-            if (!result.Any(x=>x.Value.Id == q.Id))
-            {
-                var s = new Sort() { Question = q };
-                result.Add(s,q);
-            }
-            }
+            return result.Distinct().ToList();
         }
 
-        private static void RefreshSortOrder(Dictionary<Sort,Question> refresh)
+        private static void ProcessQuestion(ICollection<Question> question, List<Question> result, SampleTravellersEntities sql)
         {
-            var q = refresh.OrderBy(x => x.Value.Team).ToList();
-            foreach (var sort in refresh)
+
+            foreach (var q in question)
             {
-                var so = q.Where(x => x.Value.Id == x.Key.Question.Id);
-                if (so.Any())
-                {
-                    sort.Key.Order = q.IndexOf(so.First());
-                }
-                
+                result.Add(q);
+                ProcessQuestion(q.Prerequisites, result, sql);
+                ProcessQuestion(q.Corequisites, result, sql);
+                ProcessQuestion(q.Postrequisites, result, sql);
             }
+
+
         }
     }
 }
