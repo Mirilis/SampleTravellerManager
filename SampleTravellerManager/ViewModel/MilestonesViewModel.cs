@@ -706,7 +706,7 @@ namespace SampleTravellerManager.ViewModel
                 this.Description = T.Description;
                 this.Name = T.Name;
                 this.WorkingTraveller = T;
-                Messenger.Default.Send<RequestCloseTravellersWindow>(new RequestCloseTravellersWindow());
+                Messenger.Default.Send<RequestCloseTravellersDialog>(new RequestCloseTravellersDialog());
             }
         }
 

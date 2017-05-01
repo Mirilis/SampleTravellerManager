@@ -27,6 +27,7 @@ namespace SampleTravellerManager.Views
             Messenger.Default.Register<RequestCloseQuestionsWindow>(this, (action) => CloseWindow());
             Messenger.Default.Register<RequestLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
             
+            
         }
 
         private void OpenLoadQuestionsDialog()

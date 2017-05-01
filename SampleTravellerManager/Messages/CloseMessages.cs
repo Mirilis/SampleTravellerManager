@@ -16,4 +16,14 @@ namespace SampleTravellerManager.Messages
        
     }
 
+    class RequestCloseTravellersDialog : MessagesBase
+    {
+
+    }
+
+    class RequestCloseQuestionsDialog : MessagesBase
+    {
+
+    }
+
 }

@@ -34,7 +34,7 @@
             <Button Margin="10,5,10,10" Width="75" Height="75" DockPanel.Dock="Bottom" Style="{DynamicResource Buttons}" Foreground="White" Content="LOAD">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding OpenTraveller, Mode=OneWay}"/>
+                        <cmd:EventToCommand Command="{Binding OpenCommand, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>

@@ -24,7 +24,7 @@ namespace SampleTravellerManager.Views
         public LoadTravellerView()
         {
             InitializeComponent();
-            Messenger.Default.Register<RequestCloseTravellersWindow>(this, (action) => ReceiveMessage(action));
+            Messenger.Default.Register<RequestCloseTravellersDialog>(this, (action) => ReceiveMessage(action));
         }
 
         private void ReceiveMessage(object action)

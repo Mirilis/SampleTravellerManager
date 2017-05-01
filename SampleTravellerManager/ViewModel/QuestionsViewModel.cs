@@ -42,6 +42,26 @@ namespace SampleTravellerManager.ViewModel
         private string typeOfResponse = string.Empty;
         private string typeOfTeam = string.Empty;
 
+        private RelayCommand openCommand;
+
+        public RelayCommand OpenCommand
+        {
+            get
+            {
+                return openCommand
+                    ?? (openCommand = new RelayCommand(
+                    () =>
+                    {
+                        OpenSelectedQuestion();
+                    }));
+            }
+        }
+
+        private void OpenSelectedQuestion()
+        {
+
+        }
+
         public QuestionsViewModel()
         {
             var s = new SeedData();
