@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GalaSoft.MvvmLight.Messaging;
+using SampleTravellerManager.Messages;
 
 namespace SampleTravellerManager.Views
 {
@@ -22,6 +24,27 @@ namespace SampleTravellerManager.Views
         public MilestonesView()
         {
             InitializeComponent();
+            Messenger.Default.Register<RequestLoadTravellerView>(this, (action) => OpenLoadTravellersView(action));
+            Messenger.Default.Register<RequestLoadQuestionsMenu>(this, (action) => OpenQuestionsView(action));
+            Messenger.Default.Register<RequestCloseTravellersWindow>(this, (action) => CloseWindow());
+        }
+
+        private void CloseWindow()
+        {
+            this.Close();
+        }
+
+        private void OpenQuestionsView(object action)
+        {
+            var v = new QuestionsView();
+            v.Show();
+        }
+
+        private void OpenLoadTravellersView(object action)
+        {
+            var v = new LoadTravellerView();
+            v.Show();
+            
         }
     }
 }

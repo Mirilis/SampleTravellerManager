@@ -24,8 +24,10 @@ namespace SampleTravellerManager
         public MainWindow()
         {
             InitializeComponent();
+            
             var b = new Views.MilestonesView();
             b.Show();
+            this.Close();
         }
     }
 }

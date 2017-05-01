@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml
-3-986574445
+81927692559
 
-15-1156897824
-74-1863343151
-MainWindow.xaml;Views\MilestonesView.xaml;Views\QuestionsManager.xaml;
+25228683116
+75-941049587
+Controls\CurrentQuestion.xaml;Controls\QuestionsListControl.xaml;MainWindow.xaml;Simple Styles.xaml;Views\LoadTravellerView.xaml;Views\MilestonesView.xaml;Views\QuestionsView.xaml;Controls\TopBar.xaml;
 
 False
 

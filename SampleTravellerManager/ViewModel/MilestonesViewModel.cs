@@ -1,150 +1,179 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using NWCSampleManager;
+using SampleTravellerManager.Messages;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using SampleManagerLibrary;
-using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.Command;
-using GongSolutions.Wpf.DragDrop;
-using System.Windows;
+using System.Windows.Data;
 
 namespace SampleTravellerManager.ViewModel
 {
     public class MilestonesViewModel : ViewModelBase
     {
-        private ObservableCollection<Question> _AllQuestions = null;
-
-        private String _Product = string.Empty;
-
-        private DateTime _StartDate = DateTime.Now;
-
-        private bool _Completed = false;
-
-        private bool _Successful = false;
-        
-        private ObservableCollection<Question> _Questions = null;
-
-        private ObservableCollection<Response> _Responses = null;
-
-        private ObservableCollection<Sort> _QuestionOrder = null;
-
-        private RelayCommand _NewMilestone;
-
-        private RelayCommand _SaveMilestone;
-
-        private RelayCommand _LoadMilestone;
-
-        private RelayCommand _DeleteMilestone;
-
-        private bool _MilestoneIsLoaded = false;
-
-        private Milestone _CurrentlyLoadedMilestone;
-
-        private List<Question> _MilestoneCollection = new List<Question>();
-
+        private ObservableCollection<Question> _AllQuestions = new ObservableCollection<Question>();
         private List<Question> _AllQuestionsCollection = new List<Question>();
+        private bool _Completed = false;
+        private string _description = string.Empty;
+        private User _Owner = null;
+        private String _Product = string.Empty;
+        private ObservableCollection<Question> _Questions = null;
+        private ObservableCollection<Response> _Responses = null;
+        private RelayCommand _SaveMilestone;
+        private Traveller _SelectedTraveller = null;
+        private DateTime _StartDate = DateTime.Now;
+        private bool _Successful = false;
+        private ObservableCollection<Traveller> allTravellers = null;
+        private RelayCommand copyCommand;
+        private RelayCommand deleteCommand;
+        private RelayCommand loadCommand;
+        private string name = string.Empty;
+        private RelayCommand newCommand;
+        private RelayCommand openCommand;
+        private RelayCommand openQuestionsMenu;
+        private string title = "Sample Traveller Manager";
+        private bool travellerIsLoaded = false;
+        private List<Question> TravellersCollection = new List<Question>();
+        private Traveller WorkingTraveller;
+
+        private RelayCommand closeWindow;
 
         /// <summary>
-        /// The <see cref="AllQuestions" /> property's name.
+        /// Gets the CloseWindow.
         /// </summary>
-        public const string AllQuestionsPropertyName = "AllQuestions";
-
-        /// <summary>
-        /// The <see cref="QuestionOrder" /> property's name.
-        /// </summary>
-        public const string QuestionOrderPropertyName = "QuestionOrder";
-
-        /// <summary>
-        /// The <see cref="Responses" /> property's name.
-        /// </summary>
-        public const string ResponsesPropertyName = "Responses";
-
-        /// <summary>
-        /// The <see cref="Questions" /> property's name.
-        /// </summary>      
-        public const string QuestionsPropertyName = "Questions";
-
-        /// <summary>
-        /// The <see cref="Owner" /> property's name.
-        /// </summary>  
-        public const string OwnerPropertyName = "Owner";
-
-        /// <summary>
-        /// The <see cref="Successful" /> property's name.
-        /// </summary>
-        public const string SuccessfulPropertyName = "Successful";
-
-        /// <summary>
-        /// The <see cref="Completed" /> property's name.
-        /// </summary>
-        public const string CompletedPropertyName = "Completed";
-
-        /// <summary>
-        /// The <see cref="Product" /> property's name.
-        /// </summary>
-        public const string ProductPropertyName = "Product";
-
-        /// <summary>
-        /// The <see cref="StartDate" /> property's name.
-        /// </summary>
-        public const string StartDatePropertyName = "StartDate";
-
-        /// <summary>
-        /// The <see cref="MilestoneIsLoaded" /> property's name.
-        /// </summary>
-        public const string MilestoneIsLoadedPropertyName = "MilestoneIsLoaded";
-
-        /// <summary>
-        /// Sets and gets the Product property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public String Product
+        public RelayCommand CloseWindow
         {
             get
             {
-                return _Product;
-            }
-
-            set
-            {
-                if (_Product == value)
-                {
-                    return;
-                }
-
-                _Product = value;
-                RaisePropertyChanged(() => Product);
+                return closeWindow
+                    ?? (closeWindow = new RelayCommand(
+                    () =>
+                    {
+                        Messenger.Default.Send<RequestCloseTravellersWindow>(new RequestCloseTravellersWindow());
+                    }));
             }
         }
 
         /// <summary>
-        /// Sets and gets the StartDate property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Constructor.
         /// </summary>
-        public DateTime StartDate
+        public MilestonesViewModel()
+        {
+            var s = new SeedData();
+            LoadNewMilestone();
+            using (var sql = new SampleTravellersContext())
+            {
+                var t = sql.Questions
+                    .ToList();
+
+                AllQuestions = new ObservableCollection<Question>(t);
+                AllQuestions.CollectionChanged += AllQuestions_CollectionChanged;
+
+                _AllQuestionsCollection = new List<Question>(t);
+            }
+
+            Questions.CollectionChanged += Questions_CollectionChanged;
+        }
+
+        private void AllQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems.Count >0)
+            {
+                ReloadAllQuestions();
+            }
+            
+        }
+
+        private void ReloadAllQuestions()
+        {
+            AllQuestions.CollectionChanged -= AllQuestions_CollectionChanged;
+            AllQuestions = new ObservableCollection<Question>(_AllQuestionsCollection);
+            RaisePropertyChanged(() => AdministratorQuestions);
+            RaisePropertyChanged(() => EngineeringQuestions);
+            RaisePropertyChanged(() => DepartmentQuestions);
+            AllQuestions.CollectionChanged += AllQuestions_CollectionChanged;
+        }
+
+        /// <summary>
+        /// AllQuestions with Administrator Filter.
+        /// </summary>
+        public ICollectionView AdministratorQuestions
         {
             get
             {
-                return _StartDate;
+                ICollectionView source = new CollectionViewSource { Source = AllQuestions }.View;
+                source.Filter = o =>
+                {
+                    return FilterByTeam(o, Team.Administrator);
+                };
+                source.Refresh();
+               
+                return source;
+            }
+        }
+
+        /// <summary>
+        /// Sets and gets the Questions property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public ObservableCollection<Question> AllQuestions
+        {
+            get
+            {
+                return _AllQuestions;
             }
 
             set
             {
-                if (_StartDate == value)
+                if (_AllQuestions == value)
                 {
                     return;
                 }
 
-                _StartDate = value;
-                RaisePropertyChanged(() => StartDate);
+                _AllQuestions = value;
+
+                RaisePropertyChanged(() => AllQuestions);
+            }
+        }
+
+        /// <summary>
+        /// Sets and gets the AllMilestones property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public ObservableCollection<Traveller> AllTravellers
+        {
+            get
+            {
+                if (allTravellers == null)
+                {
+                    using (var sql = new SampleTravellersContext())
+                    {
+                        allTravellers = new ObservableCollection<Traveller>(sql.Travellers.ToList());
+                    }
+                }
+                return allTravellers;
+            }
+
+            set
+            {
+                if (allTravellers == value)
+                {
+                    return;
+                }
+
+                allTravellers = value;
+                RaisePropertyChanged(() => AllTravellers);
             }
         }
 
         /// <summary>
         /// Sets and gets the Completed property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public bool Completed
         {
@@ -166,55 +195,256 @@ namespace SampleTravellerManager.ViewModel
         }
 
         /// <summary>
-        /// Sets and gets the Successful property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Gets the CopyMilestone.
         /// </summary>
-        public bool Successful
+        public RelayCommand CopyCommand
         {
             get
             {
-                return _Successful;
+                return copyCommand
+                    ?? (copyCommand = new RelayCommand(
+                    () =>
+                    {
+                    }));
+            }
+        }
+
+        /// <summary>
+        /// Gets the DeleteMilestone.
+        /// </summary>
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand
+                    ?? (deleteCommand = new RelayCommand(
+                    () =>
+                    {
+                    }));
+            }
+        }
+
+        public ICollectionView DepartmentQuestions
+        {
+            get
+            {
+                ICollectionView source = new CollectionViewSource { Source = AllQuestions }.View;
+                source.Filter = o =>
+                {
+                    return FilterByTeam(o, Team.CoreDepartment) ||
+                    FilterByTeam(o, Team.MoldDepartment) ||
+                    FilterByTeam(o, Team.MeltDepartment) ||
+                    FilterByTeam(o, Team.CleanDepartment) ||
+                    FilterByTeam(o, Team.QualityDepartment) ||
+                    FilterByTeam(o, Team.ShippingDepartment);
+                };
+                source.Refresh();
+                return source;
+            }
+        }
+
+        /// <summary>
+        /// Sets and gets the Description property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return _description;
             }
 
             set
             {
-                if (_Successful == value)
+                if (_description == value)
                 {
                     return;
                 }
 
-                _Successful = value;
-                RaisePropertyChanged(() => Successful);
+                _description = value;
+                RaisePropertyChanged(() => Description);
+            }
+        }
+
+        public ICollectionView EngineeringQuestions
+        {
+            get
+            {
+                ICollectionView source = new CollectionViewSource { Source = AllQuestions }.View;
+                source.Filter = o =>
+                {
+                    return FilterByTeam(o, Team.MetallurgicalEngineering) ||
+                    FilterByTeam(o, Team.FoundryEngineering) ||
+                    FilterByTeam(o, Team.QualityEngineering) ||
+                    FilterByTeam(o, Team.IndustrialEngineering) ||
+                    FilterByTeam(o, Team.ProductionControl);
+                };
+                source.Refresh();
+                return source;
+            }
+        }
+
+        /// <summary>
+        /// Gets the LoadMilestone.
+        /// </summary>
+        public RelayCommand LoadCommand
+        {
+            get
+            {
+                return loadCommand
+                    ?? (loadCommand = new RelayCommand(
+                    () =>
+                    {
+                        LoadExistingMilestone();
+                    }));
+            }
+        }
+
+        /// <summary>
+        /// Sets and gets the MilestoneIsLoaded property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public bool MilestoneIsLoaded
+        {
+            get
+            {
+                return travellerIsLoaded;
+            }
+
+            set
+            {
+                if (travellerIsLoaded == value)
+                {
+                    return;
+                }
+
+                travellerIsLoaded = value;
+                RaisePropertyChanged(() => MilestoneIsLoaded);
+            }
+        }
+
+        /// <summary>
+        /// Sets and gets the Name property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                if (name == value)
+                {
+                    return;
+                }
+
+                name = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
+
+        /// <summary>
+        /// Gets the NewMilestone.
+        /// </summary>
+        public RelayCommand NewCommand
+        {
+            get
+            {
+                return newCommand
+                    ?? (newCommand = new RelayCommand(
+                    () =>
+                    {
+                        LoadNewMilestone();
+                    }));
+            }
+        }
+
+        /// <summary>
+        /// Gets the OpenQuestionsMenu.
+        /// </summary>
+        public RelayCommand OpenQuestionsMenu
+        {
+            get
+            {
+                return openQuestionsMenu
+                    ?? (openQuestionsMenu = new RelayCommand(
+                    () =>
+                    {
+                        OpenQuestionsMenuExecute();
+                    }));
+            }
+        }
+
+        /// <summary>
+        /// Gets the OpenTraveller.
+        /// </summary>
+        public RelayCommand OpenTraveller
+        {
+            get
+            {
+                return openCommand
+                    ?? (openCommand = new RelayCommand(
+                    () =>
+                    {
+                        OpenSelectedTraveller();
+                    },
+                    () => true));
             }
         }
 
         /// <summary>
         /// Sets and gets the Owner property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public User Owner
         {
             get
             {
-                return _CurrentlyLoadedMilestone.User;
+                return _Owner;
             }
 
             set
             {
-                if (_CurrentlyLoadedMilestone.User == value)
+                if (_Owner == value)
                 {
                     RaisePropertyChanged(() => Owner);
                     return;
                 }
 
-                _CurrentlyLoadedMilestone.User = value;
+                _Owner = value;
                 RaisePropertyChanged(() => Owner);
             }
         }
 
         /// <summary>
+        /// Sets and gets the Product property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public String Product
+        {
+            get
+            {
+                return _Product;
+            }
+
+            set
+            {
+                if (_Product == value)
+                {
+                    return;
+                }
+
+                _Product = value;
+                RaisePropertyChanged(() => Product);
+            }
+        }
+
+        /// <summary>
         /// Sets and gets the Questions property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public ObservableCollection<Question> Questions
         {
@@ -222,7 +452,7 @@ namespace SampleTravellerManager.ViewModel
             {
                 if (_Questions == null)
                 {
-                    this._Questions = new ObservableCollection<Question>(_CurrentlyLoadedMilestone.Questions);
+                    this._Questions = new ObservableCollection<Question>(WorkingTraveller.Questions);
                 }
                 return _Questions;
             }
@@ -235,13 +465,14 @@ namespace SampleTravellerManager.ViewModel
                 }
 
                 _Questions = value;
+                Questions.CollectionChanged += Questions_CollectionChanged;
                 RaisePropertyChanged(() => Questions);
             }
         }
 
         /// <summary>
         /// Sets and gets the Responses property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public ObservableCollection<Response> Responses
         {
@@ -263,71 +494,9 @@ namespace SampleTravellerManager.ViewModel
         }
 
         /// <summary>
-        /// Sets and gets the QuestionOrder property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<Sort> QuestionOrder
-        {
-            get
-            {
-                return _QuestionOrder;
-            }
-
-            set
-            {
-                if (_QuestionOrder == value)
-                {
-                    return;
-                }
-
-                _QuestionOrder = value;
-                RaisePropertyChanged(() => QuestionOrder);
-            }
-        }
-
-        /// <summary>
-        /// Sets and gets the Questions property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public ObservableCollection<Question> AllQuestions
-        {
-            get
-            {
-                return _AllQuestions;
-            }
-
-            set
-            {
-                if (_AllQuestions == value)
-                {
-                    return;
-                }
-
-                _AllQuestions = value;
-                RaisePropertyChanged(() => AllQuestions);
-            }
-        }
-
-        /// <summary>
-        /// Gets the NewMilestone.
-        /// </summary>
-        public RelayCommand NewMilestone
-        {
-            get
-            {
-                return _NewMilestone
-                    ?? (_NewMilestone = new RelayCommand(
-                    () =>
-                    {
-                        LoadNewMilestone();
-                    }));
-            }
-        }
-
-        /// <summary>
         /// Gets the SaveMilestone.
         /// </summary>
-        public RelayCommand SaveMilestone
+        public RelayCommand SaveCommand
         {
             get
             {
@@ -341,172 +510,267 @@ namespace SampleTravellerManager.ViewModel
         }
 
         /// <summary>
-        /// Gets the LoadMilestone.
+        /// Sets and gets the SelectedTraveller property.
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
-        public RelayCommand LoadMilestone
+        public Traveller SelectedTraveller
         {
             get
             {
-                return _LoadMilestone
-                    ?? (_LoadMilestone = new RelayCommand(
-                    () =>
-                    {
-
-                    }));
-            }
-        }
-
-        /// <summary>
-        /// Gets the DeleteMilestone.
-        /// </summary>
-        public RelayCommand DeleteMilestone
-        {
-            get
-            {
-                return _DeleteMilestone
-                    ?? (_DeleteMilestone = new RelayCommand(
-                    () =>
-                    {
-
-                    }));
-            }
-        }
-
-        /// <summary>
-        /// Sets and gets the MilestoneIsLoaded property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public bool MilestoneIsLoaded
-        {
-            get
-            {
-                return _MilestoneIsLoaded;
+                return _SelectedTraveller;
             }
 
             set
             {
-                if (_MilestoneIsLoaded == value)
+                if (_SelectedTraveller == value)
                 {
                     return;
                 }
 
-                _MilestoneIsLoaded = value;
-                RaisePropertyChanged(() => MilestoneIsLoaded);
+                _SelectedTraveller = value;
+                RaisePropertyChanged(() => SelectedTraveller);
             }
         }
 
-        public void LoadNewMilestone()
+        /// <summary>
+        /// Sets and gets the StartDate property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public DateTime StartDate
         {
-            this._CurrentlyLoadedMilestone = new Milestone();
-            this.Owner = User.GetCurrentUser();
+            get
+            {
+                return _StartDate;
+            }
+
+            set
+            {
+                if (_StartDate == value)
+                {
+                    return;
+                }
+
+                _StartDate = value;
+                RaisePropertyChanged(() => StartDate);
+            }
         }
 
-        public void SaveCurrentMilestone()
+        /// <summary>
+        /// Sets and gets the Successful property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public bool Successful
         {
-            foreach (var item in _Questions)
+            get
             {
-                this._CurrentlyLoadedMilestone.Questions.Add(item);
+                return _Successful;
+            }
 
+            set
+            {
+                if (_Successful == value)
+                {
+                    return;
+                }
+
+                _Successful = value;
+                RaisePropertyChanged(() => Successful);
+            }
+        }
+
+        /// <summary>
+        /// Sets and gets the Title property.
+        /// Changes to that property's value raise the PropertyChanged event.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                if (title == value)
+                {
+                    return;
+                }
+
+                title = value;
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
+        private void LoadNewMilestone()
+        {
+            LoadTraveller(new Traveller());
+            this.Name = Traveller.GetUID(this.Owner);
+        }
+
+        private void SaveCurrentMilestone()
+        {
+            using (var sql = new SampleTravellersContext())
+            {
+                var travellersQry = sql.Travellers.Where(x => x.Id == this.WorkingTraveller.Id);
+                if (travellersQry.Any())
+                {
+                    this.WorkingTraveller = travellersQry.First();
+                }
+                else
+                {
+                    sql.Travellers.Add(WorkingTraveller);
+                }
+                foreach (var item in _Questions)
+                {
+                    this.WorkingTraveller.Questions.Add(sql.Questions.Where(x => x.Id == item.Id).First());
+                }
+                this.WorkingTraveller.User = sql.Users.Where(x => x.Id == this.Owner.Id).First();
+                this.WorkingTraveller.StartDate = this.StartDate;
+                this.WorkingTraveller.Name = this.Name;
+                this.WorkingTraveller.Product = this.Product;
+                this.WorkingTraveller.Description = this.Description;
+
+                var saved = true;
+                try
+                {
+                    sql.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    saved = false;
+                    var s = new StringBuilder();
+                    s.Append("The following issues are preventing the saving of this document:" + Environment.NewLine);
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            s.AppendFormat("Property: \"{0}\", Current Value: \"{1}\", Error: \"{2}\"",
+                                ve.PropertyName,
+                                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                                ve.ErrorMessage);
+                            s.Append(Environment.NewLine);
+                        }
+                    }
+                    System.Windows.MessageBox.Show(s.ToString());
+                }
+                finally
+                {
+                    if (saved)
+                    {
+                        System.Windows.MessageBox.Show("Successfully Saved Traveller.");
+                    }
+                }
+            }
+        }
+
+        private static bool FilterByTeam(object o, Team t)
+        {
+            var i = o as Question;
+            if (i.Team == (int)t)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void LoadExistingMilestone()
+        {
+            Messenger.Default.Send<RequestLoadTravellerView>(new RequestLoadTravellerView() { Message = string.Empty });
+        }
+
+        private void LoadTraveller(Traveller T)
+        {
+            using (var sql = new SampleTravellersContext())
+            {
+                var usersList = sql.Users.Where(x => x.Id == T.OwnerId);
+                if (usersList.Any())
+                {
+                    this.Owner = usersList.First();
+                }
+                else
+                {
+                    this.Owner = User.GetCurrentUser();
+                }
+                var questionsQry = sql.Travellers.Where(x => x.Id == T.Id);
+                if (questionsQry.Any())
+                {
+                    this.Questions = new ObservableCollection<Question>(questionsQry.First().Questions);
+                }
+                else
+                {
+                    this.Questions = new ObservableCollection<Question>();
+                }
+
+                this.Product = T.Product;
+                this.StartDate = T.StartDate;
+                this.Description = T.Description;
+                this.Name = T.Name;
+                this.WorkingTraveller = T;
+                Messenger.Default.Send<RequestCloseTravellerView>(new RequestCloseTravellerView());
+            }
+        }
+
+        private void OpenQuestionsMenuExecute()
+        {
+            Messenger.Default.Send<RequestLoadQuestionsMenu>(new RequestLoadQuestionsMenu());
+        }
+
+        private void OpenSelectedTraveller()
+        {
+            LoadTraveller(SelectedTraveller);
+        }
+
+        private void Questions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var p = new List<Question>();
+            if (e.NewItems != null && e.NewItems.Count > 0)
+            {
+                foreach (var q in e.NewItems)
+                {
+                    var s = q as Question;
+                    var t = Traveller.GetAllRequisites(s);
+                    if (!s.Template && !TravellersCollection.Any(x => x.Id == s.Id))
+                    {
+                        TravellersCollection.Add(s);
+                    }
+                    foreach (var u in t)
+                    {
+                        if (!p.Any(x => x.Id == u.Id))
+                        {
+                            p.Add(u);
+                        }
+                    }
+                }
+                foreach (var item in p)
+                {
+                    if (!_Questions.Any(x => x.Id == item.Id))
+                    {
+                        TravellersCollection.Add(item);
+                    }
+                }
+
+                var d = new List<Question>(TravellersCollection.Where(x => x.Template == true));
+                if (d.Any())
+                {
+                    
+                    foreach (var item in d)
+                    {
+                        TravellersCollection.Remove(item);
+                    }
+                }
+                SortCurrentQuestions(TravellersCollection);
+     
             }
         }
 
         private void SortCurrentQuestions(List<Question> q)
         {
             Questions.CollectionChanged -= Questions_CollectionChanged;
-            
-            var tmp2 =  SortByRequisites(q);
+
+            var tmp2 = Traveller.SortByRequisites(q);
 
             Questions = new ObservableCollection<Question>(tmp2);
             Questions.CollectionChanged += Questions_CollectionChanged;
         }
-
-        private List<Question> SortByRequisites(List<Question> input)
-        {
-            var output = new List<Question>();
-            var tmp = new List<Question>();
-            using (var sql = new SampleTravellersEntities())
-            {
-                foreach (var question in input)
-                {
-                    var q1 = sql.Questions.Where(x => x.Id == question.Id).First();
-                    tmp.Add(q1);
-                }
-                tmp = tmp.OrderBy(x => x.TeamSort).ToList();
-                output = new List<Question>(tmp);
-                foreach (var tmpQ in tmp)
-                {
-                    foreach (var TmpQPre in tmpQ.Prerequisites)
-                    {
-                        if (output.IndexOf(tmpQ) > output.IndexOf(TmpQPre))
-                        {
-                            output.Remove(tmpQ);
-                            output.Insert(output.IndexOf(TmpQPre), tmpQ);
-                        }
-                    }
-                    foreach (var TmpQPre in tmpQ.Postrequisites)
-                    {
-                        if (output.IndexOf(tmpQ) < output.IndexOf(TmpQPre))
-                        {
-                            output.Remove(tmpQ);
-                            output.Insert(output.IndexOf(TmpQPre)+1, tmpQ);
-                        }
-                    }
-                }
-            }
-            return output;
-        }
-        
-        public MilestonesViewModel()
-        {
-            var s = new SampleManagerLibrary.Model.SeedData();
-            LoadNewMilestone();
-            using (var sql = new SampleTravellersEntities())
-            {
-                var t = sql.Questions.Include("Corequisites").ToList();
-                AllQuestions = new ObservableCollection<Question>(t);
-                _AllQuestionsCollection = t;
-            }
-
-            Questions.CollectionChanged += Questions_CollectionChanged;
-        }
-
-        private void Questions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            var p = new List<Question>();
-            foreach (var q in e.NewItems)
-            {
-                var s = q as Question;
-                var t = Milestone.GetAllRequisites(s);
-                if (!s.Template && !_MilestoneCollection.Any(x => x.Id == s.Id))
-                {
-
-                    _MilestoneCollection.Add(s);
-                }
-                foreach (var u in t)
-                {
-                    if (!p.Any(x => x.Id == u.Id))
-                    {
-                        p.Add(u);
-                    }
-                }
-            }
-            foreach (var item in p)
-            {
-                if (!_Questions.Any(x => x.Id == item.Id))
-                {
-                    _MilestoneCollection.Add(item);
-                }
-            }
-            SortCurrentQuestions(_MilestoneCollection);
-            AllQuestions = new ObservableCollection<Question>(_AllQuestionsCollection);
-
-        }
-
-
-
-
-
-
     }
-
 }

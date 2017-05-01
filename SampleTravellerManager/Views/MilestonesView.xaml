@@ -1,79 +1,130 @@
-﻿<Window x:Class="SampleTravellerManager.Views.MilestonesView"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SampleTravellerManager.Views"
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        xmlns:converters ="clr-namespace:SampleTravellerManager.Converters"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" x:Class="SampleTravellerManager.Views.MilestonesView"
+        xmlns:controls="clr-namespace:SampleTravellerManager.Controls"
         mc:Ignorable="d"
         DataContext="{Binding Milestones, Source={StaticResource Locator}}"
-        Title="MilestonesView" Height="900" Width="1600">
-    <Grid>
+        Title="ManageTravellers" Height="900" Width="1600" WindowState="Maximized" WindowStyle="None">
+    <Grid Background="Black">
         <Grid.RowDefinitions>
-            <RowDefinition Height="125"></RowDefinition>
-            <RowDefinition Height="33*"></RowDefinition>
-            <RowDefinition Height="66*"></RowDefinition>
+            <RowDefinition Height="125"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="60*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"></ColumnDefinition>
-            <ColumnDefinition Width="50*"></ColumnDefinition>
-            
-        </Grid.ColumnDefinitions>
-        <DockPanel Grid.ColumnSpan="2">
-            <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100">DELETE</Button>
-            <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100">LOAD</Button>
-            <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100">SAVE</Button>
-            <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100">NEW</Button>
-            <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="72">Sample Manager Administrator</TextBlock>
-        </DockPanel>
-        <Grid Grid.Column="0" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="33*"></ColumnDefinition>
-                <ColumnDefinition Width="66*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" >
-                <TextBlock Height="50" FontSize="32">Product</TextBlock>
-                <TextBlock Height="50" FontSize="32">Start Date</TextBlock>
-                <TextBlock Height="50" FontSize="32">Sample Owner</TextBlock>
-        </StackPanel >
-            <StackPanel x:Name="Pan" VerticalAlignment="Center" Grid.Column="1">
-                <DockPanel>
-                    <Button Height="50" DockPanel.Dock="Right" Width="50">Check</Button>
-                    <TextBox Height="50" DockPanel.Dock="Right" FontSize="32"></TextBox>
-                </DockPanel>
-                <DockPanel>
-                    <DatePicker VerticalContentAlignment="Center" FontSize="32" DockPanel.Dock="Right"  Height="50"  ></DatePicker>
-                </DockPanel>
-                <DockPanel>
-                    <Button Height="50" DockPanel.Dock="Right" Width="50">Check</Button>
-                    <TextBox Height="50" DockPanel.Dock="Right" FontSize="32" Text="{Binding Owner.Email}"></TextBox>
-                </DockPanel>
-            </StackPanel>
-        </Grid>
-        <ListView dd:DragDrop.IsDropTarget="True" Grid.Row="2" ItemsSource="{Binding Questions}" >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Header="ID" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=TeamName}" Header="Team Name" Width="300 " />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" Width="300 " />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Border Padding="10" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Margin="5">
-            
-        <StackPanel >
-            <TextBlock FontSize="32" HorizontalAlignment="Center">Possible Actions</TextBlock>
-            <ListView dd:DragDrop.IsDragSource="True" ItemsSource="{Binding AllQuestions}">
-                <ListView.View>
-                    <GridView>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
 
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Header="ID" Width="100"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=TeamName}" Header="Team Name" Width="300 " />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name" Width="300 " />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
+        </Grid.ColumnDefinitions>
+        <controls:TopBar Grid.ColumnSpan="2"></controls:TopBar>
+        <Border Grid.RowSpan="2" BorderThickness="3" Grid.Column="0" Grid.Row="1" Background="#FFD6D6D6" Margin="10,10,5,10" CornerRadius="5" Padding="10,0" BorderBrush="DarkRed">
+            <Grid  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="75*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"></RowDefinition>
+                    <RowDefinition Height="60*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <TextBlock Height="50" FontSize="24" FontFamily="Adobe Fan Heiti Std B" HorizontalAlignment="Center" VerticalAlignment="Center" Text="SampleID"/>
+                    <TextBlock Height="50" FontSize="24" FontFamily="Adobe Fan Heiti Std B" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource TextBlockStyle}"><Run Text="Product"/></TextBlock>
+                    <TextBlock Height="50" FontSize="24" FontFamily="Adobe Fan Heiti Std B" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Start Date"/></TextBlock>
+                    <TextBlock Height="50" FontSize="24" FontFamily="Adobe Fan Heiti Std B" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Sample Owner"/></TextBlock>
+                    <TextBlock Height="50" FontSize="24" FontFamily="Adobe Fan Heiti Std B" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Description"/></TextBlock>
+                </StackPanel>
+                <StackPanel x:Name="Pan" VerticalAlignment="Center" Grid.Column="1">
+                    <TextBox Height="50" DockPanel.Dock="Right" FontSize="32" Text="{Binding Name}" />
+                    <DockPanel>
+                        <TextBox Height="50" DockPanel.Dock="Right" FontSize="32" Text="{Binding Product}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <DatePicker VerticalContentAlignment="Center" FontSize="32" DockPanel.Dock="Right"  Height="50" Text="{Binding StartDate}" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBox Height="50" DockPanel.Dock="Right" FontSize="32" Text="{Binding Owner.Email}"/>
+                    </DockPanel>
+                    <TextBox Height="50" DockPanel.Dock="Right" FontSize="32" Text="{Binding Description}"/>
+                </StackPanel>
+                <ListView dd:DragDrop.IsDropTarget="True" dd:DragDrop.IsDragSource="True" Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Questions}" Margin="0,4,0,10" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID" Width="100"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team Name" Width="300 " />
+                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="300 " />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Border>
+       
+        <Border Margin="5,10,10,10" Padding="10" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5"  Background="#FFD6D6D6">
+
+            <DockPanel >
+                <DockPanel DockPanel.Dock="Top">
+                    <Border DockPanel.Dock="Right"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="white" Style="{DynamicResource BorderButtonStyle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <cmd:EventToCommand Command="{Binding OpenQuestionsMenu, Mode=OneWay}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Image IsHitTestVisible="False"  Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-433-plus.png"></Image>
+                    </Border>
+                    <Border DockPanel.Dock="Right"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="Gray" Style="{DynamicResource BorderButtonStyle}">
+                        <Image IsHitTestVisible="False" Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-17-bin.png"></Image>
+                    </Border>
+                    <Border DockPanel.Dock="Right"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="Gray" Style="{DynamicResource BorderButtonStyle}">
+                        <Image IsHitTestVisible="False"  Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-31-pencil.png"></Image>
+                    </Border>
+                    <TextBlock DockPanel.Dock="Top" FontSize="32" HorizontalAlignment="Left" Style="{DynamicResource TextBlockStyle}" ><Run Text="Possible Actions"/></TextBlock>
+                </DockPanel>
+                <TabControl x:Name="tabControl" DockPanel.Dock="Bottom">
+                    <TabItem Header="Administrator" MinWidth="{Binding ActualWidth, ConverterParameter=.33, Converter={converters:PercentageConverter}, ElementName=tabControl}">
+
+                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding AdministratorQuestions}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team" Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Request}" Header="Request" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </TabItem>
+                    <TabItem Header="Engineering &amp; Production Control" MinWidth="{Binding ActualWidth, ConverterParameter=.33, Converter={converters:PercentageConverter}, ElementName=tabControl}">
+
+                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding EngineeringQuestions}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team" Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Request}" Header="Request" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </TabItem>
+                    <TabItem Header="Production Departments"  MinWidth="{Binding ActualWidth, ConverterParameter=.33, Converter={converters:PercentageConverter}, ElementName=tabControl}">
+
+                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding DepartmentQuestions}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team" Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Request}" Header="Request" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
         </Border>
     </Grid>
 </Window>

@@ -58,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -80,16 +81,42 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\CurrentQuestion.xaml.cs">
+      <DependentUpon>CurrentQuestion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QuestionsListControl.xaml.cs">
+      <DependentUpon>QuestionsListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BoolInverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Messages\LoadQuestionsMessages.cs" />
+    <Compile Include="Messages\LoadTravellerMessages.cs" />
+    <Compile Include="Messages\RequestCloseWindow.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MilestonesViewModel.cs" />
+    <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="ViewModel\QuestionsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\LoadTravellerView.xaml.cs">
+      <DependentUpon>LoadTravellerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MilestonesView.xaml.cs">
       <DependentUpon>MilestonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuestionsManager.xaml.cs">
-      <DependentUpon>QuestionsManager.xaml</DependentUpon>
+    <Compile Include="Views\QuestionsView.xaml.cs">
+      <DependentUpon>QuestionsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TopBar.xaml.cs">
+      <DependentUpon>TopBar.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\CurrentQuestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\QuestionsListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,11 +129,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Simple Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoadTravellerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MilestonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\QuestionsManager.xaml">
+    <Page Include="Views\QuestionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TopBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,10 +181,32 @@
     <Resource Include="Readme.MvvmlightSnippet.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SampleManagerLibrary\SampleManagerLibrary.csproj">
-      <Project>{f5a797d1-163f-44a7-93dd-cbb1d67b0d34}</Project>
-      <Name>SampleManagerLibrary</Name>
+    <Resource Include="Images\aamlogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NWCSampleManager\NWCSampleManager\NWCSampleManager.csproj">
+      <Project>{f0dbf012-3f9c-4de6-a68c-74785cd19908}</Project>
+      <Name>NWCSampleManager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\glyphicons-433-plus.png" />
+    <Resource Include="Images\glyphicons-434-minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\glyphicons-17-bin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\glyphicons-31-pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\glyphicons-208-remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\glyphicons-137-cogwheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\glyphicons-202-upload.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

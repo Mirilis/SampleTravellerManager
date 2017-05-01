@@ -1,4 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
+using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight.Command;
+using GongSolutions.Wpf.DragDrop;
+using System.Windows;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace SampleTravellerManager.ViewModel
 {
@@ -29,8 +40,44 @@ namespace SampleTravellerManager.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
-
-            
         }
+            private RelayCommand _CreateNewSample;
+
+        /// <summary>
+        /// Gets the.
+        /// </summary>
+        public RelayCommand CreateNewSample
+        {
+            get
+            {
+                return _CreateNewSample
+                    ?? (_CreateNewSample = new RelayCommand(
+                    () =>
+                    {
+
+                    },
+                    () => true));
+            }
+        }
+
+        private RelayCommand _ManageQuestions;
+
+        /// <summary>
+        /// Gets the ManageQuestions.
+        /// </summary>
+        public RelayCommand ManageQuestions
+        {
+            get
+            {
+                return _ManageQuestions
+                    ?? (_ManageQuestions = new RelayCommand(
+                    () =>
+                    {
+
+                    },
+                    () => true));
+            }
+        }
+        
     }
 }
