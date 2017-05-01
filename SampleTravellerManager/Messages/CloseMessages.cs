@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SampleTravellerManager.Messages
 {
-    class RequestCloseTravellersWindow
+    class RequestCloseTravellersWindow :MessagesBase
     {
-        string Message { get; set; }
+       
     }
 
-    class RequestCloseQuestionsWindow
+    class RequestCloseQuestionsWindow :MessagesBase
     {
-        string Message { get; set; }
+       
     }
 
 }

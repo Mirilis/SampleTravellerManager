@@ -50,3 +50,5 @@ C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\Sa
 C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Controls\QuestionsListControl.baml
 C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Controls\CurrentQuestion.g.cs
 C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Controls\CurrentQuestion.baml
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Views\LoadQuestionView.g.cs
+C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Views\LoadQuestionView.baml

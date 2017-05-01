@@ -20,11 +20,7 @@ namespace SampleTravellerManager.ViewModel
 {
     public class QuestionsViewModel : ViewModelBase
     {
-        /// <summary>
-        /// The <see cref="IsRequired" /> property's name.
-        /// </summary>
-        public const string IsRequiredPropertyName = "IsRequired";
-
+        private RelayCommand closeWindow;
         private RelayCommand copyCommand;
         private ObservableCollection<Question> corequisiteQuestions = null;
         private Question currentQuestion = null;
@@ -49,21 +45,22 @@ namespace SampleTravellerManager.ViewModel
         public QuestionsViewModel()
         {
             var s = new SeedData();
-           
-            CurrentQuestion = new Question();
-            PrerequisiteQuestions = new ObservableCollection<Question>();
-            PostRequisiteQuestions = new ObservableCollection<Question>();
-            CorequisiteQuestions = new ObservableCollection<Question>();
 
-            PrerequisiteQuestions.CollectionChanged += PrerequisiteQuestions_CollectionChanged;
-            PostRequisiteQuestions.CollectionChanged += PostRequisiteQuestions_CollectionChanged;
-            CorequisiteQuestions.CollectionChanged += CorequisiteQuestions_CollectionChanged;
+            CreateNewQuestion();
            
         }
-
-        /// <summary>
-        /// Gets the CopyCommand.
-        /// </summary>
+        public RelayCommand CloseWindow
+        {
+            get
+            {
+                return closeWindow
+                    ?? (closeWindow = new RelayCommand(
+                    () =>
+                    {
+                        Messenger.Default.Send<RequestCloseQuestionsWindow>(new RequestCloseQuestionsWindow());
+                    }));
+            }
+        }
         public RelayCommand CopyCommand
         {
             get
@@ -72,15 +69,16 @@ namespace SampleTravellerManager.ViewModel
                     ?? (copyCommand = new RelayCommand(
                     () =>
                     {
-
+                        CopyQuestion();
                     }));
             }
         }
 
-        /// <summary>
-        /// Sets and gets the CorequisiteQuestions property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        private void CopyQuestion()
+        {
+            throw new NotImplementedException();
+        }
+
         public ObservableCollection<Question> CorequisiteQuestions
         {
             get
@@ -103,11 +101,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => CorequisiteQuestions);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the CurrentQuestion property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public Question CurrentQuestion
         {
             get
@@ -126,10 +119,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => CurrentQuestion);
             }
         }
-
-        /// <summary>
-        /// Gets the DeleteCommand.
-        /// </summary>
         public RelayCommand DeleteCommand
         {
             get
@@ -138,15 +127,16 @@ namespace SampleTravellerManager.ViewModel
                     ?? (deleteCommand = new RelayCommand(
                     () =>
                     {
-
+                        DeleteQuestion();
                     }));
             }
         }
 
-        /// <summary>
-        /// Sets and gets the FilePath property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+        private void DeleteQuestion()
+        {
+            throw new NotImplementedException();
+        }
+
         public string FilePath
         {
             get
@@ -165,11 +155,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => FilePath);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the HelpImageFile property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public Bitmap HelpImage
         {
             get
@@ -188,11 +173,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => HelpImage);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the IsRequired property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public bool IsRequired
         {
             get
@@ -211,29 +191,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => IsRequired);
             }
         }
-
-        private RelayCommand closeWindow;
-
-        /// <summary>
-        /// Gets the CloseWindow.
-        /// </summary>
-        public RelayCommand CloseWindow
-        {
-            get
-            {
-                return closeWindow
-                    ?? (closeWindow = new RelayCommand(
-                    () =>
-                    {
-                        Messenger.Default.Send<RequestCloseQuestionsWindow>(new RequestCloseQuestionsWindow());
-                    }));
-            }
-        }
-
-        /// <summary>
-        /// Sets and gets the CorequisiteQuestionsEnabled property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public bool IsTemplate
         {
             get
@@ -253,9 +210,6 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        /// <summary>
-        /// Gets the LoadCommand.
-        /// </summary>
         public RelayCommand LoadCommand
         {
             get
@@ -264,15 +218,33 @@ namespace SampleTravellerManager.ViewModel
                     ?? (loadCommand = new RelayCommand(
                     () =>
                     {
-
+                        Messenger.Default.Send<RequestLoadQuestionDialog>(new RequestLoadQuestionDialog());
                     }));
             }
         }
 
-        /// <summary>
-        /// Sets and gets the Name property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
+
+        private Question selectedQuestion = null;
+        public Question SelectedQuestion
+        {
+            get
+            {
+                return selectedQuestion;
+            }
+
+            set
+            {
+                if (selectedQuestion == value)
+                {
+                    return;
+                }
+
+                selectedQuestion = value;
+                RaisePropertyChanged(() => SelectedQuestion);
+            }
+        }
+
+
         public string Name
         {
             get
@@ -291,10 +263,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Name);
             }
         }
-
-        /// <summary>
-        /// Gets the NewCommand.
-        /// </summary>
         public RelayCommand NewCommand
         {
             get
@@ -303,15 +271,10 @@ namespace SampleTravellerManager.ViewModel
                     ?? (newCommand = new RelayCommand(
                     () =>
                     {
-
+                        CreateNewQuestion();
                     }));
             }
         }
-
-        /// <summary>
-        /// Sets and gets the PostRequisiteQuestions property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public ObservableCollection<Question> PostRequisiteQuestions
         {
             get
@@ -335,11 +298,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => PostRequisiteQuestions);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the PrerequisiteQuestions property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public ObservableCollection<Question> PrerequisiteQuestions
         {
             get
@@ -362,11 +320,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => PrerequisiteQuestions);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the QuestionsList property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public ObservableCollection<Question> QuestionsList
         {
             get
@@ -392,11 +345,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => QuestionsList);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Request property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public string Request
         {
             get
@@ -415,11 +363,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Request);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the responseTypes property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public ObservableCollection<string> ResponseTypes
         {
             get
@@ -438,10 +381,6 @@ namespace SampleTravellerManager.ViewModel
 
 
         }
-
-        /// <summary>
-        /// Gets the SaveCommand.
-        /// </summary>
         public RelayCommand SaveCommand
         {
             get
@@ -454,11 +393,6 @@ namespace SampleTravellerManager.ViewModel
                     }));
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Teams property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public ObservableCollection<string> Teams
         {
             get
@@ -476,11 +410,6 @@ namespace SampleTravellerManager.ViewModel
                 return teams;
             }
         }
-
-        /// <summary>
-        /// Sets and gets the TypeOfResponse property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
         public string TypeOfResponse
         {
             get
@@ -494,7 +423,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => TypeOfResponse);
             }
         }
-
         public string TypeOfTeam
         {
             get
@@ -516,7 +444,6 @@ namespace SampleTravellerManager.ViewModel
                 return (ResponseType)Enum.Parse(typeof(ResponseType), TypeOfResponse.RemoveSpecialCharacters());
             }
         }
-
         private Team CurrentTeam
         {
             get
@@ -524,17 +451,25 @@ namespace SampleTravellerManager.ViewModel
                 return (Team)Enum.Parse(typeof(Team), TypeOfTeam.RemoveSpecialCharacters());
             }
         }
-
         private void CorequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();
         }
+        private void CreateNewQuestion()
+        {
+            CurrentQuestion = new Question();
+            PrerequisiteQuestions = new ObservableCollection<Question>();
+            PostRequisiteQuestions = new ObservableCollection<Question>();
+            CorequisiteQuestions = new ObservableCollection<Question>();
 
+            PrerequisiteQuestions.CollectionChanged += PrerequisiteQuestions_CollectionChanged;
+            PostRequisiteQuestions.CollectionChanged += PostRequisiteQuestions_CollectionChanged;
+            CorequisiteQuestions.CollectionChanged += CorequisiteQuestions_CollectionChanged;
+        }
         private void PostRequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();
         }
-
         private void PrerequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();

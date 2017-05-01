@@ -89,14 +89,18 @@
     </Compile>
     <Compile Include="Converters\BoolInverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Messages\LoadQuestionsMessages.cs" />
-    <Compile Include="Messages\LoadTravellerMessages.cs" />
-    <Compile Include="Messages\RequestCloseWindow.cs" />
+    <Compile Include="Messages\LoadMessages.cs" />
+    <Compile Include="Messages\MessagesBase.cs" />
+    <Compile Include="Messages\OpenMessages.cs" />
+    <Compile Include="Messages\CloseMessages.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MilestonesViewModel.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="ViewModel\QuestionsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\LoadQuestionView.xaml.cs">
+      <DependentUpon>LoadQuestionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoadTravellerView.xaml.cs">
       <DependentUpon>LoadTravellerView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +136,10 @@
     <Page Include="Simple Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoadQuestionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoadTravellerView.xaml">
       <SubType>Designer</SubType>

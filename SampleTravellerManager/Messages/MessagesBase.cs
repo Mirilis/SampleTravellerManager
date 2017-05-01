@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SampleTravellerManager.Messages
 {
-    class RequestLoadQuestionsMenu
+    class MessagesBase
     {
-        string Message { get; set; }
+        public string Message { get; set; }
     }
 }

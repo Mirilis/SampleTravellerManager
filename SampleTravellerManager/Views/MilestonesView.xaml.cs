@@ -24,8 +24,8 @@ namespace SampleTravellerManager.Views
         public MilestonesView()
         {
             InitializeComponent();
-            Messenger.Default.Register<RequestLoadTravellerView>(this, (action) => OpenLoadTravellersView(action));
-            Messenger.Default.Register<RequestLoadQuestionsMenu>(this, (action) => OpenQuestionsView(action));
+            Messenger.Default.Register<RequestLoadTravellerDialog>(this, (action) => OpenLoadTravellersView(action));
+            Messenger.Default.Register<RequestOpenQuestionsWindow>(this, (action) => OpenQuestionsView(action));
             Messenger.Default.Register<RequestCloseTravellersWindow>(this, (action) => CloseWindow());
         }
 

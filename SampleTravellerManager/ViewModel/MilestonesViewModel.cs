@@ -675,7 +675,7 @@ namespace SampleTravellerManager.ViewModel
 
         private void LoadExistingMilestone()
         {
-            Messenger.Default.Send<RequestLoadTravellerView>(new RequestLoadTravellerView() { Message = string.Empty });
+            Messenger.Default.Send<RequestLoadTravellerDialog>(new RequestLoadTravellerDialog() { Message = string.Empty });
         }
 
         private void LoadTraveller(Traveller T)
@@ -706,13 +706,13 @@ namespace SampleTravellerManager.ViewModel
                 this.Description = T.Description;
                 this.Name = T.Name;
                 this.WorkingTraveller = T;
-                Messenger.Default.Send<RequestCloseTravellerView>(new RequestCloseTravellerView());
+                Messenger.Default.Send<RequestCloseTravellersWindow>(new RequestCloseTravellersWindow());
             }
         }
 
         private void OpenQuestionsMenuExecute()
         {
-            Messenger.Default.Send<RequestLoadQuestionsMenu>(new RequestLoadQuestionsMenu());
+            Messenger.Default.Send<RequestOpenQuestionsWindow>(new RequestOpenQuestionsWindow());
         }
 
         private void OpenSelectedTraveller()

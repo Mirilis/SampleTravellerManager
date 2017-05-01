@@ -11,31 +11,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GalaSoft.MvvmLight.Messaging;
-using SampleTravellerManager.Messages;
 
 namespace SampleTravellerManager.Views
 {
     /// <summary>
-    /// Interaction logic for LoadTravellerView.xaml
+    /// Interaction logic for LoadQuestionView.xaml
     /// </summary>
-    public partial class LoadTravellerView : Window
+    public partial class LoadQuestionView : Window
     {
-        public LoadTravellerView()
+        public LoadQuestionView()
         {
             InitializeComponent();
-            Messenger.Default.Register<RequestCloseTravellersWindow>(this, (action) => ReceiveMessage(action));
         }
-
-        private void ReceiveMessage(object action)
-        {
-            this.Close();
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
     }
 }
