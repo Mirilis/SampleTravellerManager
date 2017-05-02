@@ -240,7 +240,7 @@
     <Resource Include="Images\glyphicons-202-upload.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NWCSampleManager\NWCSampleManager.csproj">
+    <ProjectReference Include="..\..\NWCSampleManager\NWCSampleManager\NWCSampleManager.csproj">
       <Project>{f0dbf012-3f9c-4de6-a68c-74785cd19908}</Project>
       <Name>NWCSampleManager</Name>
     </ProjectReference>

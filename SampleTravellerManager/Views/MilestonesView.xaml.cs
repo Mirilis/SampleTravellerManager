@@ -25,11 +25,27 @@ namespace SampleTravellerManager.Views
         {
             InitializeComponent();
             Messenger.Default.Register<RequestLoadTravellerDialog>(this, (action) => { var v = new LoadTravellerView(); v.Show(); });
-            Messenger.Default.Register<RequestOpenQuestionsWindow>(this, (action) => { var v = new QuestionsView(); v.Show(); });
             Messenger.Default.Register<RequestCloseTravellersWindow>(this, (action) => this.Close());
             Messenger.Default.Register<RequestLoadDeleteTravellerDialog>(this, (action) => { var v = new DeleteTravellerView(); v.Show(); });
             Messenger.Default.Register<RequestLoadCopyTravellerDialog>(this, (action) => { var v = new CopyTravellerView(); v.Show(); });
-
+            Messenger.Default.Register<RequestOpenQuestionsWindow>(this, (action) => LoadQuestionsViewExecute(action));
+            
         }
+
+        private void LoadQuestionsViewExecute(RequestOpenQuestionsWindow action)
+        {
+            QuestionsView v;
+            if (action.Question != null)
+            {
+                v = new QuestionsView(action.Question);
+            }
+            else
+            {
+                v = new QuestionsView();
+            }
+            v.Show();
+        }
+
+      
     }
 }

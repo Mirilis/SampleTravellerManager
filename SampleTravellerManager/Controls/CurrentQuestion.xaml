@@ -26,7 +26,7 @@
                     
                 </Grid.ColumnDefinitions>
                 <TextBlock Foreground="DarkRed" Grid.Column="0" Text="Assigned Team*" Style="{DynamicResource TextBlockStyle}" Grid.ColumnSpan="3"></TextBlock>
-                <ComboBox Grid.Column="3" ItemsSource="{Binding Teams}" SelectedItem="{Binding Team}"></ComboBox>
+                <ComboBox Grid.Column="3" ItemsSource="{Binding Teams}" SelectedItem="{Binding TypeOfTeam}"></ComboBox>
 
             </Grid>
 
@@ -36,7 +36,7 @@
                     <ColumnDefinition Width="80*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Type Of Response*" Style="{DynamicResource TextBlockStyle}" Foreground="DarkRed"></TextBlock>
-                <ComboBox Grid.Column="1" ItemsSource="{Binding ResponseTypes}" SelectedItem="{Binding ResponseType}"></ComboBox>
+                <ComboBox Grid.Column="1" ItemsSource="{Binding ResponseTypes}" SelectedItem="{Binding TypeOfResponse}"></ComboBox>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>

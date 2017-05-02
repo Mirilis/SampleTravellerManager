@@ -112,3 +112,9 @@ C:\Users\Mirilis\documents\visual studio 2017\Projects\SampleTravellerManager\Sa
 \\newnas01\UserDocs$\ahoover\My Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\SampleTravellerManager.csproj.GenerateResource.Cache
 \\newnas01\UserDocs$\ahoover\My Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\SampleTravellerManager.exe
 \\newnas01\UserDocs$\ahoover\My Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\SampleTravellerManager.pdb
+C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Views\DeleteTravellerView.g.cs
+C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Views\CopyTravellerView.g.cs
+C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Views\DeleteTravellerView.baml
+C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\Views\CopyTravellerView.baml
+C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\SampleTravellerManager.Migrations.Work.resources
+C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\SampleTravellerManager.Migrations.Work2.resources

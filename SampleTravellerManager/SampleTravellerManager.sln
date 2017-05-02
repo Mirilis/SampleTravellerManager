@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleTravellerManager", "SampleTravellerManager.csproj", "{C1725077-A2B7-4D8D-8F14-4A3F6395E39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NWCSampleManager", "..\..\NWCSampleManager\NWCSampleManager.csproj", "{F0DBF012-3F9C-4DE6-A68C-74785CD19908}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NWCSampleManager", "..\..\NWCSampleManager\NWCSampleManager\NWCSampleManager.csproj", "{F0DBF012-3F9C-4DE6-A68C-74785CD19908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

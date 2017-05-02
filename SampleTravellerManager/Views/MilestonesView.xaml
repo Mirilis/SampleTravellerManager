@@ -78,10 +78,13 @@
                         </i:Interaction.Triggers>
                         <Image IsHitTestVisible="False"  Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-433-plus.png"></Image>
                     </Border>
+                    
                     <Border DockPanel.Dock="Right"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="Gray" Style="{DynamicResource BorderButtonStyle}">
-                        <Image IsHitTestVisible="False" Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-17-bin.png"></Image>
-                    </Border>
-                    <Border DockPanel.Dock="Right"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="Gray" Style="{DynamicResource BorderButtonStyle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <cmd:EventToCommand Command="{Binding EditQuestion, Mode=OneWay}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <Image IsHitTestVisible="False"  Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-31-pencil.png"></Image>
                     </Border>
                     <TextBlock DockPanel.Dock="Top" FontSize="32" HorizontalAlignment="Left" Style="{DynamicResource TextBlockStyle}" ><Run Text="Possible Actions"/></TextBlock>
@@ -89,7 +92,7 @@
                 <TabControl x:Name="tabControl" DockPanel.Dock="Bottom">
                     <TabItem Header="Administrator" MinWidth="{Binding ActualWidth, ConverterParameter=.33, Converter={converters:PercentageConverter}, ElementName=tabControl}">
 
-                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding AdministratorQuestions}">
+                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding AdministratorQuestions}" SelectedItem="{Binding SelectedQuestion}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150" />
@@ -101,7 +104,7 @@
                     </TabItem>
                     <TabItem Header="Engineering &amp; Production Control" MinWidth="{Binding ActualWidth, ConverterParameter=.33, Converter={converters:PercentageConverter}, ElementName=tabControl}">
 
-                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding EngineeringQuestions}">
+                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding EngineeringQuestions}" SelectedItem="{Binding SelectedQuestion}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150" />
@@ -113,7 +116,7 @@
                     </TabItem>
                     <TabItem Header="Production Departments"  MinWidth="{Binding ActualWidth, ConverterParameter=.33, Converter={converters:PercentageConverter}, ElementName=tabControl}">
 
-                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding DepartmentQuestions}">
+                        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding DepartmentQuestions}" SelectedItem="{Binding SelectedQuestion}">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="150" />

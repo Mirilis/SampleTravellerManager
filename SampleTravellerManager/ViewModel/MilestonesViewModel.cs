@@ -41,14 +41,74 @@ namespace SampleTravellerManager.ViewModel
         private RelayCommand newCommand;
         private RelayCommand openCommand;
         private RelayCommand openQuestionsMenu;
+        private RelayCommand editQuestion;
+        public RelayCommand EditQuestion
+        {
+            get
+            {
+                return editQuestion
+                    ?? (editQuestion = new RelayCommand(
+                    () =>
+                    {
+                        Messenger.Default.Send<RequestOpenQuestionsWindow>(new RequestOpenQuestionsWindow(SelectedQuestion));
+                    },
+                    () => AQuestionIsSelected));
+            }
+        }
+
+        private bool aQuestionIsSelected = false;
+        public bool AQuestionIsSelected
+        {
+            get
+            {
+                return aQuestionIsSelected;
+            }
+
+            set
+            {
+                if (aQuestionIsSelected == value)
+                {
+                    return;
+                }
+
+                aQuestionIsSelected = value;
+                RaisePropertyChanged(() => AQuestionIsSelected);
+            }
+        }
+
+        private Question selectedQuestion = null;
+        public Question SelectedQuestion
+        {
+            get
+            {
+                if (selectedQuestion == null)
+                {
+                    AQuestionIsSelected = false;
+                }
+                else
+                {
+                    AQuestionIsSelected = true;
+                }
+                return selectedQuestion;
+            }
+
+            set
+            {
+                if (selectedQuestion == value)
+                {
+                    return;
+                }
+               
+
+                selectedQuestion = value;
+                RaisePropertyChanged(() => SelectedQuestion);
+            }
+        }
+
         private string title = "Sample Traveller Manager";
         private bool travellerIsLoaded = false;
         private List<Question> TravellersCollection = new List<Question>();
         private Traveller WorkingTraveller;
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
         public MilestonesViewModel()
         {
             var s = new SeedData();
@@ -66,10 +126,6 @@ namespace SampleTravellerManager.ViewModel
 
             Questions.CollectionChanged += Questions_CollectionChanged;
         }
-
-        /// <summary>
-        /// AllQuestions with Administrator Filter.
-        /// </summary>
         public ICollectionView AdministratorQuestions
         {
             get
@@ -84,11 +140,6 @@ namespace SampleTravellerManager.ViewModel
                 return source;
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Questions property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public ObservableCollection<Question> AllQuestions
         {
             get
@@ -108,11 +159,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => AllQuestions);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the AllMilestones property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public ObservableCollection<Traveller> AllTravellers
         {
             get
@@ -138,7 +184,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => AllTravellers);
             }
         }
-
         public bool ATravellerIsSelected
         {
             get
@@ -156,10 +201,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => ATravellerIsSelected);
             }
         }
-
-        /// <summary>
-        /// Gets the CloseWindow.
-        /// </summary>
         public RelayCommand CloseWindow
         {
             get
@@ -172,11 +213,6 @@ namespace SampleTravellerManager.ViewModel
                     }));
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Completed property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool Completed
         {
             get
@@ -195,10 +231,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Completed);
             }
         }
-
-        /// <summary>
-        /// Gets the CopyMilestone.
-        /// </summary>
         public RelayCommand CopyCommand
         {
             get
@@ -211,7 +243,6 @@ namespace SampleTravellerManager.ViewModel
                     }));
             }
         }
-
         public RelayCommand CopyTraveller
         {
             get
@@ -225,10 +256,6 @@ namespace SampleTravellerManager.ViewModel
                                           () => ATravellerIsSelected));
             }
         }
-
-        /// <summary>
-        /// Gets the DeleteMilestone.
-        /// </summary>
         public RelayCommand DeleteCommand
         {
             get
@@ -254,7 +281,6 @@ namespace SampleTravellerManager.ViewModel
                                           () => IsOKToDelete && ATravellerIsSelected));
             }
         }
-
         public ICollectionView DepartmentQuestions
         {
             get
@@ -273,11 +299,6 @@ namespace SampleTravellerManager.ViewModel
                 return source;
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Description property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public string Description
         {
             get
@@ -296,7 +317,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Description);
             }
         }
-
         public ICollectionView EngineeringQuestions
         {
             get
@@ -314,7 +334,6 @@ namespace SampleTravellerManager.ViewModel
                 return source;
             }
         }
-
         public bool IsOKToDelete
         {
             get
@@ -332,10 +351,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => IsOKToDelete);
             }
         }
-
-        /// <summary>
-        /// Gets the LoadMilestone.
-        /// </summary>
         public RelayCommand LoadCommand
         {
             get
@@ -349,11 +364,6 @@ namespace SampleTravellerManager.ViewModel
                                           () => true));
             }
         }
-
-        /// <summary>
-        /// Sets and gets the MilestoneIsLoaded property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool MilestoneIsLoaded
         {
             get
@@ -372,11 +382,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => MilestoneIsLoaded);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Name property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public string Name
         {
             get
@@ -395,10 +400,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Name);
             }
         }
-
-        /// <summary>
-        /// Gets the NewMilestone.
-        /// </summary>
         public RelayCommand NewCommand
         {
             get
@@ -411,10 +412,6 @@ namespace SampleTravellerManager.ViewModel
                     }));
             }
         }
-
-        /// <summary>
-        /// Gets the OpenQuestionsMenu.
-        /// </summary>
         public RelayCommand OpenQuestionsMenu
         {
             get
@@ -427,10 +424,6 @@ namespace SampleTravellerManager.ViewModel
                     }));
             }
         }
-
-        /// <summary>
-        /// Gets the OpenTraveller.
-        /// </summary>
         public RelayCommand OpenTraveller
         {
             get
@@ -444,11 +437,6 @@ namespace SampleTravellerManager.ViewModel
                     () => ATravellerIsSelected));
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Owner property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public User Owner
         {
             get
@@ -468,11 +456,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Owner);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Product property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public String Product
         {
             get
@@ -491,11 +474,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Product);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Questions property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public ObservableCollection<Question> Questions
         {
             get
@@ -519,11 +497,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Questions);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Responses property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public ObservableCollection<Response> Responses
         {
             get
@@ -542,10 +515,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Responses);
             }
         }
-
-        /// <summary>
-        /// Gets the SaveMilestone.
-        /// </summary>
         public RelayCommand SaveCommand
         {
             get
@@ -558,11 +527,6 @@ namespace SampleTravellerManager.ViewModel
                     }));
             }
         }
-
-        /// <summary>
-        /// Sets and gets the SelectedTraveller property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public Traveller SelectedTraveller
         {
             get
@@ -588,11 +552,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => SelectedTraveller);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the StartDate property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public DateTime StartDate
         {
             get
@@ -611,11 +570,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => StartDate);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Successful property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public bool Successful
         {
             get
@@ -634,11 +588,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Successful);
             }
         }
-
-        /// <summary>
-        /// Sets and gets the Title property.
-        /// Changes to that property's value raise the PropertyChanged event.
-        /// </summary>
         public string Title
         {
             get
@@ -657,7 +606,6 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Title);
             }
         }
-
         private static bool FilterByTeam(object o, Team t)
         {
             var i = o as Question;
@@ -667,7 +615,6 @@ namespace SampleTravellerManager.ViewModel
             }
             return false;
         }
-
         private void AllQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems.Count > 0)
@@ -675,7 +622,6 @@ namespace SampleTravellerManager.ViewModel
                 ReloadAllQuestions();
             }
         }
-
         private void CopySelectedTraveller()
         {
             using (var sql = new SampleTravellersContext())
@@ -690,6 +636,7 @@ namespace SampleTravellerManager.ViewModel
 
                     sql.SaveChanges();
                 }
+                AllTravellers = new ObservableCollection<Traveller>(sql.Travellers.ToList());
             }
         }
         private void DeleteTravellerExecute()
@@ -740,7 +687,6 @@ namespace SampleTravellerManager.ViewModel
                 Messenger.Default.Send<RequestCloseTravellersDialog>(new RequestCloseTravellersDialog());
             }
         }
-
         private void NewCommandExecute()
         {
             LoadTraveller(new Traveller());
@@ -750,56 +696,58 @@ namespace SampleTravellerManager.ViewModel
         {
             Messenger.Default.Send<RequestOpenQuestionsWindow>(new RequestOpenQuestionsWindow());
         }
-
         private void OpenSelectedTraveller()
         {
             LoadTraveller(SelectedTraveller);
             SelectedTraveller = null;
 
         }
-
         private void Questions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            
             var p = new List<Question>();
             if (e.NewItems != null && e.NewItems.Count > 0)
             {
-                foreach (var q in e.NewItems)
-                {
-                    var s = q as Question;
-                    var t = Traveller.GetAllRequisites(s);
-                    if (!TravellersCollection.Any(x => x.Id == s.Id))
-                    {
-                        TravellersCollection.Add(s);
-                    }
-                    foreach (var u in t)
-                    {
-                        if (!p.Any(x => x.Id == u.Id))
-                        {
-                            p.Add(u);
-                        }
-                    }
-                }
-                foreach (var item in p)
-                {
-                    if (!_Questions.Any(x => x.Id == item.Id))
-                    {
-                        TravellersCollection.Add(item);
-                    }
-                }
-
-                var d = new List<Question>(TravellersCollection.Where(x => x.Template == true));
-                if (d.Any())
-                {
-                    foreach (var item in d)
-                    {
-                        TravellersCollection.Remove(item);
-                    }
-                }
-                TravellersCollection = TravellersCollection.Distinct().ToList();
+                GetAllRelatedQuestions(e, p);
             }
             SortCurrentQuestions(TravellersCollection);
         }
+        private void GetAllRelatedQuestions(System.Collections.Specialized.NotifyCollectionChangedEventArgs e, List<Question> p)
+        {
+            foreach (var q in e.NewItems)
+            {
+                var s = q as Question;
+                var t = Traveller.GetAllRequisites(s);
+                if (!TravellersCollection.Any(x => x.Id == s.Id))
+                {
+                    TravellersCollection.Add(s);
+                }
+                foreach (var u in t)
+                {
+                    if (!p.Any(x => x.Id == u.Id))
+                    {
+                        p.Add(u);
+                    }
+                }
+            }
+            foreach (var item in p)
+            {
+                if (!_Questions.Any(x => x.Id == item.Id))
+                {
+                    TravellersCollection.Add(item);
+                }
+            }
 
+            var d = new List<Question>(TravellersCollection.Where(x => x.Template == true));
+            if (d.Any())
+            {
+                foreach (var item in d)
+                {
+                    TravellersCollection.Remove(item);
+                }
+            }
+            TravellersCollection = TravellersCollection.Distinct().ToList();
+        }
         private void ReloadAllQuestions()
         {
             AllQuestions.CollectionChanged -= AllQuestions_CollectionChanged;
@@ -809,10 +757,6 @@ namespace SampleTravellerManager.ViewModel
             RaisePropertyChanged(() => DepartmentQuestions);
             AllQuestions.CollectionChanged += AllQuestions_CollectionChanged;
         }
-
-        /// <summary>
-        /// Saves Currently Loaded Milestone.
-        /// </summary>
         private void SaveCurrentMilestone()
         {
             using (var sql = new SampleTravellersContext())
@@ -868,7 +812,6 @@ namespace SampleTravellerManager.ViewModel
                 }
             }
         }
-
         private void SortCurrentQuestions(List<Question> q)
         {
             Questions.CollectionChanged -= Questions_CollectionChanged;
@@ -878,5 +821,7 @@ namespace SampleTravellerManager.ViewModel
             Questions = new ObservableCollection<Question>(tmp2);
             Questions.CollectionChanged += Questions_CollectionChanged;
         }
+        
+
     }
 }
