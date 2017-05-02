@@ -14,5 +14,12 @@ namespace SampleTravellerManager.Messages
     {
         
     }
+    class RequestLoadCopyTravellerDialog : MessagesBase
+    {
 
+    }
+    class RequestLoadDeleteTravellerDialog : MessagesBase
+    {
+
+    }
 }

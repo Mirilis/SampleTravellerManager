@@ -15,14 +15,14 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>1</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,6 +93,15 @@
     <Compile Include="Messages\MessagesBase.cs" />
     <Compile Include="Messages\OpenMessages.cs" />
     <Compile Include="Messages\CloseMessages.cs" />
+    <Compile Include="Migrations\201705021509272_Work.cs" />
+    <Compile Include="Migrations\201705021509272_Work.Designer.cs">
+      <DependentUpon>201705021509272_Work.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705021620597_Work2.cs" />
+    <Compile Include="Migrations\201705021620597_Work2.Designer.cs">
+      <DependentUpon>201705021620597_Work2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MilestonesViewModel.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
@@ -100,6 +109,12 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\LoadQuestionView.xaml.cs">
       <DependentUpon>LoadQuestionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeleteTravellerView.xaml.cs">
+      <DependentUpon>DeleteTravellerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CopyTravellerView.xaml.cs">
+      <DependentUpon>CopyTravellerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoadTravellerView.xaml.cs">
       <DependentUpon>LoadTravellerView.xaml</DependentUpon>
@@ -141,6 +156,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DeleteTravellerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CopyTravellerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LoadTravellerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -172,6 +195,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201705021509272_Work.resx">
+      <DependentUpon>201705021509272_Work.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705021620597_Work2.resx">
+      <DependentUpon>201705021620597_Work2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -192,12 +221,6 @@
     <Resource Include="Images\aamlogo.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NWCSampleManager\NWCSampleManager\NWCSampleManager.csproj">
-      <Project>{f0dbf012-3f9c-4de6-a68c-74785cd19908}</Project>
-      <Name>NWCSampleManager</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\glyphicons-433-plus.png" />
     <Resource Include="Images\glyphicons-434-minus.png" />
   </ItemGroup>
@@ -215,6 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\glyphicons-202-upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NWCSampleManager\NWCSampleManager.csproj">
+      <Project>{f0dbf012-3f9c-4de6-a68c-74785cd19908}</Project>
+      <Name>NWCSampleManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

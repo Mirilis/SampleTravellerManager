@@ -29,8 +29,13 @@ namespace SampleTravellerManager.ViewModel
         private DateTime _StartDate = DateTime.Now;
         private bool _Successful = false;
         private ObservableCollection<Traveller> allTravellers = null;
+        private bool aTravellerIsSelected = false;
+        private RelayCommand closeWindow;
         private RelayCommand copyCommand;
+        private RelayCommand copyTraveller;
         private RelayCommand deleteCommand;
+        private RelayCommand deleteTraveller;
+        private bool isOKToDelete = false;
         private RelayCommand loadCommand;
         private string name = string.Empty;
         private RelayCommand newCommand;
@@ -41,31 +46,13 @@ namespace SampleTravellerManager.ViewModel
         private List<Question> TravellersCollection = new List<Question>();
         private Traveller WorkingTraveller;
 
-        private RelayCommand closeWindow;
-
-        /// <summary>
-        /// Gets the CloseWindow.
-        /// </summary>
-        public RelayCommand CloseWindow
-        {
-            get
-            {
-                return closeWindow
-                    ?? (closeWindow = new RelayCommand(
-                    () =>
-                    {
-                        Messenger.Default.Send<RequestCloseTravellersWindow>(new RequestCloseTravellersWindow());
-                    }));
-            }
-        }
-
         /// <summary>
         /// Constructor.
         /// </summary>
         public MilestonesViewModel()
         {
             var s = new SeedData();
-            LoadNewMilestone();
+            NewCommandExecute();
             using (var sql = new SampleTravellersContext())
             {
                 var t = sql.Questions
@@ -78,25 +65,6 @@ namespace SampleTravellerManager.ViewModel
             }
 
             Questions.CollectionChanged += Questions_CollectionChanged;
-        }
-
-        private void AllQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems.Count >0)
-            {
-                ReloadAllQuestions();
-            }
-            
-        }
-
-        private void ReloadAllQuestions()
-        {
-            AllQuestions.CollectionChanged -= AllQuestions_CollectionChanged;
-            AllQuestions = new ObservableCollection<Question>(_AllQuestionsCollection);
-            RaisePropertyChanged(() => AdministratorQuestions);
-            RaisePropertyChanged(() => EngineeringQuestions);
-            RaisePropertyChanged(() => DepartmentQuestions);
-            AllQuestions.CollectionChanged += AllQuestions_CollectionChanged;
         }
 
         /// <summary>
@@ -112,7 +80,7 @@ namespace SampleTravellerManager.ViewModel
                     return FilterByTeam(o, Team.Administrator);
                 };
                 source.Refresh();
-               
+
                 return source;
             }
         }
@@ -171,6 +139,40 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
+        public bool ATravellerIsSelected
+        {
+            get
+            {
+                return aTravellerIsSelected;
+            }
+
+            set
+            {
+                if (aTravellerIsSelected == value)
+                {
+                    return;
+                }
+                aTravellerIsSelected = value;
+                RaisePropertyChanged(() => ATravellerIsSelected);
+            }
+        }
+
+        /// <summary>
+        /// Gets the CloseWindow.
+        /// </summary>
+        public RelayCommand CloseWindow
+        {
+            get
+            {
+                return closeWindow
+                    ?? (closeWindow = new RelayCommand(
+                    () =>
+                    {
+                        Messenger.Default.Send<RequestCloseTravellersWindow>(new RequestCloseTravellersWindow());
+                    }));
+            }
+        }
+
         /// <summary>
         /// Sets and gets the Completed property.
         /// Changes to that property's value raise the PropertyChanged event.
@@ -203,9 +205,24 @@ namespace SampleTravellerManager.ViewModel
             {
                 return copyCommand
                     ?? (copyCommand = new RelayCommand(
-                    () =>
+                    () => 
                     {
+                        Messenger.Default.Send<RequestLoadCopyTravellerDialog>(new RequestLoadCopyTravellerDialog());
                     }));
+            }
+        }
+
+        public RelayCommand CopyTraveller
+        {
+            get
+            {
+                return copyTraveller
+                    ?? (copyTraveller = new RelayCommand(
+                                          () =>
+                                          {
+                                              CopySelectedTraveller();
+                                          },
+                                          () => ATravellerIsSelected));
             }
         }
 
@@ -218,9 +235,23 @@ namespace SampleTravellerManager.ViewModel
             {
                 return deleteCommand
                     ?? (deleteCommand = new RelayCommand(
-                    () =>
+                    () => 
                     {
+                        Messenger.Default.Send<RequestLoadDeleteTravellerDialog>(new RequestLoadDeleteTravellerDialog());
                     }));
+            }
+        }
+        public RelayCommand DeleteTraveller
+        {
+            get
+            {
+                return deleteTraveller
+                    ?? (deleteTraveller = new RelayCommand(
+                                          () =>
+                                          {
+                                              DeleteTravellerExecute();
+                                          },
+                                          () => IsOKToDelete && ATravellerIsSelected));
             }
         }
 
@@ -284,6 +315,24 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
+        public bool IsOKToDelete
+        {
+            get
+            {
+                return isOKToDelete;
+            }
+
+            set
+            {
+                if (isOKToDelete == value)
+                {
+                    return;
+                }
+                isOKToDelete = value;
+                RaisePropertyChanged(() => IsOKToDelete);
+            }
+        }
+
         /// <summary>
         /// Gets the LoadMilestone.
         /// </summary>
@@ -293,10 +342,11 @@ namespace SampleTravellerManager.ViewModel
             {
                 return loadCommand
                     ?? (loadCommand = new RelayCommand(
-                    () =>
-                    {
-                        LoadExistingMilestone();
-                    }));
+                                          () =>
+                                          {
+                                              Messenger.Default.Send<RequestLoadTravellerDialog>(new RequestLoadTravellerDialog() { Message = string.Empty });
+                                          },
+                                          () => true));
             }
         }
 
@@ -357,7 +407,7 @@ namespace SampleTravellerManager.ViewModel
                     ?? (newCommand = new RelayCommand(
                     () =>
                     {
-                        LoadNewMilestone();
+                        NewCommandExecute();
                     }));
             }
         }
@@ -391,7 +441,7 @@ namespace SampleTravellerManager.ViewModel
                     {
                         OpenSelectedTraveller();
                     },
-                    () => true));
+                    () => ATravellerIsSelected));
             }
         }
 
@@ -526,7 +576,14 @@ namespace SampleTravellerManager.ViewModel
                 {
                     return;
                 }
-
+                if (value == null)
+                {
+                    ATravellerIsSelected = false;
+                }
+                else
+                {
+                    ATravellerIsSelected = true;
+                }
                 _SelectedTraveller = value;
                 RaisePropertyChanged(() => SelectedTraveller);
             }
@@ -601,12 +658,161 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        private void LoadNewMilestone()
+        private static bool FilterByTeam(object o, Team t)
+        {
+            var i = o as Question;
+            if (i.Team == (int)t)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void AllQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems.Count > 0)
+            {
+                ReloadAllQuestions();
+            }
+        }
+
+        private void CopySelectedTraveller()
+        {
+            using (var sql = new SampleTravellersContext())
+            {
+                Messenger.Default.Send<RequestCloseCopyTravellerDialog>(new RequestCloseCopyTravellerDialog());
+                var p = sql.Travellers.Where(x => x.Id == SelectedTraveller.Id);
+                if (p.Any())
+                {
+                        var T = p.First();
+                    
+                        sql.Travellers.Add(T);
+
+                    sql.SaveChanges();
+                }
+            }
+        }
+        private void DeleteTravellerExecute()
+        {
+            using (var sql = new SampleTravellersContext())
+            {
+                var p = sql.Travellers.Where(x => x.Id == SelectedTraveller.Id);
+                if (p.Any())
+                {
+                    NewCommandExecute();
+                    sql.Travellers.Remove(p.First());
+                    AllTravellers.Remove(AllTravellers.Where(x => x.Id == p.First().Id).First());
+                    sql.SaveChanges();
+                }
+            }
+            SelectedTraveller = null;
+        }
+        private void LoadTraveller(Traveller T)
+        {
+            using (var sql = new SampleTravellersContext())
+            {
+                var usersList = sql.Users.Where(x => x.Id == T.OwnerId);
+                if (usersList.Any())
+                {
+                    this.Owner = usersList.First();
+                    this.StartDate = T.StartDate;
+                }
+                else
+                {
+                    this.Owner = User.GetCurrentUser();
+                    this.StartDate = DateTime.Now;
+                }
+                var questionsQry = sql.Travellers.Where(x => x.Id == T.Id);
+                if (questionsQry.Any())
+                {
+                    this.Questions = new ObservableCollection<Question>(questionsQry.First().Questions);
+                }
+                else
+                {
+                    this.Questions = new ObservableCollection<Question>();
+                }
+
+                this.Product = T.Product;
+
+                this.Description = T.Description;
+                this.Name = T.Name;
+                this.WorkingTraveller = T;
+                Messenger.Default.Send<RequestCloseTravellersDialog>(new RequestCloseTravellersDialog());
+            }
+        }
+
+        private void NewCommandExecute()
         {
             LoadTraveller(new Traveller());
             this.Name = Traveller.GetUID(this.Owner);
         }
+        private void OpenQuestionsMenuExecute()
+        {
+            Messenger.Default.Send<RequestOpenQuestionsWindow>(new RequestOpenQuestionsWindow());
+        }
 
+        private void OpenSelectedTraveller()
+        {
+            LoadTraveller(SelectedTraveller);
+            SelectedTraveller = null;
+
+        }
+
+        private void Questions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var p = new List<Question>();
+            if (e.NewItems != null && e.NewItems.Count > 0)
+            {
+                foreach (var q in e.NewItems)
+                {
+                    var s = q as Question;
+                    var t = Traveller.GetAllRequisites(s);
+                    if (!TravellersCollection.Any(x => x.Id == s.Id))
+                    {
+                        TravellersCollection.Add(s);
+                    }
+                    foreach (var u in t)
+                    {
+                        if (!p.Any(x => x.Id == u.Id))
+                        {
+                            p.Add(u);
+                        }
+                    }
+                }
+                foreach (var item in p)
+                {
+                    if (!_Questions.Any(x => x.Id == item.Id))
+                    {
+                        TravellersCollection.Add(item);
+                    }
+                }
+
+                var d = new List<Question>(TravellersCollection.Where(x => x.Template == true));
+                if (d.Any())
+                {
+                    foreach (var item in d)
+                    {
+                        TravellersCollection.Remove(item);
+                    }
+                }
+                TravellersCollection = TravellersCollection.Distinct().ToList();
+            }
+            SortCurrentQuestions(TravellersCollection);
+        }
+
+        private void ReloadAllQuestions()
+        {
+            AllQuestions.CollectionChanged -= AllQuestions_CollectionChanged;
+            AllQuestions = new ObservableCollection<Question>(_AllQuestionsCollection);
+            RaisePropertyChanged(() => AdministratorQuestions);
+            RaisePropertyChanged(() => EngineeringQuestions);
+            RaisePropertyChanged(() => DepartmentQuestions);
+            AllQuestions.CollectionChanged += AllQuestions_CollectionChanged;
+        }
+
+        /// <summary>
+        /// Saves Currently Loaded Milestone.
+        /// </summary>
         private void SaveCurrentMilestone()
         {
             using (var sql = new SampleTravellersContext())
@@ -660,106 +866,6 @@ namespace SampleTravellerManager.ViewModel
                         System.Windows.MessageBox.Show("Successfully Saved Traveller.");
                     }
                 }
-            }
-        }
-
-        private static bool FilterByTeam(object o, Team t)
-        {
-            var i = o as Question;
-            if (i.Team == (int)t)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private void LoadExistingMilestone()
-        {
-            Messenger.Default.Send<RequestLoadTravellerDialog>(new RequestLoadTravellerDialog() { Message = string.Empty });
-        }
-
-        private void LoadTraveller(Traveller T)
-        {
-            using (var sql = new SampleTravellersContext())
-            {
-                var usersList = sql.Users.Where(x => x.Id == T.OwnerId);
-                if (usersList.Any())
-                {
-                    this.Owner = usersList.First();
-                }
-                else
-                {
-                    this.Owner = User.GetCurrentUser();
-                }
-                var questionsQry = sql.Travellers.Where(x => x.Id == T.Id);
-                if (questionsQry.Any())
-                {
-                    this.Questions = new ObservableCollection<Question>(questionsQry.First().Questions);
-                }
-                else
-                {
-                    this.Questions = new ObservableCollection<Question>();
-                }
-
-                this.Product = T.Product;
-                this.StartDate = T.StartDate;
-                this.Description = T.Description;
-                this.Name = T.Name;
-                this.WorkingTraveller = T;
-                Messenger.Default.Send<RequestCloseTravellersDialog>(new RequestCloseTravellersDialog());
-            }
-        }
-
-        private void OpenQuestionsMenuExecute()
-        {
-            Messenger.Default.Send<RequestOpenQuestionsWindow>(new RequestOpenQuestionsWindow());
-        }
-
-        private void OpenSelectedTraveller()
-        {
-            LoadTraveller(SelectedTraveller);
-        }
-
-        private void Questions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            var p = new List<Question>();
-            if (e.NewItems != null && e.NewItems.Count > 0)
-            {
-                foreach (var q in e.NewItems)
-                {
-                    var s = q as Question;
-                    var t = Traveller.GetAllRequisites(s);
-                    if (!s.Template && !TravellersCollection.Any(x => x.Id == s.Id))
-                    {
-                        TravellersCollection.Add(s);
-                    }
-                    foreach (var u in t)
-                    {
-                        if (!p.Any(x => x.Id == u.Id))
-                        {
-                            p.Add(u);
-                        }
-                    }
-                }
-                foreach (var item in p)
-                {
-                    if (!_Questions.Any(x => x.Id == item.Id))
-                    {
-                        TravellersCollection.Add(item);
-                    }
-                }
-
-                var d = new List<Question>(TravellersCollection.Where(x => x.Template == true));
-                if (d.Any())
-                {
-                    
-                    foreach (var item in d)
-                    {
-                        TravellersCollection.Remove(item);
-                    }
-                }
-                SortCurrentQuestions(TravellersCollection);
-     
             }
         }
 
