@@ -6,20 +6,5 @@ using System.Threading.Tasks;
 
 namespace SampleTravellerManager.Messages
 {
-    class RequestLoadQuestionDialog: MessagesBase
-    {
-       
-    }
-    class RequestLoadTravellerDialog: MessagesBase
-    {
-        
-    }
-    class RequestLoadCopyTravellerDialog : MessagesBase
-    {
 
-    }
-    class RequestLoadDeleteTravellerDialog : MessagesBase
-    {
-
-    }
 }

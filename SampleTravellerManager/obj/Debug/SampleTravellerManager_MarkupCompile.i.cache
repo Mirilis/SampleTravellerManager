@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\
+C:\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\
 SampleTravellerManager
 none
 false
 DEBUG;TRACE
-C:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml
-112143268654
+C:\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml
+12-569293584
 
-34-365754626
-75-926709532
-Controls\CurrentQuestion.xaml;Controls\QuestionsListControl.xaml;MainWindow.xaml;Simple Styles.xaml;Views\LoadQuestionView.xaml;Views\DeleteTravellerView.xaml;Views\CopyTravellerView.xaml;Views\LoadTravellerView.xaml;Views\MilestonesView.xaml;Views\QuestionsView.xaml;Controls\TopBar.xaml;
+40-1316314661
+752029500363
+Controls\CurrentQuestion.xaml;Controls\QuestionsListControl.xaml;Controls\TravellersListControl.xaml;MainWindow.xaml;Simple Styles.xaml;Dialogs\LoadQuestionView.xaml;Dialogs\DeleteTravellerView.xaml;Dialogs\CopyTravellerView.xaml;Dialogs\LoadTravellerView.xaml;Views\MilestonesView.xaml;Views\QuestionsView.xaml;Controls\TopBar.xaml;
 
-True
+False
 

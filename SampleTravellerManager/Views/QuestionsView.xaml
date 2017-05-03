@@ -48,7 +48,12 @@
                         <controls:QuestionsListControl IsEnabled="{Binding IsTemplate}" DataContext="{Binding CorequisiteQuestions}"></controls:QuestionsListControl>
                     </DockPanel>
                 </Border>
-                <Border Visibility="{Binding IsTemplate, Converter={converters:BoolToVisibilityConverter},ConverterParameter=-1}" Width="{Binding Path=ActualWidth, ElementName=CoReqBrdr}" Height="{Binding Path=ActualHeight, ElementName=CoReqBrdr}" Grid.Row="1" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Margin="5,10" Background="Gray" Opacity=".5"></Border>
+                <Border Visibility="{Binding IsTemplate, 
+                    Converter={converters:BoolToVisibilityConverter},ConverterParameter=-1}" 
+                        Width="{Binding Path=ActualWidth, ElementName=CoReqBrdr}" 
+                        Height="{Binding Path=ActualHeight, ElementName=CoReqBrdr}" 
+                        Grid.Row="1" BorderBrush="DarkRed" BorderThickness="3" 
+                        CornerRadius="5" Margin="5,10" Background="Gray" Opacity=".5"></Border>
             </Grid>
             
             <Border Grid.Column="2" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Margin="5,10,10,10" Background="White">
@@ -61,7 +66,7 @@
             <Border Grid.Column="3" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Margin="5,10,10,10" Background="White">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center"  FontSize="20" Text="All Actions" Style="{DynamicResource TextBlockStyle}"></TextBlock>
-                    <controls:QuestionsListControl DataContext="{Binding QuestionsList}"></controls:QuestionsListControl>
+                    <controls:QuestionsListControl DataContext="{Binding AllQuestions}"></controls:QuestionsListControl>
                 </DockPanel>
             </Border>
         </Grid>

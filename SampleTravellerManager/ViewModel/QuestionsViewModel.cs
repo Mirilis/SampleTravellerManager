@@ -8,44 +8,45 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity.Validation;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.IO;
-using System.Drawing;
-
-
 
 namespace SampleTravellerManager.ViewModel
 {
     public class QuestionsViewModel : ViewModelBase
     {
-
         #region Private Fields
 
-        private RelayCommand closeWindow;
-        private RelayCommand copyCommand;
+        private ObservableCollection<Question> allQuestions = null;
+        private List<Question> AllQuestionsCollection = null;
+        private RelayCommand command_CopySelectedQuestion;
+        private RelayCommand command_Delete;
+        private RelayCommand command_DeleteSelectedQuestion;
+        private RelayCommand command_OpenSelectedQuestion;
         private ObservableCollection<Question> corequisiteQuestions = null;
         private Question currentQuestion = null;
-        private RelayCommand deleteCommand;
         private string filePath = string.Empty;
         private Bitmap helpImage = null;
         private string helpText = string.Empty;
+        private bool isQuestionSelected = false;
+        private bool isOKToDelete = false;
         private bool isRequired = false;
         private bool isTemplate = false;
-        private RelayCommand loadCommand;
         private string name = string.Empty;
-        private RelayCommand newCommand;
-        private RelayCommand openCommand;
         private ObservableCollection<Question> postrequisiteQuestions = null;
         private ObservableCollection<Question> prerequisiteQuestions = null;
-        private ObservableCollection<Question> questionsList = null;
         private string request = string.Empty;
         private ObservableCollection<string> responseTypes = null;
-        private RelayCommand savecommand;
         private Question selectedQuestion = null;
         private ObservableCollection<string> teams = null;
+        private string title = "Questions Manager";
+        private StandardActionsViewModel top = null;
+
         private string typeOfResponse = string.Empty;
+
         private string typeOfTeam = string.Empty;
 
         #endregion Private Fields
@@ -54,40 +55,90 @@ namespace SampleTravellerManager.ViewModel
 
         public QuestionsViewModel()
         {
-            var s = new SeedData();
+            Top.OnCloseCommand += (s, e) => { Messenger.Default.Send<RequestCloseQuestionsWindow>(new RequestCloseQuestionsWindow()); };
+            Top.OnCopyCommand += (s, e) => { Messenger.Default.Send<RequestOpenCopyQuestionDialog>(new RequestOpenCopyQuestionDialog()); };
+            Top.OnDeleteCommand += (s, e) => { Messenger.Default.Send<RequestOpenDeleteQuestionDialog>(new RequestOpenDeleteQuestionDialog()); };
+            Top.OnLoadCommand += (s, e) => { Messenger.Default.Send<RequestOpenLoadQuestionDialog>(new RequestOpenLoadQuestionDialog()); };
+            Top.OnNewCommand += (s, e) => { ExecuteCreateNewQuestion(); };
+            Top.OnSaveCommand += (s, e) => { ExecuteSaveCurrentQuestion(); };
 
-            CreateNewQuestion();
-
+            ExecuteCreateNewQuestion();
         }
 
         #endregion Public Constructors
 
         #region Public Properties
 
-        public RelayCommand CloseWindow
+        public ObservableCollection<Question> AllQuestions
         {
             get
             {
-                return closeWindow
-                    ?? (closeWindow = new RelayCommand(
-                    () =>
+                if (allQuestions == null)
+                {
+                    using (var sql = new SampleTravellersContext())
                     {
-                        Messenger.Default.Send<RequestCloseQuestionsWindow>(new RequestCloseQuestionsWindow());
-                    }));
+                        allQuestions = new ObservableCollection<Question>(sql.Questions.ToList());
+                        AllQuestionsCollection = allQuestions.ToList();
+                    }
+                }
+                return allQuestions;
+            }
+
+            set
+            {
+                if (allQuestions == value)
+                {
+                    return;
+                }
+
+                allQuestions = value;
+                RaisePropertyChanged(() => AllQuestions);
             }
         }
-        public RelayCommand CopyCommand
+
+        public RelayCommand Command_CopySelectedQuestion
         {
             get
             {
-                return copyCommand
-                    ?? (copyCommand = new RelayCommand(
+                return command_CopySelectedQuestion
+                    ?? (command_CopySelectedQuestion = new RelayCommand(
+                                          () =>
+                                          {
+                                              ExecuteCopySelectedQuestion();
+                                              Messenger.Default.Send<RequestCloseCopyQuestionDialog>(new RequestCloseCopyQuestionDialog());
+                                          },
+                                          () => IsQuestionSelected));
+            }
+        }
+
+        public RelayCommand Command_DeleteSelectedQuestion
+        {
+            get
+            {
+                return command_DeleteSelectedQuestion
+                    ?? (command_DeleteSelectedQuestion = new RelayCommand(
+                                          () =>
+                                          {
+                                              ExecuteDeleteSelectedQuestion();
+                                              Messenger.Default.Send<RequestCloseDeleteQuestionDialog>(new RequestCloseDeleteQuestionDialog());
+                                          },
+                                          () => IsQuestionSelected && IsOKToDelete));
+            }
+        }
+
+        public RelayCommand Command_OpenSelectedQuestion
+        {
+            get
+            {
+                return command_OpenSelectedQuestion
+                    ?? (command_OpenSelectedQuestion = new RelayCommand(
                     () =>
                     {
-                        CopyQuestion();
+                        ExecuteOpenSelectedQuestion();
                     }));
             }
         }
+
         public ObservableCollection<Question> CorequisiteQuestions
         {
             get
@@ -95,7 +146,9 @@ namespace SampleTravellerManager.ViewModel
                 if (corequisiteQuestions == null)
                 {
                     corequisiteQuestions = new ObservableCollection<Question>();
+                    CorequisiteQuestions.CollectionChanged += CorequisiteQuestions_CollectionChanged;
                 }
+
                 return corequisiteQuestions;
             }
 
@@ -107,9 +160,11 @@ namespace SampleTravellerManager.ViewModel
                 }
 
                 corequisiteQuestions = value;
+                CorequisiteQuestions.CollectionChanged += CorequisiteQuestions_CollectionChanged;
                 RaisePropertyChanged(() => CorequisiteQuestions);
             }
         }
+
         public Question CurrentQuestion
         {
             get
@@ -128,18 +183,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => CurrentQuestion);
             }
         }
-        public RelayCommand DeleteCommand
-        {
-            get
-            {
-                return deleteCommand
-                    ?? (deleteCommand = new RelayCommand(
-                    () =>
-                    {
-                        DeleteQuestion();
-                    }));
-            }
-        }
+
         public string FilePath
         {
             get
@@ -158,6 +202,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => FilePath);
             }
         }
+
         public Bitmap HelpImage
         {
             get
@@ -176,6 +221,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => HelpImage);
             }
         }
+
         public string HelpText
         {
             get
@@ -194,6 +240,44 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => HelpText);
             }
         }
+
+        public bool IsQuestionSelected
+        {
+            get
+            {
+                return IsQuestionSelected;
+            }
+
+            set
+            {
+                if (IsQuestionSelected == value)
+                {
+                    return;
+                }
+
+                IsQuestionSelected = value;
+                RaisePropertyChanged(() => IsQuestionSelected);
+            }
+        }
+
+        public bool IsOKToDelete
+        {
+            get
+            {
+                return isOKToDelete;
+            }
+
+            set
+            {
+                if (isOKToDelete == value)
+                {
+                    return;
+                }
+                isOKToDelete = value;
+                RaisePropertyChanged(() => IsOKToDelete);
+            }
+        }
+
         public bool IsRequired
         {
             get
@@ -212,6 +296,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => IsRequired);
             }
         }
+
         public bool IsTemplate
         {
             get
@@ -230,18 +315,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => IsTemplate);
             }
         }
-        public RelayCommand LoadCommand
-        {
-            get
-            {
-                return loadCommand
-                    ?? (loadCommand = new RelayCommand(
-                    () =>
-                    {
-                        Messenger.Default.Send<RequestLoadQuestionDialog>(new RequestLoadQuestionDialog());
-                    }));
-            }
-        }
+
         public string Name
         {
             get
@@ -260,37 +334,15 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Name);
             }
         }
-        public RelayCommand NewCommand
-        {
-            get
-            {
-                return newCommand
-                    ?? (newCommand = new RelayCommand(
-                    () =>
-                    {
-                        CreateNewQuestion();
-                    }));
-            }
-        }
-        public RelayCommand OpenCommand
-        {
-            get
-            {
-                return openCommand
-                    ?? (openCommand = new RelayCommand(
-                    () =>
-                    {
-                        OpenSelectedQuestion();
-                    }));
-            }
-        }
-        public ObservableCollection<Question> PostRequisiteQuestions
+
+        public ObservableCollection<Question> PostrequisiteQuestions
         {
             get
             {
                 if (postrequisiteQuestions == null)
                 {
-                    prerequisiteQuestions = new ObservableCollection<Question>();
+                    PostrequisiteQuestions = new ObservableCollection<Question>();
+                    PostrequisiteQuestions.CollectionChanged += PostrequisiteQuestions_CollectionChanged;
                 }
 
                 return postrequisiteQuestions;
@@ -304,16 +356,19 @@ namespace SampleTravellerManager.ViewModel
                 }
 
                 postrequisiteQuestions = value;
-                RaisePropertyChanged(() => PostRequisiteQuestions);
+                PostrequisiteQuestions.CollectionChanged += PostrequisiteQuestions_CollectionChanged;
+                RaisePropertyChanged(() => PostrequisiteQuestions);
             }
         }
+
         public ObservableCollection<Question> PrerequisiteQuestions
         {
             get
             {
                 if (prerequisiteQuestions == null)
                 {
-                    postrequisiteQuestions = new ObservableCollection<Question>();
+                    prerequisiteQuestions = new ObservableCollection<Question>();
+                    PrerequisiteQuestions.CollectionChanged += PrerequisiteQuestions_CollectionChanged;
                 }
                 return prerequisiteQuestions;
             }
@@ -326,34 +381,11 @@ namespace SampleTravellerManager.ViewModel
                 }
 
                 prerequisiteQuestions = value;
+                PrerequisiteQuestions.CollectionChanged += PrerequisiteQuestions_CollectionChanged;
                 RaisePropertyChanged(() => PrerequisiteQuestions);
             }
         }
-        public ObservableCollection<Question> QuestionsList
-        {
-            get
-            {
-                if (questionsList == null)
-                {
-                    using (var sql = new SampleTravellersContext())
-                    {
-                        questionsList = new ObservableCollection<Question>(sql.Questions.ToList());
-                    }
-                }
-                return questionsList;
-            }
 
-            set
-            {
-                if (questionsList == value)
-                {
-                    return;
-                }
-
-                questionsList = value;
-                RaisePropertyChanged(() => QuestionsList);
-            }
-        }
         public string Request
         {
             get
@@ -372,6 +404,7 @@ namespace SampleTravellerManager.ViewModel
                 RaisePropertyChanged(() => Request);
             }
         }
+
         public ObservableCollection<string> ResponseTypes
         {
             get
@@ -386,20 +419,6 @@ namespace SampleTravellerManager.ViewModel
                     responseTypes = t;
                 }
                 return responseTypes;
-            }
-
-
-        }
-        public RelayCommand SaveCommand
-        {
-            get
-            {
-                return savecommand
-                    ?? (savecommand = new RelayCommand(
-                    () =>
-                    {
-                        SaveCurrentQuestion();
-                    }));
             }
         }
 
@@ -437,6 +456,46 @@ namespace SampleTravellerManager.ViewModel
                 }
 
                 return teams;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                if (title == value)
+                {
+                    return;
+                }
+                title = value;
+                RaisePropertyChanged(() => Title);
+            }
+        }
+
+        public StandardActionsViewModel Top
+        {
+            get
+            {
+                if (top == null)
+                {
+                    top = new StandardActionsViewModel();
+                }
+                return top;
+            }
+
+            set
+            {
+                if (top == value)
+                {
+                    return;
+                }
+                top = value;
+                RaisePropertyChanged(() => Top);
             }
         }
 
@@ -492,63 +551,193 @@ namespace SampleTravellerManager.ViewModel
 
         #region Public Methods
 
-        public void OpenSelectedQuestion()
+        public void ExecuteOpenSelectedQuestion()
         {
-            this.Name = SelectedQuestion.Name;
-            this.Request = SelectedQuestion.Request;
-            this.TypeOfResponse = SelectedQuestion.ResponseType;
-            this.TypeOfTeam = SelectedQuestion.TeamName;
-            this.IsRequired = SelectedQuestion.RequiresResponse;
-            this.HelpText = SelectedQuestion.HelpText;
+            var p= SelectedQuestion.GetCompleteQuestion();
+            this.Name = p.Name;
+            this.Request = p.Request;
+            this.TypeOfResponse = p.ResponseType;
+            this.TypeOfTeam = p.TeamName;
+            this.IsRequired = p.RequiresResponse;
+            this.HelpText = p.HelpText;
             //this.HelpImage = selectedQuestion.HelpImage
-            this.IsTemplate = selectedQuestion.Template;
-
+            this.IsTemplate = p.Template;
+            Messenger.Default.Send<RequestCloseQuestionsDialog>(new RequestCloseQuestionsDialog());
+            this.PrerequisiteQuestions = new ObservableCollection<Question>(p.Prerequisites);
+            this.PostrequisiteQuestions = new ObservableCollection<Question>(p.Postrequisites);
+            this.CorequisiteQuestions = new ObservableCollection<Question>(p.Corequisites);
         }
 
         #endregion Public Methods
 
         #region Private Methods
 
-        private void CopyQuestion()
-        {
-            throw new NotImplementedException();
-        }
-
         private void CorequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.NewItems != null)
+            {
+                if (e.NewItems.Count > 0)
+                {
+                    foreach (var item in e.NewItems)
+                    {
+                        var s = item as Question;
+                        RemoveFromList(s, PrerequisiteQuestions);
+                        RemoveFromList(s, PostrequisiteQuestions);
+                        AllQuestions = new ObservableCollection<Question>(AllQuestionsCollection);
+                    }
+                }
+            }
         }
 
-        private void CreateNewQuestion()
+        private void ExecuteCopySelectedQuestion()
+        {
+            using (var sql = new SampleTravellersContext())
+            {
+                var p = sql.Questions.Where(x => x.Id == SelectedQuestion.Id);
+                if (p.Any())
+                {
+                    var Q = p.First();
+
+                    sql.Questions.Add(Q);
+
+                    sql.SaveChanges();
+                }
+                AllQuestions = new ObservableCollection<Question>(sql.Questions);
+                ExecuteOpenSelectedQuestion();
+            }
+        }
+
+        private void ExecuteCreateNewQuestion()
         {
             CurrentQuestion = new Question();
             PrerequisiteQuestions = new ObservableCollection<Question>();
-            PostRequisiteQuestions = new ObservableCollection<Question>();
+            PostrequisiteQuestions = new ObservableCollection<Question>();
             CorequisiteQuestions = new ObservableCollection<Question>();
-
-            PrerequisiteQuestions.CollectionChanged += PrerequisiteQuestions_CollectionChanged;
-            PostRequisiteQuestions.CollectionChanged += PostRequisiteQuestions_CollectionChanged;
-            CorequisiteQuestions.CollectionChanged += CorequisiteQuestions_CollectionChanged;
         }
 
-        private void DeleteQuestion()
+        private void ExecuteDeleteSelectedQuestion()
         {
-            throw new NotImplementedException();
+            using (var sql = new SampleTravellersContext())
+            {
+                ExecuteCreateNewQuestion();
+                var s = sql.Questions.Where(x => x.Id == SelectedQuestion.Id).First();
+                sql.Questions.Remove(s);
+                sql.SaveChanges();
+                AllQuestions = new ObservableCollection<Question>(sql.Questions);
+            }
         }
 
-        private void PostRequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ExecuteSaveCurrentQuestion()
         {
-            throw new NotImplementedException();
+            using (var sql = new SampleTravellersContext())
+            {
+                var p = new Question();
+                if (sql.Questions.Any(x => x.Name == Name))
+                {
+                    p = sql.Questions.Where(x => x.Name == this.Name).First();
+                }
+                else
+                {
+                    sql.Questions.Add(p);
+                }
+                foreach (var item in PrerequisiteQuestions)
+                {
+                    var i = sql.Questions.Where(x => x.Id == item.Id).First();
+                    p.AddPrerequisite(i);
+                }
+                foreach (var item in CorequisiteQuestions)
+                {
+                    p.Corequisites.Add(sql.Questions.Where(x => x.Id == item.Id).First());
+                }
+                foreach (var item in PostrequisiteQuestions)
+                {
+                    var i = sql.Questions.Where(x => x.Id == item.Id).First();
+                    p.AddPostrequisite(i);
+                }
+
+                p.Name = this.Name;
+                p.Request = this.Request;
+                p.RequiresResponse = this.IsRequired;
+                p.Template = this.IsTemplate;
+                p.Type = (int)this.CurrentResponseType;
+                p.Team = (int)this.CurrentTeam;
+                p.HelpText = this.HelpText;
+                //p.HelpImage = this.HelpImage;
+
+                var saved = true;
+                try
+                {
+                    sql.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    saved = false;
+                    var s = new StringBuilder();
+                    s.Append("The following issues are preventing the saving of this document:" + Environment.NewLine);
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            s.AppendFormat("Property: \"{0}\", Current Value: \"{1}\", Error: \"{2}\"",
+                                ve.PropertyName,
+                                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                                ve.ErrorMessage);
+                            s.Append(Environment.NewLine);
+                        }
+                    }
+                    System.Windows.MessageBox.Show(s.ToString());
+                }
+                finally
+                {
+                    if (saved)
+                    {
+                        System.Windows.MessageBox.Show("Successfully Saved Question.");
+                        AllQuestions = new ObservableCollection<Question>( sql.Questions);
+                    }
+                }
+            }
+        }
+
+        private void PostrequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                if (e.NewItems.Count > 0)
+                {
+                    foreach (var item in e.NewItems)
+                    {
+                        var s = item as Question;
+                        RemoveFromList(s, PrerequisiteQuestions);
+                        RemoveFromList(s, CorequisiteQuestions);
+                        AllQuestions = new ObservableCollection<Question>(AllQuestionsCollection);
+                    }
+                }
+            }
         }
 
         private void PrerequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.NewItems != null)
+            {
+                if (e.NewItems.Count > 0)
+                {
+                    foreach (var item in e.NewItems)
+                    {
+                        var s = item as Question;
+                        RemoveFromList(s, PostrequisiteQuestions);
+                        RemoveFromList(s, CorequisiteQuestions);
+                        AllQuestions = new ObservableCollection<Question>(AllQuestionsCollection);
+                    }
+                }
+            }
         }
 
-        private void SaveCurrentQuestion()
+        private void RemoveFromList(Question s, ObservableCollection<Question> l)
         {
-            throw new NotImplementedException();
+            if (l.Any(x => x.Id == s.Id))
+            {
+                l.Remove(l.Where(x => x.Id == s.Id).First());
+            }
         }
 
         #endregion Private Methods

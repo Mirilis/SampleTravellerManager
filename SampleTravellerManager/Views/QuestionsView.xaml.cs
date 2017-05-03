@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using GalaSoft.MvvmLight.Messaging;
 using NWCSampleManager;
 using SampleTravellerManager.Messages;
+using SampleTravellerManager.Dialogs;
 
 namespace SampleTravellerManager.Views
 {
@@ -28,7 +29,7 @@ namespace SampleTravellerManager.Views
         {
             InitializeComponent();
             Messenger.Default.Register<RequestCloseQuestionsWindow>(this, (action) => CloseWindow());
-            Messenger.Default.Register<RequestLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
+            Messenger.Default.Register<RequestOpenLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
             
             
         }
@@ -38,9 +39,9 @@ namespace SampleTravellerManager.Views
             this.question = question;
             InitializeComponent();
             Messenger.Default.Register<RequestCloseQuestionsWindow>(this, (action) => CloseWindow());
-            Messenger.Default.Register<RequestLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
+            Messenger.Default.Register<RequestOpenLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
             ((ViewModel.QuestionsViewModel)DataContext).SelectedQuestion = question;
-            ((ViewModel.QuestionsViewModel)DataContext).OpenSelectedQuestion();
+            ((ViewModel.QuestionsViewModel)DataContext).ExecuteOpenSelectedQuestion();
             
         }
 

@@ -1,13 +1,13 @@
 ﻿
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Controls\CurrentQuestion.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Controls\QuestionsListControl.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\MainWindow.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Views\LoadQuestionView.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Views\DeleteTravellerView.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Views\CopyTravellerView.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Views\LoadTravellerView.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Views\MilestonesView.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Views\QuestionsView.xaml;;
-FC:\Users\Mirilis\Documents\Visual Studio 2017\Projects\SampleTravellerManager\SampleTravellerManager\Controls\TopBar.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Controls\CurrentQuestion.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Controls\QuestionsListControl.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Controls\TravellersListControl.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Dialogs\LoadQuestionView.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Dialogs\DeleteTravellerView.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Dialogs\CopyTravellerView.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Dialogs\LoadTravellerView.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Views\MilestonesView.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Views\QuestionsView.xaml;;
+FC:\Projects\SampleTravellerManager\SampleTravellerManager\Controls\TopBar.xaml;;
 

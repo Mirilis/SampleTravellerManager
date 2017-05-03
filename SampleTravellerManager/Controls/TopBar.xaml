@@ -18,7 +18,7 @@
                 <Border DockPanel.Dock="Top"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="white" Style="{DynamicResource BorderButtonStyle}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <cmd:EventToCommand Command="{Binding CloseWindow, Mode=OneWay}"/>
+                            <cmd:EventToCommand Command="{Binding Top.Command_Close, Mode=OneWay}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Image IsHitTestVisible="False" Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-208-remove.png"></Image>
@@ -26,7 +26,7 @@
                 <Border DockPanel.Dock="Top"  Width="46" Height="46" Margin="5" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="Gray" Style="{DynamicResource BorderButtonStyle}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">
-                            <cmd:EventToCommand Command=""/>
+                            <cmd:EventToCommand Command="{Binding Top.Command_Settings, Mode=OneWay}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Image IsHitTestVisible="False" Width="25" Height="25" Margin="1" Source="/SampleTravellerManager;component/Images/glyphicons-137-cogwheel.png"></Image>
@@ -35,35 +35,35 @@
             <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100" Content="DELETE" Style="{DynamicResource Buttons}" Foreground="White" FontSize="20">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding DeleteCommand, Mode=OneWay}"/>
+                        <cmd:EventToCommand Command="{Binding Top.Command_Delete, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
             <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100" Content="COPY" Style="{DynamicResource Buttons}" Foreground="White" FontSize="20">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding CopyCommand, Mode=OneWay}"/>
+                        <cmd:EventToCommand Command="{Binding Top.Command_Copy, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
             <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100" Content="LOAD" Style="{DynamicResource Buttons}" Foreground="White" FontSize="20">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding LoadCommand, Mode=OneWay}"/>
+                        <cmd:EventToCommand Command="{Binding Top.Command_Load, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
             <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100" Content="SAVE" Style="{DynamicResource Buttons}" Foreground="White" FontSize="20">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding SaveCommand, Mode=OneWay}"/>
+                        <cmd:EventToCommand Command="{Binding Top.Command_Save, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
             <Button DockPanel.Dock="Right" Width="100" Margin="10" Height="100" Content="NEW" Style="{DynamicResource Buttons}" Foreground="White" FontSize="20">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand Command="{Binding NewCommand, Mode=OneWay}"/>
+                        <cmd:EventToCommand Command="{Binding Top.Command_New, Mode=OneWay}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>

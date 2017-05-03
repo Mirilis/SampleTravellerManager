@@ -11,7 +11,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding}" >
+        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding}" SelectedItem="{Binding 
+               RelativeSource={RelativeSource AncestorType={x:Type Window}}, 
+               Path=DataContext.SelectedQuestion}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team Name"  />

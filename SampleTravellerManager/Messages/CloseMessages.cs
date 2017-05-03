@@ -30,4 +30,18 @@ namespace SampleTravellerManager.Messages
     {
 
     }
+    class RequestCloseCopyQuestionDialog : MessagesBase
+    {
+
+    }
+    class RequestCloseDeleteQuestionDialog : MessagesBase
+    {
+
+    }
+    class RequestCloseLoadQuestionsDialog :MessagesBase
+    {
+
+    }
+
+
 }

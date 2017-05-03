@@ -13,6 +13,23 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>W:\PLANT\Samples Manager Beta\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <UpdateUrl>\\newnas01\dir-grps\PLANT\Samples Manager Beta\</UpdateUrl>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -32,6 +49,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4D0DAC6FB0CF92626E575E897177DCC89F21F226</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>SampleTravellerManager_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -87,8 +116,13 @@
     <Compile Include="Controls\QuestionsListControl.xaml.cs">
       <DependentUpon>QuestionsListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TravellersListControl.xaml.cs">
+      <DependentUpon>TravellersListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BoolInverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\DialogConverter.cs" />
+    <Compile Include="Converters\DialogTypes.cs" />
     <Compile Include="Messages\LoadMessages.cs" />
     <Compile Include="Messages\MessagesBase.cs" />
     <Compile Include="Messages\OpenMessages.cs" />
@@ -101,22 +135,27 @@
     <Compile Include="Migrations\201705021620597_Work2.Designer.cs">
       <DependentUpon>201705021620597_Work2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705031842382_Work3.cs" />
+    <Compile Include="Migrations\201705031842382_Work3.Designer.cs">
+      <DependentUpon>201705031842382_Work3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MilestonesViewModel.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="ViewModel\QuestionsViewModel.cs" />
+    <Compile Include="ViewModel\StandardActionsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="Views\LoadQuestionView.xaml.cs">
+    <Compile Include="Dialogs\LoadQuestionView.xaml.cs">
       <DependentUpon>LoadQuestionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeleteTravellerView.xaml.cs">
+    <Compile Include="Dialogs\DeleteTravellerView.xaml.cs">
       <DependentUpon>DeleteTravellerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CopyTravellerView.xaml.cs">
+    <Compile Include="Dialogs\CopyTravellerView.xaml.cs">
       <DependentUpon>CopyTravellerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoadTravellerView.xaml.cs">
+    <Compile Include="Dialogs\LoadTravellerView.xaml.cs">
       <DependentUpon>LoadTravellerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MilestonesView.xaml.cs">
@@ -136,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\TravellersListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -152,19 +195,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\LoadQuestionView.xaml">
+    <Page Include="Dialogs\LoadQuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeleteTravellerView.xaml">
+    <Page Include="Dialogs\DeleteTravellerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\CopyTravellerView.xaml">
+    <Page Include="Dialogs\CopyTravellerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\LoadTravellerView.xaml">
+    <Page Include="Dialogs\LoadTravellerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,6 +244,9 @@
     <EmbeddedResource Include="Migrations\201705021620597_Work2.resx">
       <DependentUpon>201705021620597_Work2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705031842382_Work3.resx">
+      <DependentUpon>201705031842382_Work3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -210,6 +256,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="SampleTravellerManager_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -244,6 +291,18 @@
       <Project>{f0dbf012-3f9c-4de6-a68c-74785cd19908}</Project>
       <Name>NWCSampleManager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

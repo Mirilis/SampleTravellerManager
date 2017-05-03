@@ -21,5 +21,28 @@ namespace SampleTravellerManager.Messages
             this.Question = q;
         }
     }
+    class RequestOpenLoadQuestionDialog : MessagesBase
+    {
 
+    }
+    class RequestOpenLoadTravellerDialog : MessagesBase
+    {
+
+    }
+    class RequestOpenCopyTravellerDialog : MessagesBase
+    {
+
+    }
+    class RequestOpenDeleteTravellerDialog : MessagesBase
+    {
+
+    }
+    class RequestOpenCopyQuestionDialog : MessagesBase
+    {
+
+    }
+    class RequestOpenDeleteQuestionDialog : MessagesBase
+    {
+
+    }
 }

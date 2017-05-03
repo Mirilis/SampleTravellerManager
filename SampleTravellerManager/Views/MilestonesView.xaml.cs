@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GalaSoft.MvvmLight.Messaging;
 using SampleTravellerManager.Messages;
+using SampleTravellerManager.Dialogs;
 
 namespace SampleTravellerManager.Views
 {
@@ -24,10 +25,10 @@ namespace SampleTravellerManager.Views
         public MilestonesView()
         {
             InitializeComponent();
-            Messenger.Default.Register<RequestLoadTravellerDialog>(this, (action) => { var v = new LoadTravellerView(); v.Show(); });
+            Messenger.Default.Register<RequestOpenLoadTravellerDialog>(this, (action) => { var v = new LoadTravellerView(); v.Show(); });
             Messenger.Default.Register<RequestCloseTravellersWindow>(this, (action) => this.Close());
-            Messenger.Default.Register<RequestLoadDeleteTravellerDialog>(this, (action) => { var v = new DeleteTravellerView(); v.Show(); });
-            Messenger.Default.Register<RequestLoadCopyTravellerDialog>(this, (action) => { var v = new CopyTravellerView(); v.Show(); });
+            Messenger.Default.Register<RequestOpenDeleteTravellerDialog>(this, (action) => { var v = new DeleteTravellerView(); v.Show(); });
+            Messenger.Default.Register<RequestOpenCopyTravellerDialog>(this, (action) => { var v = new CopyTravellerView(); v.Show(); });
             Messenger.Default.Register<RequestOpenQuestionsWindow>(this, (action) => LoadQuestionsViewExecute(action));
             
         }
