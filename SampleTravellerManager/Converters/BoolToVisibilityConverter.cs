@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using System.Windows;
 
-namespace SampleTravellerManager.Converters
+namespace SampleTravelerManager.Converters
 {
     public class BoolToVisibilityConverter : MarkupExtension, IValueConverter
     {
+        #region Private Fields
+
         private static BoolToVisibilityConverter instance;
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -40,10 +46,11 @@ namespace SampleTravellerManager.Converters
             throw new NotImplementedException();
         }
 
-
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return instance ?? (instance = new BoolToVisibilityConverter());
         }
+
+        #endregion Public Methods
     }
 }

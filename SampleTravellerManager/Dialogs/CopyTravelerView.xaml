@@ -1,0 +1,50 @@
+﻿<Window x:Class="SampleTravelerManager.Dialogs.CopyTravelerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SampleTravelerManager.Dialogs;assembly=SampletravelerManager"
+        mc:Ignorable="d"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        xmlns:converters ="clr-namespace:SampleTravelerManager.Converters"
+        xmlns:controls ="clr-namespace:SampleTravelerManager.Controls"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        DataContext="{Binding Milestones, Source={StaticResource Locator}}"
+        Title="LoadtravelerView" Height="500" Width="900" WindowStyle="None">
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Margin="10,10,5,10" Padding="5" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Background="DarkGray">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Select a traveler to edit:"></TextBlock>
+                <controls:TravelersListControl></controls:TravelersListControl>
+            </DockPanel>
+        </Border>
+
+        <DockPanel Grid.Column="1">
+            <Button Margin="10,5,10,10" Width="75" Height="75" DockPanel.Dock="Bottom" Style="{DynamicResource Buttons}" Foreground="White" Content="COPY">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cmd:EventToCommand Command="{Binding CommandCopySelectedTraveler, Mode=OneWay}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Margin="10,10,10,5" Width="75" Height="75" DockPanel.Dock="Bottom" Style="{DynamicResource Buttons}" Foreground="White" Content="CANCEL" Click="Button_Click"></Button>
+            <Border Grid.Column="1"  Margin="5,10,10,10" Padding="5" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Background="DarkGray">
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="SampleID"></TextBlock>
+                    <TextBlock Text="{Binding SelectedTraveler.Name}"></TextBlock>
+                    <TextBlock Text="Description"></TextBlock>
+                    <TextBlock Text="{Binding SelectedTraveler.Description}"></TextBlock>
+                    <TextBlock Text="StartDate"></TextBlock>
+                    <TextBlock Text="{Binding SelectedTraveler.StartDate}"></TextBlock>
+                    <TextBlock Text="Completed?"></TextBlock>
+                    <TextBlock Text="{Binding SelectedTraveler.Completed}"></TextBlock>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>

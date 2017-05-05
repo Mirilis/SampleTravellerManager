@@ -1,23 +1,23 @@
-﻿<UserControl x:Class="SampleTravellerManager.Controls.QuestionsListControl"
+﻿<UserControl x:Class="SampleTravelerManager.Controls.QuestionsListControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SampleTravellerManager.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SampleTravelerManager.Controls"
          xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-        xmlns:converters ="clr-namespace:SampleTravellerManager.Converters"
+        xmlns:converters ="clr-namespace:SampleTravelerManager.Converters"
         xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-             mc:Ignorable="d" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding}" SelectedItem="{Binding 
-               RelativeSource={RelativeSource AncestorType={x:Type Window}}, 
+        <ListView dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding}" SelectedItem="{Binding
+               RelativeSource={RelativeSource AncestorType={x:Type Window}},
                Path=DataContext.SelectedQuestion}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team Name"  />
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"  />
+                    <GridViewColumn DisplayMemberBinding="{Binding TeamName}" Header="Team Name" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
                 </GridView>
             </ListView.View>
         </ListView>

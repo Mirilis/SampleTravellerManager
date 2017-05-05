@@ -1,10 +1,10 @@
 /*
   In App.xaml:
   <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:SampleTravellerManager"
+      <vm:ViewModelLocator xmlns:vm="clr-namespace:SampletravelerManager"
                            x:Key="Locator" />
   </Application.Resources>
-  
+
   In the View:
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 
@@ -16,7 +16,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
-namespace SampleTravellerManager.ViewModel
+namespace SampleTravelerManager.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -24,6 +24,8 @@ namespace SampleTravellerManager.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        #region Public Constructors
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -47,21 +49,19 @@ namespace SampleTravellerManager.ViewModel
             SimpleIoc.Default.Register<MilestonesViewModel>();
         }
 
-        public MainViewModel Main
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public static MainViewModel Main
         {
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        public QuestionsViewModel Questions
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<QuestionsViewModel>();
-            }
-        }
-        public MilestonesViewModel Milestones
+
+        public static MilestonesViewModel Milestones
         {
             get
             {
@@ -69,9 +69,23 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
+        public static QuestionsViewModel Questions
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<QuestionsViewModel>();
+            }
+        }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
         }
+
+        #endregion Public Methods
     }
 }

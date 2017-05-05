@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using NWCSampleManager;
-using SampleTravellerManager.Messages;
+using SampleTravelerManager.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,51 +12,49 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace SampleTravellerManager.ViewModel
+namespace SampleTravelerManager.ViewModel
 {
     public class StandardActionsViewModel : ViewModelBase
     {
         #region Private Fields
 
-        private RelayCommand command_Copy;
-        private RelayCommand command_Delete;
-        private RelayCommand command_Load;
-        private RelayCommand command_New;
-        private RelayCommand command_Save;
-        private RelayCommand command_Settings;
-        public RelayCommand Command_Settings
-        {
-            get
-            {
-                return command_Settings
-                    ?? (command_Settings = new RelayCommand(
-                                          () =>
-                                          {
-                                              OnSettingsCommand(this, new EventArgs());
-                                          },
-                                          () => true));
-            }
-        }
+        private RelayCommand commandClose;
+        private RelayCommand commandCopy;
+        private RelayCommand commandDelete;
+        private RelayCommand commandLoad;
+        private RelayCommand commandMinimize;
+        private RelayCommand commandNew;
+        private RelayCommand commandSave;
+        private RelayCommand commandSettings;
 
         #endregion Private Fields
 
-        #region Public Properties
+        #region Public Events
+
+        public event EventHandler OnCloseCommand;
 
         public event EventHandler OnCopyCommand;
-        public event EventHandler OnLoadCommand;
+
         public event EventHandler OnDeleteCommand;
+
+        public event EventHandler OnLoadCommand;
+
         public event EventHandler OnNewCommand;
+
         public event EventHandler OnSaveCommand;
-        public event EventHandler OnCloseCommand;
+
         public event EventHandler OnSettingsCommand;
 
-        private RelayCommand command_Close;
-        public RelayCommand Command_Close
+        #endregion Public Events
+
+        #region Public Properties
+
+        public RelayCommand CommandClose
         {
             get
             {
-                return command_Close
-                    ?? (command_Close = new RelayCommand(
+                return commandClose
+                    ?? (commandClose = new RelayCommand(
                                           () =>
                                           {
                                               OnCloseCommand(this, new EventArgs());
@@ -65,12 +63,12 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        public RelayCommand Command_Copy
+        public RelayCommand CommandCopy
         {
             get
             {
-                return command_Copy
-                    ?? (command_Copy = new RelayCommand(
+                return commandCopy
+                    ?? (commandCopy = new RelayCommand(
                                           () =>
                                           {
                                               OnCopyCommand(this, new EventArgs());
@@ -79,12 +77,12 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        public RelayCommand Command_Delete
+        public RelayCommand CommandDelete
         {
             get
             {
-                return command_Delete
-                    ?? (command_Delete = new RelayCommand(
+                return commandDelete
+                    ?? (commandDelete = new RelayCommand(
                                           () =>
                                           {
                                               OnDeleteCommand(this, new EventArgs());
@@ -93,12 +91,12 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        public RelayCommand Command_Load
+        public RelayCommand CommandLoad
         {
             get
             {
-                return command_Load
-                    ?? (command_Load = new RelayCommand(
+                return commandLoad
+                    ?? (commandLoad = new RelayCommand(
                                           () =>
                                           {
                                               OnLoadCommand(this, new EventArgs());
@@ -106,12 +104,27 @@ namespace SampleTravellerManager.ViewModel
                                           () => true));
             }
         }
-        public RelayCommand Command_New
+
+        public RelayCommand CommandMinimize
         {
             get
             {
-                return command_New
-                    ?? (command_New = new RelayCommand(
+                return commandMinimize
+                    ?? (commandMinimize = new RelayCommand(
+                                          () =>
+                                          {
+                                              Messenger.Default.Send<MinimizeWindows>(new MinimizeWindows());
+                                          },
+                                          () => true));
+            }
+        }
+
+        public RelayCommand CommandNew
+        {
+            get
+            {
+                return commandNew
+                    ?? (commandNew = new RelayCommand(
                                           () =>
                                           {
                                               OnNewCommand(this, new EventArgs());
@@ -119,12 +132,13 @@ namespace SampleTravellerManager.ViewModel
                                           () => true));
             }
         }
-        public RelayCommand Command_Save
+
+        public RelayCommand CommandSave
         {
             get
             {
-                return command_Save
-                    ?? (command_Save = new RelayCommand(
+                return commandSave
+                    ?? (commandSave = new RelayCommand(
                                           () =>
                                           {
                                               OnSaveCommand(this, new EventArgs());
@@ -133,8 +147,20 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
+        public RelayCommand CommandSettings
+        {
+            get
+            {
+                return commandSettings
+                    ?? (commandSettings = new RelayCommand(
+                                          () =>
+                                          {
+                                              // OnSettingsCommand(this, new EventArgs());
+                                          },
+                                          () => true));
+            }
+        }
 
-        
         #endregion Public Properties
     }
 }

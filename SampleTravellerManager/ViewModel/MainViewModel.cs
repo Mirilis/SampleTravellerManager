@@ -1,17 +1,17 @@
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.Command;
-using GongSolutions.Wpf.DragDrop;
 using System.Windows;
-using System.ComponentModel;
 using System.Windows.Data;
 
-namespace SampleTravellerManager.ViewModel
+namespace SampleTravelerManager.ViewModel
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.
@@ -27,6 +27,16 @@ namespace SampleTravellerManager.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        #region Private Fields
+
+        private RelayCommand _CreateNewSample;
+
+        private RelayCommand _ManageQuestions;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -41,7 +51,10 @@ namespace SampleTravellerManager.ViewModel
             ////    // Code runs "for real"
             ////}
         }
-            private RelayCommand _CreateNewSample;
+
+        #endregion Public Constructors
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the.
@@ -54,13 +67,10 @@ namespace SampleTravellerManager.ViewModel
                     ?? (_CreateNewSample = new RelayCommand(
                     () =>
                     {
-
                     },
                     () => true));
             }
         }
-
-        private RelayCommand _ManageQuestions;
 
         /// <summary>
         /// Gets the ManageQuestions.
@@ -73,11 +83,11 @@ namespace SampleTravellerManager.ViewModel
                     ?? (_ManageQuestions = new RelayCommand(
                     () =>
                     {
-
                     },
                     () => true));
             }
         }
-        
+
+        #endregion Public Properties
     }
 }

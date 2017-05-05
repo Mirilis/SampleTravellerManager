@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleTravellerManager.Converters
+namespace SampleTravelerManager.Converters
 {
     [Flags]
-    public enum DialogType
+    public enum DialogTypes
     {
-        Traveller = 1,
-        Question =2 ,
-        Load=4,
-        Copy=8,
-        Delete=16
+        Traveler = 1,
+        Question = 2,
+        Load = 4,
+        Copy = 8,
+        Delete = 16
     }
 }

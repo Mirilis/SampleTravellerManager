@@ -4,44 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleTravellerManager.Messages
+namespace SampleTravelerManager.Messages
 {
-    class RequestCloseTravellersWindow :MessagesBase
+    internal class RequestCloseCopyQuestionDialog : MessagesBase
     {
-       
-    }
-    class RequestCloseQuestionsWindow :MessagesBase
-    {
-       
-    }
-    class RequestCloseTravellersDialog : MessagesBase
-    {
-
-    }
-    class RequestCloseQuestionsDialog : MessagesBase
-    {
-
-    }
-    class RequestCloseCopyTravellerDialog : MessagesBase
-    {
-
-    }
-    class RequestCloseDeleteTravellerDialog : MessagesBase
-    {
-
-    }
-    class RequestCloseCopyQuestionDialog : MessagesBase
-    {
-
-    }
-    class RequestCloseDeleteQuestionDialog : MessagesBase
-    {
-
-    }
-    class RequestCloseLoadQuestionsDialog :MessagesBase
-    {
-
     }
 
+    internal class RequestCloseCopyTravelerDialog : MessagesBase
+    {
+    }
 
+    internal class RequestCloseDeleteQuestionDialog : MessagesBase
+    {
+    }
+
+    internal class RequestCloseDeleteTravelerDialog : MessagesBase
+    {
+    }
+
+    internal class RequestCloseLoadQuestionsDialog : MessagesBase
+    {
+    }
+
+    internal class RequestCloseQuestionsDialog : MessagesBase
+    {
+    }
+
+    internal class RequestCloseQuestionsWindow : MessagesBase
+    {
+    }
+
+    internal class RequestClosetravelersDialog : MessagesBase
+    {
+    }
+
+    internal class RequestCloseTravelersWindow : MessagesBase
+    {
+    }
 }

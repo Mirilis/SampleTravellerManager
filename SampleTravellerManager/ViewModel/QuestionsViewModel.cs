@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using NWCSampleManager;
-using SampleTravellerManager.Messages;
+using SampleTravelerManager.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace SampleTravellerManager.ViewModel
+namespace SampleTravelerManager.ViewModel
 {
     public class QuestionsViewModel : ViewModelBase
     {
@@ -22,17 +22,16 @@ namespace SampleTravellerManager.ViewModel
 
         private ObservableCollection<Question> allQuestions = null;
         private List<Question> AllQuestionsCollection = null;
-        private RelayCommand command_CopySelectedQuestion;
-        private RelayCommand command_Delete;
-        private RelayCommand command_DeleteSelectedQuestion;
-        private RelayCommand command_OpenSelectedQuestion;
+        private RelayCommand commandCopySelectedQuestion;
+        private RelayCommand commandDeleteSelectedQuestion;
+        private RelayCommand commandOpenSelectedQuestion;
         private ObservableCollection<Question> corequisiteQuestions = null;
         private Question currentQuestion = null;
         private string filePath = string.Empty;
         private Bitmap helpImage = null;
         private string helpText = string.Empty;
+        private bool isOkToDelete = false;
         private bool isQuestionSelected = false;
-        private bool isOKToDelete = false;
         private bool isRequired = false;
         private bool isTemplate = false;
         private string name = string.Empty;
@@ -61,11 +60,25 @@ namespace SampleTravellerManager.ViewModel
             Top.OnLoadCommand += (s, e) => { Messenger.Default.Send<RequestOpenLoadQuestionDialog>(new RequestOpenLoadQuestionDialog()); };
             Top.OnNewCommand += (s, e) => { ExecuteCreateNewQuestion(); };
             Top.OnSaveCommand += (s, e) => { ExecuteSaveCurrentQuestion(); };
-
-            ExecuteCreateNewQuestion();
+            this.OnSuccessfulSave += (s, e) =>
+            {
+                System.Windows.MessageBox.Show("Successfully Saved Question.");
+                Messenger.Default.Send<RequestReloadAllQuestions>(new RequestReloadAllQuestions());
+            };
+            this.OnLoad += (s, e) => { ExecuteCreateNewQuestion(); };
+            this.OnLoad(this, new EventArgs());
+            Messenger.Default.Register<RequestReloadAllQuestions>(this, (action) => ReloadAllQuestions());
         }
 
         #endregion Public Constructors
+
+        #region Public Events
+
+        public event EventHandler OnLoad;
+
+        public event EventHandler OnSuccessfulSave;
+
+        #endregion Public Events
 
         #region Public Properties
 
@@ -75,7 +88,7 @@ namespace SampleTravellerManager.ViewModel
             {
                 if (allQuestions == null)
                 {
-                    using (var sql = new SampleTravellersContext())
+                    using (var sql = new SampleTravelersContext())
                     {
                         allQuestions = new ObservableCollection<Question>(sql.Questions.ToList());
                         AllQuestionsCollection = allQuestions.ToList();
@@ -84,7 +97,7 @@ namespace SampleTravellerManager.ViewModel
                 return allQuestions;
             }
 
-            set
+            private set
             {
                 if (allQuestions == value)
                 {
@@ -96,12 +109,12 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        public RelayCommand Command_CopySelectedQuestion
+        public RelayCommand CommandCopySelectedQuestion
         {
             get
             {
-                return command_CopySelectedQuestion
-                    ?? (command_CopySelectedQuestion = new RelayCommand(
+                return commandCopySelectedQuestion
+                    ?? (commandCopySelectedQuestion = new RelayCommand(
                                           () =>
                                           {
                                               ExecuteCopySelectedQuestion();
@@ -111,27 +124,27 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        public RelayCommand Command_DeleteSelectedQuestion
+        public RelayCommand CommandDeleteSelectedQuestion
         {
             get
             {
-                return command_DeleteSelectedQuestion
-                    ?? (command_DeleteSelectedQuestion = new RelayCommand(
+                return commandDeleteSelectedQuestion
+                    ?? (commandDeleteSelectedQuestion = new RelayCommand(
                                           () =>
                                           {
                                               ExecuteDeleteSelectedQuestion();
                                               Messenger.Default.Send<RequestCloseDeleteQuestionDialog>(new RequestCloseDeleteQuestionDialog());
                                           },
-                                          () => IsQuestionSelected && IsOKToDelete));
+                                          () => IsQuestionSelected && IsOkToDelete));
             }
         }
 
-        public RelayCommand Command_OpenSelectedQuestion
+        public RelayCommand CommandOpenSelectedQuestion
         {
             get
             {
-                return command_OpenSelectedQuestion
-                    ?? (command_OpenSelectedQuestion = new RelayCommand(
+                return commandOpenSelectedQuestion
+                    ?? (commandOpenSelectedQuestion = new RelayCommand(
                     () =>
                     {
                         ExecuteOpenSelectedQuestion();
@@ -152,7 +165,7 @@ namespace SampleTravellerManager.ViewModel
                 return corequisiteQuestions;
             }
 
-            set
+            private set
             {
                 if (corequisiteQuestions == value)
                 {
@@ -241,6 +254,24 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
+        public bool IsOkToDelete
+        {
+            get
+            {
+                return isOkToDelete;
+            }
+
+            set
+            {
+                if (isOkToDelete == value)
+                {
+                    return;
+                }
+                isOkToDelete = value;
+                RaisePropertyChanged(() => IsOkToDelete);
+            }
+        }
+
         public bool IsQuestionSelected
         {
             get
@@ -250,31 +281,13 @@ namespace SampleTravellerManager.ViewModel
 
             set
             {
-                if (IsQuestionSelected == value)
+                if (isQuestionSelected == value)
                 {
                     return;
                 }
 
-                IsQuestionSelected = value;
+                isQuestionSelected = value;
                 RaisePropertyChanged(() => IsQuestionSelected);
-            }
-        }
-
-        public bool IsOKToDelete
-        {
-            get
-            {
-                return isOKToDelete;
-            }
-
-            set
-            {
-                if (isOKToDelete == value)
-                {
-                    return;
-                }
-                isOKToDelete = value;
-                RaisePropertyChanged(() => IsOKToDelete);
             }
         }
 
@@ -348,7 +361,7 @@ namespace SampleTravellerManager.ViewModel
                 return postrequisiteQuestions;
             }
 
-            set
+            private set
             {
                 if (postrequisiteQuestions == value)
                 {
@@ -373,7 +386,7 @@ namespace SampleTravellerManager.ViewModel
                 return prerequisiteQuestions;
             }
 
-            set
+            private set
             {
                 if (prerequisiteQuestions == value)
                 {
@@ -435,7 +448,14 @@ namespace SampleTravellerManager.ViewModel
                 {
                     return;
                 }
-
+                if (value == null)
+                {
+                    isQuestionSelected = false;
+                }
+                else
+                {
+                    isQuestionSelected = true;
+                }
                 selectedQuestion = value;
                 RaisePropertyChanged(() => SelectedQuestion);
             }
@@ -549,28 +569,15 @@ namespace SampleTravellerManager.ViewModel
 
         #endregion Private Properties
 
-        #region Public Methods
-
-        public void ExecuteOpenSelectedQuestion()
-        {
-            var p= SelectedQuestion.GetCompleteQuestion();
-            this.Name = p.Name;
-            this.Request = p.Request;
-            this.TypeOfResponse = p.ResponseType;
-            this.TypeOfTeam = p.TeamName;
-            this.IsRequired = p.RequiresResponse;
-            this.HelpText = p.HelpText;
-            //this.HelpImage = selectedQuestion.HelpImage
-            this.IsTemplate = p.Template;
-            Messenger.Default.Send<RequestCloseQuestionsDialog>(new RequestCloseQuestionsDialog());
-            this.PrerequisiteQuestions = new ObservableCollection<Question>(p.Prerequisites);
-            this.PostrequisiteQuestions = new ObservableCollection<Question>(p.Postrequisites);
-            this.CorequisiteQuestions = new ObservableCollection<Question>(p.Corequisites);
-        }
-
-        #endregion Public Methods
-
         #region Private Methods
+
+        private static void RemoveFromList(Question s, ObservableCollection<Question> l)
+        {
+            if (l.Any(x => x.Id == s.Id))
+            {
+                l.Remove(l.Where(x => x.Id == s.Id).First());
+            }
+        }
 
         private void CorequisiteQuestions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -591,7 +598,7 @@ namespace SampleTravellerManager.ViewModel
 
         private void ExecuteCopySelectedQuestion()
         {
-            using (var sql = new SampleTravellersContext())
+            using (var sql = new SampleTravelersContext())
             {
                 var p = sql.Questions.Where(x => x.Id == SelectedQuestion.Id);
                 if (p.Any())
@@ -617,7 +624,7 @@ namespace SampleTravellerManager.ViewModel
 
         private void ExecuteDeleteSelectedQuestion()
         {
-            using (var sql = new SampleTravellersContext())
+            using (var sql = new SampleTravelersContext())
             {
                 ExecuteCreateNewQuestion();
                 var s = sql.Questions.Where(x => x.Id == SelectedQuestion.Id).First();
@@ -627,9 +634,30 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
+        private void ExecuteOpenSelectedQuestion()
+        {
+            if (SelectedQuestion != null)
+            {
+                var p = SelectedQuestion.GetCompleteQuestion();
+                this.Name = p.Name;
+                this.Request = p.Request;
+                this.TypeOfResponse = p.ResponseType;
+                this.TypeOfTeam = p.TeamName;
+                this.IsRequired = p.RequiresResponse;
+                this.HelpText = p.HelpText;
+                //this.HelpImage = selectedQuestion.HelpImage
+                this.IsTemplate = p.Template;
+                Messenger.Default.Send<RequestCloseQuestionsDialog>(new RequestCloseQuestionsDialog());
+                this.PrerequisiteQuestions = new ObservableCollection<Question>(p.Prerequisites);
+                this.PostrequisiteQuestions = new ObservableCollection<Question>(p.Postrequisites);
+                this.CorequisiteQuestions = new ObservableCollection<Question>(p.Corequisites);
+                Messenger.Default.Send<RequestCloseLoadQuestionsDialog>(new RequestCloseLoadQuestionsDialog());
+            }
+        }
+
         private void ExecuteSaveCurrentQuestion()
         {
-            using (var sql = new SampleTravellersContext())
+            using (var sql = new SampleTravelersContext())
             {
                 var p = new Question();
                 if (sql.Questions.Any(x => x.Name == Name))
@@ -672,27 +700,13 @@ namespace SampleTravellerManager.ViewModel
                 catch (DbEntityValidationException e)
                 {
                     saved = false;
-                    var s = new StringBuilder();
-                    s.Append("The following issues are preventing the saving of this document:" + Environment.NewLine);
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            s.AppendFormat("Property: \"{0}\", Current Value: \"{1}\", Error: \"{2}\"",
-                                ve.PropertyName,
-                                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                                ve.ErrorMessage);
-                            s.Append(Environment.NewLine);
-                        }
-                    }
-                    System.Windows.MessageBox.Show(s.ToString());
+                    System.Windows.MessageBox.Show(SampleTravelersContext.AlertUserErrors(e));
                 }
                 finally
                 {
                     if (saved)
                     {
-                        System.Windows.MessageBox.Show("Successfully Saved Question.");
-                        AllQuestions = new ObservableCollection<Question>( sql.Questions);
+                        OnSuccessfulSave(this, null);
                     }
                 }
             }
@@ -732,11 +746,11 @@ namespace SampleTravellerManager.ViewModel
             }
         }
 
-        private void RemoveFromList(Question s, ObservableCollection<Question> l)
+        private void ReloadAllQuestions()
         {
-            if (l.Any(x => x.Id == s.Id))
+            using (var sql = new SampleTravelersContext())
             {
-                l.Remove(l.Where(x => x.Id == s.Id).First());
+                this.AllQuestions = new ObservableCollection<Question>(sql.Questions);
             }
         }
 

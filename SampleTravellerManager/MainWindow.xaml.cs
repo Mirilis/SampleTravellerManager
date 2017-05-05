@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SampleTravelerManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SampleTravellerManager;
 
-namespace SampleTravellerManager
+namespace SampleTravelerManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,7 +24,7 @@ namespace SampleTravellerManager
         public MainWindow()
         {
             InitializeComponent();
-            
+
             var b = new Views.MilestonesView();
             b.Show();
             this.Close();

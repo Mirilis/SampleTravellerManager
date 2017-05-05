@@ -1,0 +1,20 @@
+﻿SampleTravelerManager
+
+
+winexe
+C#
+.cs
+C:\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\
+SampleTravelerManager
+none
+false
+CODE_ANALYSIS;DEBUG;TRACE
+C:\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml
+12-1106708383
+
+33-457408609
+75-2071093309
+Controls\CurrentQuestion.xaml;Controls\QuestionsListControl.xaml;Controls\TravelersListControl.xaml;MainWindow.xaml;Simple Styles.xaml;Dialogs\LoadQuestionView.xaml;Dialogs\DeleteTravelerView.xaml;Dialogs\CopyTravelerView.xaml;Dialogs\LoadTravellerView.xaml;Views\MilestonesView.xaml;Views\QuestionsView.xaml;Controls\TopBar.xaml;
+
+False
+

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using NWCSampleManager;
+using SampleTravelerManager.Dialogs;
+using SampleTravelerManager.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,41 +15,35 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GalaSoft.MvvmLight.Messaging;
-using NWCSampleManager;
-using SampleTravellerManager.Messages;
-using SampleTravellerManager.Dialogs;
 
-namespace SampleTravellerManager.Views
+namespace SampleTravelerManager.Views
 {
     /// <summary>
     /// Interaction logic for QuestionsView.xaml
     /// </summary>
     public partial class QuestionsView : Window
     {
-        private Question question;
+        #region Public Constructors
 
         public QuestionsView()
         {
             InitializeComponent();
+
             Messenger.Default.Register<RequestCloseQuestionsWindow>(this, (action) => CloseWindow());
             Messenger.Default.Register<RequestOpenLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
-            
-            
         }
 
-        public QuestionsView(Question question)
+        public QuestionsView(Question question) : this()
         {
-            this.question = question;
-            InitializeComponent();
-            Messenger.Default.Register<RequestCloseQuestionsWindow>(this, (action) => CloseWindow());
-            Messenger.Default.Register<RequestOpenLoadQuestionDialog>(this, (action) => OpenLoadQuestionsDialog());
             ((ViewModel.QuestionsViewModel)DataContext).SelectedQuestion = question;
-            ((ViewModel.QuestionsViewModel)DataContext).ExecuteOpenSelectedQuestion();
-            
+            ((ViewModel.QuestionsViewModel)DataContext).CommandOpenSelectedQuestion.Execute(null);
         }
 
-        private void OpenLoadQuestionsDialog()
+        #endregion Public Constructors
+
+        #region Private Methods
+
+        private static void OpenLoadQuestionsDialog()
         {
             var a = new LoadQuestionView();
             a.Show();
@@ -53,7 +51,10 @@ namespace SampleTravellerManager.Views
 
         private void CloseWindow()
         {
+            Messenger.Default.Unregister(this);
             this.Close();
         }
+
+        #endregion Private Methods
     }
 }

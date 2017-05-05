@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleTravellerManager.Messages
+namespace SampleTravelerManager.Messages
 {
-    class MessagesBase
+    internal class MessagesBase
     {
-        public string Message { get; set; }
     }
 }

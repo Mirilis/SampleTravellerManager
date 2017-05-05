@@ -1,48 +1,47 @@
-﻿using System;
+﻿using NWCSampleManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NWCSampleManager;
 
-namespace SampleTravellerManager.Messages
+namespace SampleTravelerManager.Messages
 {
-    class RequestOpenQuestionsWindow
+    internal class RequestOpenQuestionsWindow : MessagesBase
     {
-        public string Message { get; set; }
         public Question Question { get; set; }
 
         public RequestOpenQuestionsWindow()
         {
-
         }
+
         public RequestOpenQuestionsWindow(Question q)
         {
             this.Question = q;
         }
     }
-    class RequestOpenLoadQuestionDialog : MessagesBase
-    {
 
+    internal class RequestOpenLoadQuestionDialog : MessagesBase
+    {
     }
-    class RequestOpenLoadTravellerDialog : MessagesBase
-    {
 
+    internal class RequestOpenLoadtravelerDialog : MessagesBase
+    {
     }
-    class RequestOpenCopyTravellerDialog : MessagesBase
-    {
 
+    internal class RequestOpenCopyTravelerDialog : MessagesBase
+    {
     }
-    class RequestOpenDeleteTravellerDialog : MessagesBase
-    {
 
+    internal class RequestOpenDeleteTravelerDialog : MessagesBase
+    {
     }
-    class RequestOpenCopyQuestionDialog : MessagesBase
-    {
 
+    internal class RequestOpenCopyQuestionDialog : MessagesBase
+    {
     }
-    class RequestOpenDeleteQuestionDialog : MessagesBase
-    {
 
+    internal class RequestOpenDeleteQuestionDialog : MessagesBase
+    {
     }
 }

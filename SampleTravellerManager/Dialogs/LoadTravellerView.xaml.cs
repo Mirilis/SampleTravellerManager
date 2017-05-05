@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using SampleTravelerManager.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,31 +13,33 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GalaSoft.MvvmLight.Messaging;
-using SampleTravellerManager.Messages;
 
-namespace SampleTravellerManager.Dialogs
+namespace SampleTravelerManager.Dialogs
 {
     /// <summary>
-    /// Interaction logic for LoadTravellerView.xaml
+    /// Interaction logic for LoadtravelerView.xaml
     /// </summary>
-    public partial class LoadTravellerView : Window
+    public partial class LoadTravelerView : Window
     {
-        public LoadTravellerView()
+        #region Public Constructors
+
+        public LoadTravelerView()
         {
             InitializeComponent();
-            Messenger.Default.Register<RequestCloseTravellersDialog>(this, (action) => ReceiveMessage(action));
+
+            Messenger.Default.Register<RequestClosetravelersDialog>(this, (action) => Button_Click(null, null));
         }
 
-        private void ReceiveMessage(object action)
-        {
-            this.Close();
-        }
+        #endregion Public Constructors
+
+        #region Private Methods
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Messenger.Default.Unregister(this);
             this.Close();
         }
 
+        #endregion Private Methods
     }
 }

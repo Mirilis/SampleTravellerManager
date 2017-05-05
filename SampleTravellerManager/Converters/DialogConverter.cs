@@ -7,24 +7,27 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace SampleTravellerManager.Converters
+namespace SampleTravelerManager.Converters
 {
     public class DialogConverter : MarkupExtension, IValueConverter
     {
+        #region Private Fields
+
         private static DialogConverter instance;
-   
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var par = parameter as string;
-            var val = value as DialogType?;
+            var val = value as DialogTypes?;
             if (par == "List")
             {
-                
-
-                if (val.Value.HasFlag(DialogType.Traveller))
+                if (val.Value.HasFlag(DialogTypes.Traveler))
                 {
-                    return new Controls.TravellersListControl();
+                    return new Controls.TravelersListControl();
                 }
                 else
                 {
@@ -34,7 +37,7 @@ namespace SampleTravellerManager.Converters
             else
             {
             }
-       
+
             return null;
         }
 
@@ -47,5 +50,7 @@ namespace SampleTravellerManager.Converters
         {
             return instance ?? (instance = new DialogConverter());
         }
+
+        #endregion Public Methods
     }
 }

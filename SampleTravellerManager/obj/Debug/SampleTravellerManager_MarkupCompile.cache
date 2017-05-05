@@ -8,12 +8,12 @@ C:\Projects\SampleTravellerManager\SampleTravellerManager\obj\Debug\
 SampleTravellerManager
 none
 false
-DEBUG;TRACE
+CODE_ANALYSIS;DEBUG;TRACE
 C:\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml
 12-569293584
 
 362138035967
-752029500363
+75-2071093309
 Controls\CurrentQuestion.xaml;Controls\QuestionsListControl.xaml;Controls\TravellersListControl.xaml;MainWindow.xaml;Simple Styles.xaml;Dialogs\LoadQuestionView.xaml;Dialogs\DeleteTravellerView.xaml;Dialogs\CopyTravellerView.xaml;Dialogs\LoadTravellerView.xaml;Views\MilestonesView.xaml;Views\QuestionsView.xaml;Controls\TopBar.xaml;
 
 False

@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SampleTravellerManager
+[assembly: CLSCompliant(true)]
+
+namespace SampleTravelerManager
 {
     /// <summary>
     /// Interaction logic for App.xaml

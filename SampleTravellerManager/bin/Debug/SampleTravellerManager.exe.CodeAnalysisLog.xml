@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio\2017\community\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="15.0">
+ <Targets>
+  <Target Name="C:\Projects\SampleTravellerManager\SampleTravellerManager\bin\Debug\SampleTravellerManager.exe">
+   <Modules>
+    <Module Name="sampletravellermanager.exe">
+     <Messages>
+      <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+       <Issue Name="Assembly" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Traveller' in assembly name 'SampleTravellerManager.exe'.</Issue>
+      </Message>
+      <Message TypeName="MarkAssembliesWithNeutralResourcesLanguage" Category="Microsoft.Performance" CheckId="CA1824" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+       <Issue Certainty="95" Level="Warning">Because assembly 'SampleTravellerManager.exe' contains a ResX-based resource file, mark it with the NeutralResourcesLanguage attribute, specifying the language of the resources within the assembly. This could improve lookup performance the first time a resource is retrieved.</Issue>
+      </Message>
+     </Messages>
+     <Namespaces>
+      <Namespace Name="SampleTravelerManager.Controls">
+       <Types>
+        <Type Name="TravellersListControl" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Travellers" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Travellers' in type name 'TravellersListControl'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="SampleTravelerManager.Converters">
+       <Types>
+        <Type Name="DialogType" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="FlagsEnumsShouldHavePluralNames" Category="Microsoft.Naming" CheckId="CA1714" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+           <Issue Certainty="75" Level="Error">If enumeration name 'DialogType' is singular, change it to a plural form.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Traveller" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Traveller' in member name 'DialogType.Traveller' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="SampleTravelerManager.Dialogs">
+       <Types>
+        <Type Name="CopyTravellerView" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Traveller' in type name 'CopyTravellerView'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="DeleteTravellerView" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Traveller' in type name 'DeleteTravellerView'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="LoadTravellerView" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Traveller' in type name 'LoadTravellerView'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="SampleTravelerManager.Messages">
+       <Types>
+        <Type Name="MessagesBase" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#Message" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Accessors>
+            <Accessor Name="#get_Message()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+             <Messages>
+              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+               <Issue Certainty="75" Level="Warning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\Messages" File="MessagesBase.cs" Line="11">'MessagesBase.Message.get()' appears to have no upstream public or protected callers.</Issue>
+              </Message>
+             </Messages>
+            </Accessor>
+            <Accessor Name="#set_Message(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+             <Messages>
+              <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+               <Issue Certainty="75" Level="Warning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\Messages" File="MessagesBase.cs" Line="11">'MessagesBase.Message.set(string)' appears to have no upstream public or protected callers.</Issue>
+              </Message>
+             </Messages>
+            </Accessor>
+           </Accessors>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RequestCloseDeleteTravellerDialog" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'RequestCloseDeleteTravellerDialog' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="RequestCloseLoadQuestionsDialog" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'RequestCloseLoadQuestionsDialog' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="SampleTravelerManager.Migrations">
+       <Types>
+        <Type Name="Configuration" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'Configuration' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="SampleTravelerManager.ViewModel">
+       <Types>
+        <Type Name="MilestonesViewModel" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AllTravellers" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Travellers" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="131">Correct the spelling of 'Travellers' in member name 'MilestonesViewModel.AllTravellers' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_CopySelectedTraveller" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="157">Correct the spelling of 'Traveller' in member name 'MilestonesViewModel.Command_CopySelectedTraveller' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="157">Remove the underscores from member name 'MilestonesViewModel.Command_CopySelectedTraveller'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_DeleteSelectedTraveller" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="171">Correct the spelling of 'Traveller' in member name 'MilestonesViewModel.Command_DeleteSelectedTraveller' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="171">Remove the underscores from member name 'MilestonesViewModel.Command_DeleteSelectedTraveller'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_EditSelectedQuestion" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="185">Remove the underscores from member name 'MilestonesViewModel.Command_EditSelectedQuestion'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_OpenQuestionsMenu" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="199">Remove the underscores from member name 'MilestonesViewModel.Command_OpenQuestionsMenu'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_OpenSelectedTraveller" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="212">Correct the spelling of 'Traveller' in member name 'MilestonesViewModel.Command_OpenSelectedTraveller' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="212">Remove the underscores from member name 'MilestonesViewModel.Command_OpenSelectedTraveller'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ExecuteSaveCurrentTraveller()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidExcessiveClassCoupling" Category="Microsoft.Maintainability" CheckId="CA1506" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Method" Certainty="75" Level="Warning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="677">'MilestonesViewModel.ExecuteSaveCurrentTraveller()' is coupled with 31 different types from 14 different namespaces. Rewrite or refactor the method to decrease its class coupling, or consider moving the method to one of the other types it is tightly coupled with. A class coupling above 40 indicates poor maintainability, a class coupling between 40 and 30 indicates moderate maintainability, and a class coupling below 30 indicates good maintainability.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IsOKToDelete" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="OK" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="301">Correct the casing of 'OK' in member name 'MilestonesViewModel.IsOKToDelete' by changing it to 'Ok'. 'Ok' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IsTravellerLoaded" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="357">Correct the spelling of 'Traveller' in member name 'MilestonesViewModel.IsTravellerLoaded' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IsTravellerSelected" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="376">Correct the spelling of 'Traveller' in member name 'MilestonesViewModel.IsTravellerSelected' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#OnLoadEvent(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="p" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="74">'MilestonesViewModel.OnLoadEvent(object, EventArgs)' declares a variable, 'p', of type 'SeedData', which is never used or is only assigned to. Use this variable or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SelectedTraveller" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Traveller" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="MilestonesViewModel.cs" Line="524">Correct the spelling of 'Traveller' in member name 'MilestonesViewModel.SelectedTraveller' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="QuestionsViewModel" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Command_CopySelectedQuestion" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="103">Remove the underscores from member name 'QuestionsViewModel.Command_CopySelectedQuestion'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_DeleteSelectedQuestion" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="118">Remove the underscores from member name 'QuestionsViewModel.Command_DeleteSelectedQuestion'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_OpenSelectedQuestion" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="133">Remove the underscores from member name 'QuestionsViewModel.Command_OpenSelectedQuestion'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CorequisiteQuestions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Corequisite" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="146">Correct the spelling of 'Corequisite' in member name 'QuestionsViewModel.CorequisiteQuestions' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IsOKToDelete" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="OK" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="267">Correct the casing of 'OK' in member name 'QuestionsViewModel.IsOKToDelete' by changing it to 'Ok'. 'Ok' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#PostrequisiteQuestions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Postrequisite" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="342">Correct the spelling of 'Postrequisite' in member name 'QuestionsViewModel.PostrequisiteQuestions' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="StandardActionsViewModel" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Command_Close" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="57">Remove the underscores from member name 'StandardActionsViewModel.Command_Close'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_Copy" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="71">Remove the underscores from member name 'StandardActionsViewModel.Command_Copy'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_Delete" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="85">Remove the underscores from member name 'StandardActionsViewModel.Command_Delete'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_Load" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="99">Remove the underscores from member name 'StandardActionsViewModel.Command_Load'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_New" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="112">Remove the underscores from member name 'StandardActionsViewModel.Command_New'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_Save" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="125">Remove the underscores from member name 'StandardActionsViewModel.Command_Save'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Command_Settings" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="StandardActionsViewModel.cs" Line="30">Remove the underscores from member name 'StandardActionsViewModel.Command_Settings'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ViewModelLocator" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2017-05-04 18:55:29Z" FixCategory="Breaking">
+           <Issue Certainty="90" Level="Error">Because type 'ViewModelLocator' contains only 'static' ('Shared' in Visual Basic) members, add a default private constructor to prevent the compiler from adding a default public constructor.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AvoidExcessiveClassCoupling" Category="Microsoft.Maintainability" CheckId="CA1506">
+   <Name>Avoid excessive class coupling</Name>
+   <Description>Types and methods with a high degree of class coupling can be difficult to maintain.</Description>
+   <Resolution Name="Method">{0} is coupled with {1} different types from {2} different namespaces. Rewrite or refactor the method to decrease its class coupling, or consider moving the method to one of the other types it is tightly coupled with. A class coupling above {3} indicates poor maintainability, a class coupling between {3} and {4} indicates moderate maintainability, and a class coupling below {4} indicates good maintainability.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb397994.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Warning</MessageLevel>
+   <File Name="maintainabilityrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
+   <Name>Avoid uncalled private code</Name>
+   <Description>There is uncalled code that is not externally visible and is not a known runtime entry point. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
+   <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182264.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812">
+   <Name>Avoid uninstantiated internal classes</Name>
+   <Description>An internal class was detected that is apparently never instantiated. This rule does not attempt to detect late-bound creation and will generate false positives if instances of a type are only created in this way (for example, by means of Activator.CreateInstance or by passing the type as an argument to a TypeConverter constructor).</Description>
+   <Resolution Name="Default">{0} is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182265.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="FlagsEnumsShouldHavePluralNames" Category="Microsoft.Naming" CheckId="CA1714">
+   <Name>Flags enums should have plural names</Name>
+   <Description>An enumeration marked with FlagsAttribute should have a plural name.</Description>
+   <Resolution Name="Default">If enumeration name {0} is singular, change it to a plural form.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb264486.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+   <Name>Identifiers should be cased correctly</Name>
+   <Description>Type, namespace, and member identifiers are Pascal-cased. Parameter identifiers are camel-cased. Two letter acronyms within these identifiers should be upper-cased, for example, use System.IO instead of System.Io. Acronyms of three or more letters should be Pascal-cased, for example, use System.Xml instead of System.XML. The pascal-casing convention capitalizes the first letter of each word, as in BackColor. The camel-casing convention formats the first letter of the first word in lowercase and capitalizes the first letter of all subsequent words, as in backgroundColor. Although it may be common practice for some two letter acronyms to not be fully capitalized, violations of this rule should not be excluded for this reason. For example, 'DbConnection', is common but incorrect; use DBConnection. A violation of this rule might be required for compatibility with existing, non-managed symbol schemes. In general, however, these symbols should not be visible outside the assembly that uses them.</Description>
+   <Resolution Name="MemberAbbreviation">Correct the casing of '{0}' in member name {1} by changing it to '{2}'. '{2}' is an abbreviation and therefore is not subject to acronym casing guidelines.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182240.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="85">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+   <Name>Identifiers should be spelled correctly</Name>
+   <Description>The individual words that make up an identifier should not be abbreviated and should be spelled correctly. If this rule generates a false positive on a term that should be recognized, add the word to the FxCop custom dictionary.</Description>
+   <Resolution Name="Assembly">Correct the spelling of '{0}' in assembly name {1}.</Resolution>
+   <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Resolution Name="Type">Correct the spelling of '{0}' in type name {1}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb264492.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">CriticalWarning</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707">
+   <Name>Identifiers should not contain underscores</Name>
+   <Description>Do not use underscores when specifying identifiers. Some generated Visual Studio identifiers for applications contain underscore characters. Underscore characters should generally be avoided in public identifiers.</Description>
+   <Resolution Name="Member">Remove the underscores from member name {0}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182245.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkAssembliesWithNeutralResourcesLanguage" Category="Microsoft.Performance" CheckId="CA1824">
+   <Name>Mark assemblies with NeutralResourcesLanguageAttribute</Name>
+   <Description>The NeutralResourcesLanguage attribute informs the ResourceManager of the language used to render the neutral culture's resources for an assembly. When looking up resources in the same culture as the neutral resources language, the ResourceManager automatically uses the resources located in the main assembly, instead of searching for a satellite assembly with the current user interface culture for the current thread. This will improve lookup performance for the first resource you load and can reduce your working set.</Description>
+   <Resolution Name="Default">Because assembly {0} contains a ResX-based resource file, mark it with the NeutralResourcesLanguage attribute, specifying the language of the resources within the assembly. This could improve lookup performance the first time a resource is retrieved.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb385967.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804">
+   <Name>Remove unused locals</Name>
+   <Description>Remove locals that are not used or are only assigned to in method implementations.</Description>
+   <Resolution Name="Default">{0} declares a variable, {1}, of type {2}, which is never used or is only assigned to. Use this variable or remove it.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182278.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053">
+   <Name>Static holder types should not have constructors</Name>
+   <Description>Instances of types that define only static members do not need to be created. Many compilers will automatically add a public default constructor if no constructor is specified. To prevent this, adding an empty private constructor may be required.</Description>
+   <Resolution Name="Default">Because type {0} contains only 'static' ('Shared' in Visual Basic) members, add a default private constructor to prevent the compiler from adding a default public constructor.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182169.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Error</MessageLevel>
+   <File Name="designrules.dll" Version="15.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>
