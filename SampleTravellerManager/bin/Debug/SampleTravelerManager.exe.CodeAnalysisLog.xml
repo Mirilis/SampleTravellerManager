@@ -12,14 +12,14 @@
          <Members>
           <Member Name="#CorequisiteQuestions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="Corequisite" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-05 19:05:40Z" FixCategory="Breaking">
+            <Message Id="Corequisite" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-05 19:54:56Z" FixCategory="Breaking">
              <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="158">Correct the spelling of 'Corequisite' in member name 'QuestionsViewModel.CorequisiteQuestions' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#PostrequisiteQuestions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="Postrequisite" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-05 19:05:40Z" FixCategory="Breaking">
+            <Message Id="Postrequisite" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2017-05-05 19:54:56Z" FixCategory="Breaking">
              <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="C:\Projects\SampleTravellerManager\SampleTravellerManager\ViewModel" File="QuestionsViewModel.cs" Line="354">Correct the spelling of 'Postrequisite' in member name 'QuestionsViewModel.PostrequisiteQuestions' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
             </Message>
            </Messages>
@@ -28,7 +28,7 @@
         </Type>
         <Type Name="ViewModelLocator" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Messages>
-          <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2017-05-05 19:05:40Z" FixCategory="Breaking">
+          <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Status="Active" Created="2017-05-05 19:54:56Z" FixCategory="Breaking">
            <Issue Certainty="90" Level="Error">Because type 'ViewModelLocator' contains only 'static' ('Shared' in Visual Basic) members, add a default private constructor to prevent the compiler from adding a default public constructor.</Issue>
           </Message>
          </Messages>

@@ -137,14 +137,36 @@ namespace SampleTravelerManager.Migrations
                 var s = sql.Questions.Where(x => x.Name == "1A Core Photo Prep").First();
                 s.AddPostrequisite(sql.Questions.Where(x => x.Name == "1A Core Photo").First());
                 var n = new User();
-                n.TeamAffiliations.Add(new TeamAffiliation() { Team = (int)Team.IndustrialEngineering });
+                n.TeamAffiliations.Add(new TeamAffiliation() { Team = (int)Team.Administrator });
                 n.First = "Adam";
                 n.Last = "Hoover";
                 n.Email = "ahoover@grede.com";
-                n.WindowsName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
+                var t = new User();
+                t.TeamAffiliations.Add(new TeamAffiliation() { Team = (int)Team.Administrator });
+                t.First = "Tim";
+                t.Last = "Davis";
+                t.Email = "tdavis@grede.com";
+                t.WindowsName = @"GREDEW2K\tdavis";
+
+                var u = new User();
+                u.TeamAffiliations.Add(new TeamAffiliation() { Team = (int)Team.Administrator });
+                u.First = "John";
+                u.Last = "Mahaffey";
+                u.Email = "jmahaffey@grede.com";
+                u.WindowsName = @"GREDEW2K\jmahaffey";
+
                 if (!sql.Users.Any(x => x.Email == n.Email))
                 {
                     sql.Users.Add(n);
+                }
+                if (!sql.Users.Any(x => x.Email == t.Email))
+                {
+                    sql.Users.Add(t);
+                }
+                if (!sql.Users.Any(x => x.Email == u.Email))
+                {
+                    sql.Users.Add(u);
                 }
                 sql.SaveChanges();
             }

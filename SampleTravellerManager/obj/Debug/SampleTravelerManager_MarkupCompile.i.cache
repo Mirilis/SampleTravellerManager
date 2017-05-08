@@ -16,5 +16,5 @@ C:\Projects\SampleTravellerManager\SampleTravellerManager\App.xaml
 75-2071093309
 Controls\CurrentQuestion.xaml;Controls\QuestionsListControl.xaml;Controls\TravelersListControl.xaml;MainWindow.xaml;Simple Styles.xaml;Dialogs\LoadQuestionView.xaml;Dialogs\DeleteTravelerView.xaml;Dialogs\CopyTravelerView.xaml;Dialogs\LoadTravellerView.xaml;Views\MilestonesView.xaml;Views\QuestionsView.xaml;Controls\TopBar.xaml;
 
-False
+True
 

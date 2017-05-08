@@ -139,14 +139,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SampleTravelerManager.exe" size="1404416">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SampleTravelerManager.exe" size="1405952">
       <assemblyIdentity name="SampleTravelerManager" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Inh3SwxVcAiF2RFBg2lOcaP/3qGOEQDYT+FMmk2q7HQ=</dsig:DigestValue>
+        <dsig:DigestValue>NWLlFKS1GJSYNEAhCNJzfT4FWzLulBMvvJtCOrI0goQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
